@@ -7,11 +7,11 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
-  static get objectIDs () {
-    return ["country", "city"];
-  }
+  /* static get objectIDs () {
+    return ['country', 'city', '_id'];
+  } */
   static get fillable() {
-    return ['run_dni', 'country', 'observaciones', 'region', 'email', 'ciudad', 'full_name', 'fecha', 'Dni', 'name', 'last_name', 'cambioClave', 'cambioSoloClave', 'password', 'phone', 'plan_id', 'roles', 'direccion', 'hora_inicio', 'hora_fin', 'dias', 'delivery', 'categorias', 'birthdate', ' city']
+    return ['run_dni', 'country', 'observaciones', 'email', 'city', 'full_name', 'fecha', 'Dni', 'name', 'last_name', 'cambioClave', 'cambioSoloClave', 'password', 'phone', 'plan_id', 'roles', 'direccion', 'hora_inicio', 'hora_fin', 'dias', 'delivery', 'categorias', 'birthdate']
   }
   static fieldValidationRules() {
     const rulesUser = {
@@ -46,6 +46,14 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+  }
+
+  ciudad () {
+    return this.hasOne('App/Models/City', 'city', '_id')
+  }
+
+  pais () {
+    return this.hasOne('App/Models/Country', 'country', '_id')
   }
 
   /**

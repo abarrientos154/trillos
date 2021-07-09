@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { required, maxLength } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 export default {
   props: ['form', 'panel'],
   data () {
@@ -57,7 +57,7 @@ export default {
   validations () {
     return {
       form: {
-        country: { required, maxLength: maxLength(40) },
+        country: { required },
         city: { required },
         direccion: { required }
       }
