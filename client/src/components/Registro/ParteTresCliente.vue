@@ -1,22 +1,101 @@
 <template>
    <div class="column">
+    <div class="row justify-center q-my-sm">
+      <q-avatar size="200px" class="bg-grey row justify-center">
+        <q-img :src="perfilFile ? imgPerfil : ''" style="height: 100%">
+          <q-file borderless v-model="perfilFile" @input="test()" accept=".jpg, image/*" style="width: 100%; height: 100%; font-size: 0px">
+            <q-icon name="photo_camera" class="absolute-center" size="50px" color="white" />
+          </q-file>
+        </q-img>
+      </q-avatar>
+    </div>
     <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <q-input v-model="form.full_name" label="Nombre" outlined dense
+        <div class="text-bold">Pon tu nombre(s)</div>
+        <q-input filled v-model="form.full_name" label="Nombre" outlined dense
           error-message="Ingrese su nombre"
           :error="$v.form.full_name.$error" @blur="$v.form.full_name.$touch()"
         />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <q-input v-model="form.last_name" label="Apellido" outlined dense
+        <div class="text-bold">Apellido paterno y materno</div>
+        <q-input filled v-model="form.last_name" label="Apellido" outlined dense
           error-message="Ingrese su nombre"
           :error="$v.form.last_name.$error" @blur="$v.form.last_name.$touch()"
         />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <q-select v-model="form.country" label="País" outlined dense :options="['Argentina', 'Chile']" error-message="Ingrese su País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
+        <q-input filled readonly dense v-model="form.birthdate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
+        error-message="Este campo es requerido" :error="$v.form.birthdate.$error" @blur="$v.form.birthdate.$touch()">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                <q-date v-model="form.birthdate" mask="DD/MM/YYYY">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="text-bold">Selecciona tu pais</div>
+        <q-select filled v-model="form.country" label="País" outlined dense :options="['Argentina', 'Chile']" error-message="Ingrese su País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="text-bold">Selecciona tu ciudad</div>
+        <q-select filled v-model="form.city" label="Ciudad" outlined dense :options="['ciudad1', 'ciudad2']" error-message="Ingrese su ciudad" :error="$v.form.city.$error" @blur="$v.form.city.$touch()" />
+      </div>
+      <div class="row q-pa-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <q-input
+          filled
+          v-model="form.email"
+          type="email"
+          label="Email"
+          outlined
+          dense
+          error-message="Ingrese un email válido"
+          :error="$v.form.email.$error"
+          @blur="$v.form.email.$touch()"
+        />
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <q-input
+          filled
+          :type="isPwd ? 'password' : 'text'"
+          v-model="password"
+          label="Contraseña"
+          outlined
+          dense
+          error-message="Ingrese una contraseña válida, mínimo 6 caracteres"
+          :error="$v.password.$error"
+          @blur="$v.password.$touch()">
+          <template v-slot:append>
+            <q-icon :name="isPwd ? 'visibility' : 'visibility_off'" class="cursor-pointer" color="primary" @click="isPwd = !isPwd" />
+          </template>
+        </q-input>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <q-input
+          filled
+          :type="isPwd2 ? 'password' : 'text'"
+          v-model="repeatPassword"
+          label="Repita su Contraseña"
+          outlined
+          dense
+          error-message="Las contraseñas deben ser iguales"
+          :error="$v.repeatPassword.$error"
+          @blur="$v.repeatPassword.$touch()" >
+          <template v-slot:append>
+            <q-icon :name="isPwd2 ? 'visibility' : 'visibility_off'" class="cursor-pointer" color="primary" @click="isPwd2 = !isPwd2" />
+          </template>
+          </q-input>
+      </div>
+    </div>
+      <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <q-input v-model="form.direccion" label="Dirección" outlined dense
           error-message="Ingrese su Dirección"
           :error="$v.form.direccion.$error" @blur="$v.form.direccion.$touch()"
@@ -32,8 +111,8 @@
           <q-input v-model="form.phone" type="tel" label="Telefono" outlined dense
             error-message="Ingrese el número de su Teléfono"
             :error="$v.form.phone.$error" @blur="$v.form.phone.$touch()" />
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        </div> -->
+        <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <q-file bottom-slots accept=".jpg, image/*" v-model="perfilFile" hint="Foto de Perfil" outlined label="" @input="test"
               error-message="Debes subir una foto de perfil"
               :error="$v.perfilFile.$error" @blur="$v.perfilFile.$touch()">
@@ -46,19 +125,25 @@
                 <q-icon name="close" color="negative" @click.stop="perfilFile = null" class="cursor-pointer" />
               </template>
             </q-file>
-          </div>
+          </div> -->
     </div>
-    <div class="row">
-      <q-btn @click="panel.panel = 'parte_dos'" color="primary" push label="Atras" flat/>
-      <q-space />
-      <q-btn @click="next()" :loading="loading"  color="primary" push label="Guardar" glossy/>
+    <div class="column items-center justify-center q-mb-md" style="padding-top: 20px">
+      <q-checkbox v-model="terms" size="xs" label="">
+        <div class="text-caption">Acepto Terminos y condiciones de uso</div>
+      </q-checkbox>
+      <div class="text-negative text-h7" v-if="!terms && appear"> Debe Aceptar los terminos </div>
+    </div>
+    <div class="row justify-center">
+      <!-- <q-btn @click="panel.panel = 'parte_dos'" color="primary" push label="Atras" flat/>
+      <q-space /> -->
+      <q-btn @click="next()" style="border-radius:25px; width: 70%" :loading="loading"  color="primary" push label="Guardar" class="q-px-xl q-py-sm"/>
     </div>
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
-import { required, maxLength } from 'vuelidate/lib/validators'
+import { required, email, maxLength, minLength, sameAs } from 'vuelidate/lib/validators'
 import env from '../../env'
 export default {
   props: ['form', 'panel'],
@@ -67,7 +152,12 @@ export default {
       perfilFile: null,
       imgPerfil: '',
       loading: false,
-      baseu: ''
+      baseu: '',
+      terms: false,
+      appear: false,
+      isPwd: true,
+      password: '',
+      repeatPassword: ''
     }
   },
   validations () {
@@ -76,11 +166,16 @@ export default {
         full_name: { required, maxLength: maxLength(40) },
         last_name: { required },
         country: { required },
-        direccion: { required },
+        city: { required },
+        birthdate: { required },
+        email: { required, email }
+        /* direccion: { required },
         run_dni: { required },
-        phone: { required }
+        phone: { required } */
       },
-      perfilFile: { required }
+      perfilFile: { required },
+      repeatPassword: { sameAsPassword: sameAs('password') },
+      password: { required, maxLength: maxLength(256), minLength: minLength(6) }
     }
   },
   mounted () {
@@ -93,12 +188,18 @@ export default {
     },
     async next () {
       this.$v.form.$touch()
+      this.$v.repeatPassword.$touch()
+      this.$v.password.$touch()
       this.$v.perfilFile.$touch()
-      if (!this.$v.form.$error && !this.$v.perfilFile.$error) {
+      if (!this.terms) {
+        this.appear = true
+      }
+      if (!this.$v.form.$error && !this.$v.perfilFile.$error && this.terms && !this.$v.password.$error && !this.$v.repeatPassword.$error) {
         this.loading = true
         this.$q.loading.show({
           message: 'Cargando...'
         })
+        this.form.password = this.password
         this.form.enable = true
         var formData = new FormData()
         formData.append('perfilFile', this.perfilFile)
@@ -117,6 +218,11 @@ export default {
             })
             this.loguear()
           }
+        })
+      } else {
+        this.$q.notify({
+          message: 'Debes ingresar todos los datos requeridos',
+          color: 'negative'
         })
       }
     },

@@ -5,8 +5,8 @@
     </div>
       <div class="row absolute-bottom justify-center q-py-md">
         <div class="column items-center justify-center">
-          <div class="text-white text-h4">Registro Exitoso</div>
-          <q-btn @click="onSubmit()" color="primary" push label="Ir a mi taller" glossy/>
+          <div class="text-white text-h4 q-pb-lg">Registro Exitoso</div>
+          <q-btn @click="onSubmit()" color="primary" label="Ir a mi taller" rounded no-caps style="width:70%" class="q-py-xs"/>
         </div>
       </div>
 

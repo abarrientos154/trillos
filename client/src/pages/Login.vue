@@ -2,42 +2,51 @@
   <div style="height:100%;width:100%">
     <div class="absolute-center" style="width:80%; height:85%">
       <div class="absolute-center full-width">
-          <div class="q-mb-md row justify-center">
-            <q-img :src="url" spinner-color="white" style="height: 140px; max-width: 190px"/>
-          </div>
           <div class="row justify-center">
+            <q-img :src="url" spinner-color="white" style="width: 100%"/>
+          </div>
+
+          <div class="row justify-center">
+            <div class="col-12">Ingresa tu correo</div>
             <q-input
               style="width: 100%"
               autofocus
-              outlined
+              filled
               v-model="form.email"
               :error="$v.form.email.$error"
               error-message="Este campo es requerido"
               @blur="$v.form.email.$touch()"
               type="email"
-              placeholder="Ingrese su email" />
+              placeholder="Ingresa tu correo" />
           </div>
-          <div class="row justify-center q-mt-md">
+          <div class="row justify-center">
+            <div class="col-12">Ingresa tu contraseña</div>
             <q-input
               style="width: 100%"
               autofocus
-              outlined
+              filled
               v-model="form.password"
               :error="$v.form.password.$error"
               error-message="Este campo es requerido"
               @blur="$v.form.password.$touch()"
               :type="isPwd ? 'password' : 'text'"
-              placeholder="Ingrese su contraseña">
+              placeholder="Ingresa tu contraseña">
                 <template v-slot:append>
                   <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd"/>
                 </template>
             </q-input>
+            <div class="col-12 text-center">Olvide mi contraseña</div>
           </div>
+
           <div class="q-mt-md row justify-center">
-              <q-btn color="primary" text-color="white" label="Iniciar Sesión" :loading="loading" @click="loguear()"/>
+              <q-btn rounded no-caps class="q-py-xs" color="primary" text-color="white" label="Iniciar Sesión" :loading="loading" style="width:80%"
+              @click="loguear()"/>
           </div>
-          <div class="q-mt-sm row justify-center">
-              <q-btn flat color="primary" label="Regístrate aquí" @click="$router.push('/registro')"/>
+
+          <div class="q-mt-xl row justify-center items-center">
+            <div class="col-12 text-center">Soy nuevo en Triyus</div>
+            <div>Quiero</div>
+            <q-btn flat no-caps dense color="black" label="Registrarme" @click="$router.push('/registro')"/>
           </div>
       </div>
     </div>

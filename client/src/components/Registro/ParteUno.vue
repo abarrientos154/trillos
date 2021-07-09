@@ -4,8 +4,8 @@
       <q-carousel
           animated
           v-model="slide"
-          arrows
           navigation
+          swipeable
           infinite
           class="fullscreen"
         >
@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       options_roles: [
-        { label: 'Quiero ser taller', value: 3, icon: 'store', image: 'https://cdn.quasar.dev/img/parallax1.jpg' },
+        { label: 'Quiero ser Taller', value: 3, icon: 'store', image: 'https://cdn.quasar.dev/img/parallax1.jpg' },
         { label: 'Cliente', value: 2, icon: 'person', image: 'https://cdn.quasar.dev/img/quasar.jpg' }
       ],
       slide: 1
@@ -46,7 +46,7 @@ export default {
       this.$q.loading.show()
       this.form.roles = rol
       if (this.form.roles === 2) {
-        this.panel.panel = 'parte_dos'
+        this.panel.panel = 'parte_tres_cliente_datos'
       } else if (this.form.roles === 3) {
         this.panel.panel = 'parte_dos_proveedor'
       }

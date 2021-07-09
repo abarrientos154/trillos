@@ -6,7 +6,7 @@
           <q-avatar size="170px">
             <img  :src="imgPerfil ? imgPerfil : 'noimg.png'">
             <q-file borderless v-model="perfilFile" class="absolute-center button-camera" @input="test" accept=".jpg, image/*"
-              style="z-index:1;font-size:0px" @blur="$v.perfilFile.$touch()">
+              style="z-index:1;font-size:0px; width: 100%; height: 100%;" @blur="$v.perfilFile.$touch()">
               <q-icon name="photo_camera" class="absolute-center" size="25px" color="white" />
             </q-file>
           </q-avatar>
@@ -14,7 +14,7 @@
         </div>
     <div class="row q-pa-sm">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-caption">¿Cual es el nombre de su taller</div>
+        <div class="text-caption">¿Cual es el nombre de tu taller</div>
           <q-input
             v-model="form.full_name"
             placeholder="Mi taller Triyus"
@@ -27,14 +27,14 @@
           />
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-pb-md">
-      <div class="text-caption">¿Cual es la descripcion de su taller?</div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="text-caption">¿Cual es la descripción te su taller?</div>
        <q-input
           v-model="form.observaciones"
           placeholder="Mi taller tiene 4 años..."
           filled
           type="textarea"
-          error-message="Ingrese una descripcion de su taller"
+          error-message="Ingrese una descripción"
           :error="$v.form.observaciones.$error"
           @blur="$v.form.observaciones.$touch()"
         />
@@ -72,6 +72,7 @@
         </q-select>
       </div>
       <q-scroll-area
+          v-if="categorias.length"
           class="col-12"
           horizontal
           style="height: 100px"
@@ -87,12 +88,14 @@
         </q-scroll-area>
 
         <div class="column" style="width:100%">
-          <div>Agrega fotos de la tienda</div>
+          <div class="q-mb-xs">Sube hasta 5 fotos de tu taller</div>
           <q-scroll-area horizontal style="height: 70px;width:100%" :thumb-style="thumbStyle" :bar-style="barStyle">
-            <div class="row no-wrap q-px-md q-gutter-md">
+            <div class="row items-center no-wrap q-px-md q-gutter-md">
               <q-card style="width:60px;height:60px" class="bg-grey-4">
-                <q-icon name="file_upload" size="lg" style="width:100%;position:absolute;height:100%" color="grey" />
-                <q-file max-files="5" style="width:100%;position:absolute;height:100%;opacity:0" @input="tienda" accept=".jpg, image/*" multiple append v-model="tiendaFiles" hint="Pueden ser hasta 5 fotos" outlined label="CLICK AQUÍ">
+                <q-file max-files="5" style="width:100%;height:100%; font-size: 0px" @input="tienda" accept=".jpg, image/*" multiple append v-model="tiendaFiles" borderless>
+                  <div class="absolute-center column items-center">
+                    <q-icon name="file_upload" size="40px" color="grey" />
+                  </div>
                 </q-file>
               </q-card>
               <q-card style="width:60px;height:60px" v-for="(item, index) in imgTienda" class="shadow-3" :key="index">
@@ -109,8 +112,9 @@
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-mt-md">
+          <div class="text-caption">Selecciona tus días de atención</div>
           <q-select
-            outlined
+            filled
             v-model="dias"
             :options="options_dias"
             label="Días laborables"
@@ -136,9 +140,10 @@
         </q-select>
       </div>
       <q-scroll-area
+          v-if="dias.length"
           class="col-12"
           horizontal
-          style="height: 90px"
+          style="height: 70px"
           :thumb-style="thumbStyle"
           :bar-style="barStyle"
         >
@@ -150,17 +155,17 @@
           </div>
         </q-scroll-area>
 
-        <div class="text-subtitle2 q-mt-sm">Horario</div>
+        <div class="text-caption">Seleccione los horarios de apertura y cierre</div>
         <div class="q-gutter-sm row justify-between">
-          <q-input label="Apertura" filled v-model="form.hora_inicio" mask="time" :rules="['time']"
+          <q-input label="Apertura" filled readonly v-model="form.hora_inicio" placeholder="--:--" @click="$refs.qTimeProxy1.show()"
             error-message="Ingrese la hora de inicio laboral"
             :error="$v.form.hora_inicio.$error" @blur="$v.form.hora_inicio.$touch()" style="width:125px">
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                <q-popup-proxy ref="qTimeProxy1" transition-show="scale" transition-hide="scale">
                   <q-time v-model="form.hora_inicio">
                     <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
+                      <q-btn v-close-popup label="Cerrar" color="primary" flat />
                     </div>
                   </q-time>
                 </q-popup-proxy>
@@ -168,15 +173,15 @@
             </template>
           </q-input>
 
-          <q-input label="Cierre"  filled v-model="form.hora_fin" mask="time" :rules="['time']"
+          <q-input label="Cierre" readonly filled v-model="form.hora_fin" placeholder="--:--" @click="$refs.qTimeProxy2.show()"
             error-message="Ingrese la hora de cierre laboral"
             :error="$v.form.hora_fin.$error" @blur="$v.form.hora_fin.$touch()" style="width:115px">
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                <q-popup-proxy ref="qTimeProxy2" transition-show="scale" transition-hide="scale">
                   <q-time v-model="form.hora_fin">
                     <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
+                      <q-btn v-close-popup label="Cerrar" color="primary" flat />
                     </div>
                   </q-time>
                 </q-popup-proxy>
@@ -185,10 +190,8 @@
           </q-input>
         </div>
     </div>
-    <div class="row">
-      <q-btn @click="panel.panel = 'parte_dos'" color="primary" push label="Atras" flat/>
-      <q-space />
-      <q-btn @click="next()" :loading="loading" color="primary" push label="Guardar" glossy/>
+    <div class="row justify-center" style="width:100%">
+      <q-btn @click="next()" :loading="loading" color="primary" label="Finalizar" rounded no-caps style="width:70%" class="q-py-xs"/>
     </div>
   </div>
 </template>
@@ -351,7 +354,6 @@ export default {
           }
           delete this.form.imgDni
           formData.append('dat', JSON.stringify(this.form))
-          console.log(formData, 'datos que se guardan')
           this.loading = false
           await this.$api.post('register', formData, {
             headers: {

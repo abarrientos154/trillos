@@ -34,8 +34,10 @@
         <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
         <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
         <q-btn v-if="rol != 1" color="primary" icon="grading" flat round size="md" to="/reportes" />
+        <q-btn v-if="rol != null" color="primary" icon="logout" flat round size="md" @click="cerrarsesion()" />
       </div>
     </q-footer>
+
     <q-page-container>
       <router-view />
       <q-btn v-if="rol != 1 && rol != 2 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" />
@@ -62,9 +64,7 @@ export default {
   name: 'MainLayout',
   data () {
     return {
-      usuario: {},
       rol: null,
-      valor: 0,
       categoria: [],
       selecBtn: 0,
       menu: [
@@ -108,18 +108,13 @@ export default {
     getUser () {
       this.$api.get('user_info').then(res => {
         if (res) {
-          this.usuario = res
-          this.categoria = this.usuario.categorias
-          this.rol = this.usuario.roles[0]
+          this.categoria = res.categorias
+          this.rol = res.roles[0]
         }
       })
     },
     cerrarsesion () {
       localStorage.removeItem('TRI_SESSION_INFO')
-      this.$q.notify({
-        message: 'Sesion cerrada con exito',
-        color: 'positive'
-      })
       this.$router.push('/login')
     }
   }
