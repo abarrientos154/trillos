@@ -399,7 +399,6 @@ export default {
       this.$api.get('categoria').then(res => {
         if (res) {
           this.ejemplo = res
-          console.log(this.ejemplo, 'categorias')
         }
       })
     }

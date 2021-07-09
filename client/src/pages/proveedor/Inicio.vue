@@ -76,7 +76,7 @@
               </q-avatar>
               <div class="row items-center justify-center" style="width:100%">
                 <q-icon size="sm" name="person" color="grey" />
-                <div class="col-10 text-bold text-grey-8 ellipsis">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
+                <div class="col-10 text-grey-8 ellipsis">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
               </div>
             </div>
             <div class="q-mt-md" style="width:55%">
@@ -102,59 +102,57 @@
     <q-scroll-area
       v-if="data2.length"
       horizontal
-      style="height: 230px; width: 100%;"
+      style="height: 250px; width: 100%;"
       class="rounded-borders"
     >
       <div class="row no-wrap q-gutter-md q-px-md">
-        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:200px; border-radius:25px" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
+        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:230px; border-radius:25px" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
+          <div class="absolute-top-right q-pr-sm">
+            <div class="row">
+              <div class="text-h7 text-grey-8 q-mt-xs">Nivel de requerimiento</div>
+              <div class="row">
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="q-mt-xs column items-center justify-center" style="width:45%">
               <q-avatar size="90px">
                 <img :src="item.datos_cliente._id ? baseu + 'perfil' + item.datos_cliente._id : 'noimg.png'" spinner-color="white">
               </q-avatar>
               <div class="q-pl-sm q-mt-xs" style="width:100%">
-                <div class="row">
+                <div class="row items-center">
                   <q-icon size="sm" name="person" color="grey" />
-                  <div class="col-10 text-bold text-grey-8 ellipsis">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
+                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
                 </div>
-                <div class="row q-mt-sm">
+                <div class="row q-mt-sm items-center">
                   <q-icon size="sm" name="phone" color="grey" />
-                  <div class="col-10 text-bold text-grey-8 ellipsis">{{item.datos_cliente.phone}}</div>
+                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.phone}}</div>
                 </div>
-                <div class="row q-mt-sm">
+                <div class="row q-mt-sm items-center">
                   <q-icon size="sm" name="place" color="grey" />
-                  <div class="col-10 text-bold text-grey-8 ellipsis">{{item.datos_cliente.direccion}}</div>
+                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.direccion}}</div>
                 </div>
               </div>
             </div>
-                <div class="row" style="width:55%">
-                  <div class="absolute-top-right">
-                    <div class="row">
-                      <div class="text-h7 text-grey q-mt-xs">Nivel requerimiento:</div>
-                      <div class="row">
-                        <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-                        <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-                        <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-h6 q-mt-lg q-mb-xs">{{item.name}}</div>
-                  <div class="column justify-center">
-                    <q-scroll-area style="height: 50px; width: 230px;">
-                      <div class="text-center text-grey">{{item.necesidad_info.descripcion}}</div>
-                    </q-scroll-area>
-                    <div class="row">
-                      <div class="text-h7 text-bold">Estado de solicitud:</div>
-                      <div class="q-pl-xs text-h7 text-grey">{{item.status}}</div>
-                    </div>
-                    <div class="row q-mt-sm q-pb-sm">
-                        <q-icon size="sm" name="clean_hands" />
-                        <div class="text-bold text-grey">{{item.categorianame.name}}</div>
-                      </div>
-                  </div>
-                </div>
+            <div style="width:55%">
+              <div class="text-h6 q-mt-lg q-mb-xs">{{item.name}}</div>
+              <div class="row q-mb-lg" style="height:50px; width:100%">
+                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.necesidad_info.descripcion}}</div>
+              </div>
+              <div class="row items-center">
+                <div class="text-h7 text-bold text-grey-9">Estado de solicitud:</div>
+                <div class="q-pl-xs text-subtitle1 text-grey-8">{{item.status}}</div>
+              </div>
+              <div class="row items-center q-mt-xs q-pb-sm">
+                <q-icon size="sm" name="clean_hands" color="grey" />
+                <div class="col-10 text-subtitle1 text-grey-8 q-pl-xs ellipsis">{{item.categorianame.name}}</div>
+              </div>
+            </div>
           </div>
-          <div class="absolute-bottom-right text-grey-8 q-pr-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
+          <div class="absolute-bottom-right text-grey-8 q-pa-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
         </q-card>
       </div>
     </q-scroll-area>
@@ -252,27 +250,7 @@ export default {
     async getSolicitudes2 () {
       this.$api.get('show_all_cotizations3').then(v => {
         if (v) {
-          /* this.data2 = v */
-          this.data2 = [
-            {
-              datos_cliente: { full_name: 'Nombre', last_name: 'Apellido', phone: '435634645', direccion: 'Direccion' },
-              colorRadio: 'red',
-              name: 'Nombre solicitud',
-              necesidad_info: { descripcion: 'Descripcion' },
-              status: 'Urgente',
-              categorianame: { name: 'Nombre categoria' },
-              fechaCreacion: '10/10/2021'
-            },
-            {
-              datos_cliente: { full_name: 'Nombre', last_name: 'Apellido', phone: '435634645', direccion: 'Direccion' },
-              colorRadio: 'blue',
-              name: 'Nombre solicitud',
-              necesidad_info: { descripcion: 'Descripcion' },
-              status: 'Urgente',
-              categorianame: { name: 'Nombre categoria' },
-              fechaCreacion: '10/10/2021'
-            }
-          ]
+          this.data2 = v
         }
       })
     },

@@ -34,7 +34,7 @@ export default {
     return {
       options_roles: [
         { label: 'Quiero ser Taller', value: 3, icon: 'store', image: 'https://cdn.quasar.dev/img/parallax1.jpg' },
-        { label: 'Cliente', value: 2, icon: 'person', image: 'https://cdn.quasar.dev/img/quasar.jpg' }
+        { label: 'Necesito un Taller', value: 2, icon: 'person', image: 'https://cdn.quasar.dev/img/quasar.jpg' }
       ],
       slide: 1
     }
@@ -42,7 +42,6 @@ export default {
   methods: {
     ...mapMutations('generals', ['login']),
     onSubmit (rol) {
-      console.log(rol, 'elrol')
       this.$q.loading.show()
       this.form.roles = rol
       if (this.form.roles === 2) {

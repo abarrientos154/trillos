@@ -42,13 +42,10 @@ export default {
           }
         } else {
           console.log('error de ususario')
-          // this.loading = false
         }
         this.$q.loading.hide()
       })
     }
-  },
-  mounted () {
   }
 }
 </script>
