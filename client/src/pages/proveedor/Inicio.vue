@@ -18,7 +18,7 @@
           <div class="text-h6 q-mb-sm">{{form2.full_name}}</div>
           <div class="row q-mb-sm items-center">
             <q-icon size="sm" name="apartment" />
-            <div>{{form2.region}}, {{form2.ciudad}}</div>
+            <div>{{form2.pais}}, {{form2.ciudad}}</div>
           </div>
           <div class="row items-center">
             <q-icon size="sm" name="location_on" />
@@ -50,7 +50,8 @@
           style="height: 110px;"
         >
           <div class="row no-wrap" style="width: 100%">
-            <q-card v-for="(item, index) in form2.tiendaFiles" class="q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index">
+            <q-card v-for="(item, index) in form2.tiendaFiles" clickable v-ripple class="q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index"
+            @click="imgSelec = baseu3 + item, verImg = true">
               <q-img :src="form2.tiendaFiles ? baseu3 + item : 'noimgpro.png'" spinner-color="white" style="height: 100px; width: 100px" />
             </q-card>
           </div>
@@ -65,35 +66,30 @@
       v-if="data5.length"
       horizontal
       style="height: 230px; width: 100%;"
-      class="rounded-borders"
     >
-      <div class="row no-wrap q-gutter-xl">
-        <q-card v-for="(item, index) in data5" class="" bordered style="width:100%;height:200px; border-bottom-right-radius:25px;border-bottom-left-radius:25px;border-top-right-radius:25px;border-top-left-radius:25px" :key="index">
-              <div class="row">
-                <div class="q-mt-sm column items-center justify-center" style="width:45%">
-                <q-avatar size="110px">
-                  <img :src="baseu + 'perfil' + item.calificador_info._id" spinner-color="white">
-                </q-avatar>
-                  <div class="colum q-mt-xs" style="width:100%">
-                      <div class="q-pl-sm q-pb-md row absolute-bottom">
-                        <q-icon size="sm" name="person" />
-                        <div class="text-bold text-grey">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
-                      </div>
-                    </div>
-                  </div>
-                <div class="row q-mt-md" style="width:55%">
-                  <div class="text-h6 q-mt-lg q-mb-xs">{{item.necesidad_info.name}}</div>
-                  <div class="column justify-center">
-                    <q-scroll-area style="height: 50px; width: 200px;">
-                      <div class="text-center text-grey">{{item.comentario}}</div>
-                    </q-scroll-area>
-                    <div class="column q-pb-md q-pr-md">
-                      <q-rating v-model="item.rating_tienda" size="2em" color="yellow" readonly/>
-                    </div>
-                    <div class="absolute-top-right text-grey q-pr-sm q-mt-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
-                  </div>
-                </div>
+      <div class="row items-center no-wrap q-px-md q-gutter-md">
+        <q-card v-for="(item, index) in data5" :key="index" class="shadow-5" style="width:450px;height:200px; border-radius:25px;">
+          <div class="absolute-top-right text-grey-8 q-pr-sm q-mt-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
+          <div class="row">
+            <div class="column items-center justify-between q-py-md" style="width:45%">
+              <q-avatar size="110px">
+                <img :src="item.calificador_info._id ? baseu + 'perfil' + item.calificador_info._id : 'noimg.png'" spinner-color="white">
+              </q-avatar>
+              <div class="row items-center justify-center" style="width:100%">
+                <q-icon size="sm" name="person" color="grey" />
+                <div class="col-10 text-grey-8 ellipsis">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
               </div>
+            </div>
+            <div class="q-mt-md" style="width:55%">
+              <div class="text-h6 q-mt-lg q-mb-xs">{{item.necesidad_info.name}}</div>
+              <div class="row q-mb-lg" style="height:50px; width:100%">
+                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.comentario}}</div>
+              </div>
+              <div class="q-pb-md">
+                <q-rating v-model="item.rating_tienda" size="2em" color="yellow" readonly/>
+              </div>
+            </div>
+          </div>
         </q-card>
       </div>
     </q-scroll-area>
@@ -107,59 +103,57 @@
     <q-scroll-area
       v-if="data2.length"
       horizontal
-      style="height: 230px; width: 100%;"
+      style="height: 250px; width: 100%;"
       class="rounded-borders"
     >
-      <div class="row no-wrap q-gutter-xl">
-        <q-card v-for="(item, index) in data2" class="" bordered style="width:100%;height:200px; border-bottom-right-radius:25px;border-bottom-left-radius:25px;border-top-right-radius:25px;border-top-left-radius:25px" :key="index" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
+      <div class="row no-wrap q-gutter-md q-px-md">
+        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:230px; border-radius:25px" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
+          <div class="absolute-top-right q-pr-sm">
+            <div class="row">
+              <div class="text-h7 text-grey-8 q-mt-xs">Nivel de requerimiento</div>
               <div class="row">
-                <div class="q-mt-xs column items-center justify-center" style="width:45%">
-                <q-avatar size="90px">
-                  <img :src="baseu + 'perfil' + item.datos_cliente._id" spinner-color="white">
-                </q-avatar>
-                  <div class="colum q-mt-xs" style="width:100%">
-                      <div class="q-pl-sm row">
-                        <q-icon size="sm" name="person" />
-                        <div class="text-bold text-grey">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
-                      </div>
-                      <div class="q-pl-sm row q-mt-sm">
-                        <q-icon size="sm" name="phone" />
-                        <div class="text-bold text-grey">{{item.datos_cliente.phone}}</div>
-                      </div>
-                      <div class="q-pl-sm row q-mt-sm">
-                        <q-icon size="sm" name="place" />
-                        <div class="text-bold text-grey">{{item.datos_cliente.direccion}}</div>
-                      </div>
-                    </div>
-                  </div>
-                <div class="row" style="width:55%">
-                  <div class="absolute-top-right">
-                    <div class="row">
-                      <div class="text-h7 text-grey q-mt-xs">Nivel requerimiento:</div>
-                      <div class="row">
-                        <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-                        <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-                        <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-h6 q-mt-lg q-mb-xs">{{item.name}}</div>
-                  <div class="column justify-center">
-                    <q-scroll-area style="height: 50px; width: 230px;">
-                      <div class="text-center text-grey">{{item.necesidad_info.descripcion}}</div>
-                    </q-scroll-area>
-                    <div class="row">
-                      <div class="text-h7 text-bold">Estado de solicitud:</div>
-                      <div class="q-pl-xs text-h7 text-grey">{{item.status}}</div>
-                    </div>
-                    <div class="row q-mt-sm q-pb-sm">
-                        <q-icon size="sm" name="clean_hands" />
-                        <div class="text-bold text-grey">{{item.categorianame.name}}</div>
-                      </div>
-                    <div class="absolute-bottom-right text-grey q-pr-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
-                  </div>
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="q-mt-xs column items-center justify-center" style="width:45%">
+              <q-avatar size="90px">
+                <img :src="item.datos_cliente._id ? baseu + 'perfil' + item.datos_cliente._id : 'noimg.png'" spinner-color="white">
+              </q-avatar>
+              <div class="q-pl-sm q-mt-xs" style="width:100%">
+                <div class="row items-center">
+                  <q-icon size="sm" name="person" color="grey" />
+                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
+                </div>
+                <div class="row q-mt-sm items-center">
+                  <q-icon size="sm" name="phone" color="grey" />
+                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.phone}}</div>
+                </div>
+                <div class="row q-mt-sm items-center">
+                  <q-icon size="sm" name="place" color="grey" />
+                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.direccion}}</div>
                 </div>
               </div>
+            </div>
+            <div style="width:55%">
+              <div class="text-h6 q-mt-lg q-mb-xs">{{item.name}}</div>
+              <div class="row q-mb-lg" style="height:50px; width:100%">
+                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.necesidad_info.descripcion}}</div>
+              </div>
+              <div class="row items-center">
+                <div class="text-h7 text-bold text-grey-9">Estado de solicitud:</div>
+                <div class="q-pl-xs text-subtitle1 text-grey-8">{{item.status}}</div>
+              </div>
+              <div class="row items-center q-mt-xs q-pb-sm">
+                <q-icon size="sm" name="clean_hands" color="grey" />
+                <div class="col-10 text-subtitle1 text-grey-8 q-pl-xs ellipsis">{{item.categorianame.name}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute-bottom-right text-grey-8 q-pa-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
         </q-card>
       </div>
     </q-scroll-area>
@@ -176,6 +170,12 @@
     <div class="q-py-lg column items-center justify-center">
       <q-btn v-if="data.length > 3" color="primary" rounded no-caps :label="!ver ? 'Ver más' : 'Ver menos'" style="width:70%" class="q-py-sm" @click="verMas()" />
     </div>
+
+    <q-dialog v-model="verImg">
+      <q-card class="full-width full-height">
+        <q-img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -190,8 +190,9 @@ export default {
     return {
       listado: true,
       ver: false,
-      listado2: false,
+      verImg: false,
       id: '',
+      imgSelec: '',
       baseu: '',
       baseu2: '',
       baseu3: '',
@@ -284,7 +285,6 @@ export default {
         if (res) {
           this.data5 = res
         }
-        console.log(this.data5, 'opiniones')
       })
     },
     estaLogueado () {

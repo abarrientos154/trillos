@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <!-- <q-header elevated>
+    <!--<q-header elevated>
       <q-toolbar v-if="rol != 2" class="bg-white row justify-between">
         <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
         <q-img src="logo-210x47.png" style="width:140px" />
@@ -21,7 +21,7 @@
         </q-menu>
       </q-btn>
       </q-toolbar>
-    </q-header> -->
+    </q-header>-->
     <q-footer>
       <div class="bg-white row items-center justify-between no-wrap" style="height: 70px;">
         <div v-for="(boton, index) in menu" :key="index">

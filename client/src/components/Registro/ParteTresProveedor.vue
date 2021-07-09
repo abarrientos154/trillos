@@ -9,42 +9,11 @@
     <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Pais</div>
-          <q-input
-            v-model="form.pais"
-            placeholder="Argentina"
-            outlined
-            filled
-            dense
-            error-message="Ingrese un Pais"
-            :error="$v.form.pais.$error"
-            @blur="$v.form.pais.$touch()"
-          />
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-caption">Región</div>
-          <q-input
-            v-model="form.region"
-            placeholder="Estado del Rosario"
-            outlined
-            filled
-            dense
-            error-message="Ingrese una Region"
-            :error="$v.form.region.$error"
-            @blur="$v.form.region.$touch()"
-          />
+        <q-select filled v-model="form.pais" label="País" outlined dense :options="['Argentina', 'Chile']" error-message="Seleccione un País" :error="$v.form.pais.$error" @blur="$v.form.pais.$touch()" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Ciudad</div>
-          <q-input
-            v-model="form.ciudad"
-            placeholder="Rosario"
-            outlined
-            dense
-            filled
-            error-message="Ingrese un Pais"
-            :error="$v.form.ciudad.$error"
-            @blur="$v.form.ciudad.$touch()"
-          />
+        <q-select filled v-model="form.ciudad" label="Ciudad" outlined dense :options="['ciudad1', 'ciudad2']" error-message="Seleccione una ciudad" :error="$v.form.ciudad.$error" @blur="$v.form.ciudad.$touch()" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Dirección física del taller</div>
@@ -80,7 +49,6 @@ export default {
     return {
       form: {
         pais: { required, maxLength: maxLength(40) },
-        region: { required },
         ciudad: { required },
         direccion: { required }
       }
@@ -93,7 +61,7 @@ export default {
       if (this.panel.panel === 'parte_tres_proveedor_datos') {
         this.$q.loading.show()
         this.$v.form.$touch()
-        if (!this.$v.form.pais.$error && !this.$v.form.region.$error && !this.$v.form.ciudad.$error && !this.$v.form.direccion.$error) {
+        if (!this.$v.form.pais.$error && !this.$v.form.ciudad.$error && !this.$v.form.direccion.$error) {
           this.panel.panel = 'parte_cuatro_proveedor_datos'
         }
       }

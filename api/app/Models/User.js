@@ -21,7 +21,6 @@ class User extends Model {
       email: 'required|email',
       full_name: 'string',
       name: 'string',
-      fecha: 'date',
       last_name: 'string',
       password:'required|string',
       phone: 'string',

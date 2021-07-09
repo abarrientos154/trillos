@@ -361,14 +361,9 @@ export default {
             }
           }).then(res => {
             if (res) {
-              this.$q.notify({
-                message: 'Ya formas parte de Triyus, Bienvenido',
-                color: 'positive'
-              })
               this.loading = false
               this.$q.loading.hide()
               this.panel.panel = 'parte_cinco_proveedor_datos'
-              /* this.loguear() */
             }
           })
         } else {
@@ -404,7 +399,6 @@ export default {
       this.$api.get('categoria').then(res => {
         if (res) {
           this.ejemplo = res
-          console.log(this.ejemplo, 'categorias')
         }
       })
     }

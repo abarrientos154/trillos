@@ -3,7 +3,7 @@
     <div class="row justify-around">
       <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
         <q-card @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : $router.push('/descripcionsolicitud/' + item._id)">
-            <div class="text-caption absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
+            <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
             <div class="column items-center justify-center">
               <div class="text-center text-white q-mt-lg text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
             </div>
