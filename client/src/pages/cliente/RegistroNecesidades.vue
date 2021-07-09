@@ -1,6 +1,15 @@
 <template>
  <div>
-    <div class="q-mt-lg q-ml-md q-mb-sm text-bold q-pl-sm">¿QUE NECESITAS?</div>
+   <div class="row justify-center q-my-xl">
+     <div style="height: 200px; width: 70%;">
+        <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 25px">
+        <div class="absolute-full column items-center column justify-end">
+          <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+          <div class="text-bold text-grey">¿QUE NECESITAS?</div>
+        </div>
+        </q-img>
+      </div>
+   </div>
     <div>
       <diz class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Nombre de la solicitud</div>
