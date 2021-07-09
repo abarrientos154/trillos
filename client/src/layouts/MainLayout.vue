@@ -1,19 +1,24 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-footer>
-      <div class="bg-grey-1 shadow-2 full-width row justify-around q-py-md" >
-          <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_proveedor' : rol === 1 ? '/inicio_administrador' : ''" />
-          <q-btn :icon="rol === 3 ? 'card_giftcard' : 'view_list'" color="primary" flat round size="md" :to="rol === 2 ? '/solicitudes' : rol === 3 ? '/productos' : rol === 1 ? '/reportes_usuarios' : ''"/>
-          <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
-          <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
-          <q-btn v-if="rol != 1" color="primary" icon="grading" flat round size="md" to="/reportes" />
-          <q-btn v-if="rol != null" color="primary" icon="logout" flat round size="md" @click="cerrarsesion()" />
+      <div v-if="rol === 2" class="bg-white row items-center justify-between no-wrap" style="height: 60px;">
+        <div v-for="(boton, index) in menu" :key="index">
+          <q-btn flat rounded :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? '12px' : '17px'" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto" no-caps/>
+        </div>
+      </div>
+      <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
+        <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_proveedor' : rol === 1 ? '/inicio_administrador' : ''" />
+        <q-btn :icon="rol === 3 ? 'card_giftcard' : 'view_list'" color="primary" flat round size="md" :to="rol === 2 ? '/solicitudes' : rol === 3 ? '/productos' : rol === 1 ? '/reportes_usuarios' : ''"/>
+        <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
+        <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
+        <q-btn v-if="rol != 1" color="primary" icon="grading" flat round size="md" to="/reportes" />
+        <q-btn v-if="rol != null" color="primary" icon="logout" flat round size="md" @click="cerrarsesion()" />
       </div>
     </q-footer>
 
     <q-page-container>
       <router-view />
-      <q-btn v-if="rol != 1 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" />
+      <q-btn v-if="rol != 1 && rol != 2 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" />
     </q-page-container>
   </q-layout>
 </template>
@@ -21,13 +26,6 @@
 <script>
 
 export default {
-  name: 'MainLayout',
-  data () {
-    return {
-      rol: null,
-      categoria: []
-    }
-  },
   computed: {
     mostrarBoton () {
       return this.$route.meta.botonchat
@@ -39,6 +37,46 @@ export default {
       } else {
         return true
       }
+    }
+  },
+  name: 'MainLayout',
+  data () {
+    return {
+      rol: null,
+      categoria: [],
+      selecBtn: 0,
+      menu: [
+        {
+          id: 1,
+          icon: 'home',
+          name: 'Inicio',
+          ruta: '/inicio_cliente'
+        },
+        {
+          id: 2,
+          icon: 'drive_eta',
+          name: 'Talleres',
+          ruta: ''
+        },
+        {
+          id: 3,
+          icon: 'description',
+          name: 'Solicitudes',
+          ruta: '/solicitudes'
+        },
+        {
+          id: 4,
+          icon: 'forum',
+          name: 'Chat',
+          ruta: ''
+        },
+        {
+          id: 5,
+          icon: 'logout',
+          name: 'Salir',
+          ruta: ''
+        }
+      ]
     }
   },
   mounted () {
@@ -53,7 +91,8 @@ export default {
         }
       })
     },
-    cerrarsesion () {
+    cerrarsesion (btn) {
+      this.selecBtn = btn
       localStorage.removeItem('TRI_SESSION_INFO')
       this.$router.push('/login')
     }

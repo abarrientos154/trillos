@@ -361,14 +361,9 @@ export default {
             }
           }).then(res => {
             if (res) {
-              this.$q.notify({
-                message: 'Ya formas parte de Triyus, Bienvenido',
-                color: 'positive'
-              })
               this.loading = false
               this.$q.loading.hide()
               this.panel.panel = 'parte_cinco_proveedor_datos'
-              /* this.loguear() */
             }
           })
         } else {
