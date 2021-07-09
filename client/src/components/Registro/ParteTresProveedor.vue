@@ -1,10 +1,11 @@
 <template>
 <div class="q-ma-md q-pa-md">
   <div class="column items-center justify-center">
-  <div class="q-px-sm text-h6 q-ml-sm">¿Donde estará mi taller?</div>
-      <div class="row justify-center q-mt-md">
-        <img src="nopublicidad.jpg" style="width: 80%;height:200px">
-      </div>
+    <div class="text-h6 text-center">¿Donde estará mi taller?</div>
+    <div class="row justify-center q-mt-md">
+      <img src="nopublicidad.jpg" style="width: 80%;height:200px; border-radius: 15px">
+    </div>
+
     <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Pais</div>
@@ -20,7 +21,7 @@
           />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-caption">Region</div>
+        <div class="text-caption">Región</div>
           <q-input
             v-model="form.region"
             placeholder="Estado del Rosario"
@@ -46,7 +47,7 @@
           />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-caption">Direccion fisica del taller</div>
+        <div class="text-caption">Dirección física del taller</div>
           <q-input
             v-model="form.direccion"
             placeholder="Mi direccion #1234"
@@ -59,8 +60,8 @@
           />
       </div>
     </div>
-    <div class="row">
-      <q-btn @click="next()" color="primary" push label="Siguiente" glossy/>
+    <div class="row justify-center" style="width:100%">
+      <q-btn @click="next()" color="primary" label="Siguiente" rounded no-caps style="width:70%" class="q-py-xs"/>
     </div>
     </div>
 </div>

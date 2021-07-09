@@ -4,8 +4,8 @@
       <q-carousel
           animated
           v-model="slide"
-          arrows
           navigation
+          swipeable
           infinite
           class="fullscreen"
         >
@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       options_roles: [
-        { label: 'Quiero ser taller', value: 3, icon: 'store', image: 'https://cdn.quasar.dev/img/parallax1.jpg' },
+        { label: 'Quiero ser Taller', value: 3, icon: 'store', image: 'https://cdn.quasar.dev/img/parallax1.jpg' },
         { label: 'Cliente', value: 2, icon: 'person', image: 'https://cdn.quasar.dev/img/quasar.jpg' }
       ],
       slide: 1

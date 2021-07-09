@@ -1,9 +1,52 @@
 <template>
 <div class="q-ma-md">
   <div class="column items-center justify-center">
-  <div class="q-px-sm text-subtitle1 text-bold q-ml-sm">Informacion Representante Legal</div>
-    <div class="row q-pa-sm q-mt-xl">
+  <div class="text-subtitle1 text-center">Informacion Representante legal</div>
+    <div class="row q-pa-sm q-mt-lg">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="text-caption">Introduce tu nombre(s)</div>
+          <q-input
+            v-model="form.name"
+            placeholder="Pedro Ignacio"
+            outlined
+            filled
+            dense
+            error-message="Ingrese su nombre"
+            :error="$v.form.name.$error"
+            @blur="$v.form.name.$touch()"
+          />
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="text-caption">Apellido paterno y materno</div>
+          <q-input
+            v-model="form.last_name"
+            placeholder="Martinez Vuelta"
+            outlined
+            filled
+            dense
+            error-message="Ingrese sus Apellidos"
+            :error="$v.form.last_name.$error"
+            @blur="$v.form.last_name.$touch()"
+          />
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="text-caption">Fecha de nacimiento</div>
+          <q-input filled readonly dense v-model="form.fecha" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
+            error-message="Este campo es requerido" :error="$v.form.fecha.$error" @blur="$v.form.fecha.$touch()">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="form.fecha" mask="DD/MM/YYYY">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                    </div>
+                        </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Introduce tu correo</div>
           <q-input
             v-model="form.email"
@@ -39,7 +82,7 @@
           <q-input
             :type="isPwd2 ? 'password' : 'text'"
             v-model="repeatPassword"
-            label="Repita su Contraseña"
+            label="Repita su contraseña"
             outlined
             filled
             dense
@@ -51,38 +94,6 @@
             </template>
           </q-input>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-caption">Introduce tu nombre(s)</div>
-          <q-input
-            v-model="form.name"
-            placeholder="Pedro Ignacio"
-            outlined
-            filled
-            dense
-            error-message="Ingrese su nombre"
-            :error="$v.form.name.$error"
-            @blur="$v.form.name.$touch()"
-          />
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-caption">Apellido Paterno y Materno</div>
-          <q-input
-            v-model="form.last_name"
-            placeholder="Martinez Vuelta"
-            outlined
-            filled
-            dense
-            error-message="Ingrese sus Apellidos"
-            :error="$v.form.last_name.$error"
-            @blur="$v.form.last_name.$touch()"
-          />
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-          <div class="text-caption">Fecha de nacimiento</div>
-          <q-input v-model="form.fecha" stack-label type="date" filled dense
-            error-message="ingrese una fecha valida" :error="$v.form.fecha.$error" @blur="$v.form.fecha.$touch()"
-          />
-        </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Numero de Identificacion</div>
           <q-input
@@ -97,10 +108,10 @@
           />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-subtitle1 text-bold">Documento de Identificacion</div>
-        <div class="text-caption">Sube una foto por cada lado de tu Identificacion</div>
+        <div class="text-subtitle2">Documento de Identificacion</div>
+        <div class="text-caption text-grey-8 q-mb-xs">Sube una foto por cada lado de tu identificacion</div>
           <q-file borderless  class="button-camera" color="white" max-files="2" @input="tienda" accept=".jpg, image/*"
-            multiple append v-model="tiendaFiles" label="Subir archivo" :disable="tiendaFiles.length >= 2">
+            multiple append v-model="tiendaFiles" label="Subir archivo" label-color="white" :disable="tiendaFiles.length >= 2">
           </q-file>
           <div style="width: 100%" class="q-mt-sm row justify-center">
             <q-card flat v-for="(item, index) in imgTienda" :key="index" class="q-pa-sm">
@@ -116,8 +127,8 @@
           <q-checkbox v-model="Terminos" :class="textColorBanco" @input="Terminos ? textColorBanco = 'text-black' : ''" label="Acepto términos y condiciones de uso" />
         </div>
     </div>
-    <div class="row">
-      <q-btn @click="next()" color="primary" push label="Siguiente" glossy/>
+    <div class="row justify-center" style="width:100%">
+      <q-btn @click="next()" color="primary" label="Siguiente" rounded no-caps style="width:70%" class="q-py-xs"/>
     </div>
     </div>
 </div>
@@ -148,14 +159,12 @@ export default {
   validations () {
     return {
       form: {
-        full_name: { required, maxLength: maxLength(40) },
         email: { required, email },
         name: { required },
         last_name: { required },
         fecha: { required },
         Dni: { required }
       },
-      Terminos: { required },
       repeatPassword: { sameAsPassword: sameAs('password') },
       password: { required, maxLength: maxLength(256), minLength: minLength(6) }
     }
@@ -166,34 +175,36 @@ export default {
   methods: {
     async next () {
       if (this.panel.panel === 'parte_dos_proveedor') {
-        this.$q.loading.show()
         this.$v.form.email.$touch()
+        this.$v.form.name.$touch()
+        this.$v.form.last_name.$touch()
+        this.$v.form.fecha.$touch()
+        this.$v.form.Dni.$touch()
         this.$v.password.$touch()
         this.$v.repeatPassword.$touch()
         if (!this.Terminos) {
           this.textColorBanco = 'text-red'
         }
-        if (this.tiendaFiles.length >= 2) {
-          if (!this.$v.form.email.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && !this.$v.form.name.$error && !this.$v.form.last_name.$error && !this.$v.form.fecha.$error && !this.$v.form.Dni.$error && this.Terminos) {
+        if (!this.$v.form.email.$error && !this.$v.form.name.$error && !this.$v.form.last_name.$error && !this.$v.form.fecha.$error && !this.$v.form.Dni.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && this.Terminos) {
+          if (this.tiendaFiles.length >= 2) {
+            this.$q.loading.show()
             await this.$api.get('validate_email/' + this.form.email).then(res => {
               if (res) {
                 this.form.password = this.password
                 this.form.cantidadArchivosDni = this.tiendaFiles.length
                 this.form.imgDni = this.tiendaFiles
-                console.log(this.form, 'formulario')
                 this.panel.panel = 'parte_tres_proveedor_datos'
+                this.$q.loading.hide()
               }
             })
+          } else {
+            this.$q.dialog({
+              message: 'Debes ingresar tus Fotos de identificacion.',
+              persistent: true
+            }).onOk(() => {
+            })
           }
-        } else {
-          this.$q.loading.hide()
-          this.$q.dialog({
-            message: 'Debes ingresar tus Fotos de identificacion.',
-            persistent: true
-          }).onOk(() => {
-          })
         }
-        this.$q.loading.hide()
       }
     },
     tienda () {

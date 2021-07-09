@@ -51,14 +51,15 @@ class OpinionController {
   async index2 ({ request, response, params, auth }) {
     let opiniones = (await Opiniones.query().where({calificado: params.proveedor_id}).fetch()).toJSON()
     var calificacion = 0
-    var contador = 0
+    var promedio = 0
 
-    for (let j in opiniones) {
-      calificacion = (calificacion + opiniones[j].rating_tienda)
-      contador = contador + 1
+    if (opiniones.length) {
+      for (let j in opiniones) {
+        calificacion = (calificacion + opiniones[j].rating_tienda)
+      }
+
+      promedio = (calificacion / opiniones.length)
     }
-
-    let promedio = (calificacion / contador)
 
     response.send(promedio)
   }

@@ -1,68 +1,68 @@
 <template>
-<div>
-      <div class="q-pa-md q-gutter-y-xl">
-        <q-card v-for="(item, index) in mapeando"  class="q-pa-xs" bordered :key="index" @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : $router.push('/descripcionsolicitud/' + item._id)">
-            <div class="absolute-top-right">Fecha de Solicitud {{item.fechaCreacion}} </div>
-              <div class="column items-center justify-center">
-                <div class="text-center text-white q-mt-lg text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
-              </div>
-              <div class="column items-center justify-center">
-                <div class="row">
-                  <div class="q-pa-sm">
-                    <q-avatar size="100px">
-                      <img :src="baseu3 + 'perfil' + item.creador._id">
-                    </q-avatar>
-                  </div>
-                  <div class="colum q-mt-md">
-                    <div class="row">
-                      <q-icon size="sm" name="person" />
-                      <div class="text-bold text-grey">{{item.creador.full_name}} {{item.creador.last_name}}</div>
-                    </div>
-                    <div class="row q-mt-sm">
-                      <q-icon size="sm" name="phone" />
-                      <div class="text-bold text-grey">{{item.creador.phone}}</div>
-                    </div>
-                    <div class="row q-mt-sm">
-                      <q-icon size="sm" name="clean_hands" />
-                      <div class="text-bold text-grey">{{item.categorianame.name}}</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-h7 text-bold q-mt-sm">Descripcion del servicio</div>
-                <div >
-                  <q-scroll-area style="height: 70px; width: 200px;">
-                    <div class="text-center text-grey">{{item.descripcion}}</div>
-                  </q-scroll-area>
-                </div>
-                <div class="row q-mt-md">
-                  <div class="text-h7 q-mt-xs text-grey">Urgencia requerimiento:</div>
-                  <div class="q-pl-lg row">
-                    <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-                    <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-                    <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
-                  </div>
-                </div>
-              </div>
-              <div class="row q-pl-lg">
-                <q-icon size="sm" name="location_on" />
-                <div class="text-h7 text-grey">{{item.direccion}}</div>
+  <div>
+    <div class="row justify-around">
+      <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
+        <q-card @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : $router.push('/descripcionsolicitud/' + item._id)">
+            <div class="text-caption absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
+            <div class="column items-center justify-center">
+              <div class="text-center text-white q-mt-lg text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
+            </div>
+
+            <div class="row items-center q-py-sm">
+              <div class="col-5 row justify-center">
+                <q-avatar size="100px">
+                  <img :src="baseu3 + 'perfil' + item.creador._id">
+                </q-avatar>
               </div>
 
-      </q-card>
+              <div class="col-7">
+                <div class="row items-center no-wrap">
+                  <q-icon size="sm" name="person" color="grey-7" />
+                  <div class="text-grey-9 ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
+                </div>
+                <div class="row q-mt-sm items-center no-wrap">
+                  <q-icon size="sm" name="phone" color="grey-7" />
+                  <div class="text-grey-9 ellipsis">{{item.creador.phone}}</div>
+                </div>
+                <div class="row q-mt-sm items-center no-wrap">
+                  <q-icon size="sm" name="clean_hands" color="grey-7" />
+                  <div class="text-grey-9 ellipsis">{{item.categorianame.name}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center text-h7 text-bold q-mt-md">Descripcion del servicio</div>
+            <div class="row q-mb-lg" style="height:60px">
+              <div class="col-12 q-px-md text-center text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
+            </div>
+
+            <div class="row justify-around items-center q-pt-md">
+              <div class="text-h7 text-grey-9">Urgencia requerimiento</div>
+              <div class="row">
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+              </div>
+            </div>
+
+            <div class="row item-center q-px-lg q-py-md">
+                <q-icon size="sm" name="location_on" color="grey-7" />
+                <div class="text-h7 text-grey-9">{{item.direccion}}</div>
+            </div>
+        </q-card>
+      </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import env from '../env'
 export default {
-  props: ['data', 'ruta', 'direccion', 'listado'],
+  props: ['data', 'ruta', 'direccion'],
   data () {
     return {
       baseu: '',
       baseu3: '',
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       color: 'blue'
     }
   },
