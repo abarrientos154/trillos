@@ -18,7 +18,7 @@
           <div class="text-h6 q-mb-sm">{{form2.full_name}}</div>
           <div class="row q-mb-sm items-center">
             <q-icon size="sm" name="apartment" />
-            <div>{{form2.region}}, {{form2.ciudad}}</div>
+            <div>{{form2.pais}}, {{form2.ciudad}}</div>
           </div>
           <div class="row items-center">
             <q-icon size="sm" name="location_on" />
@@ -50,7 +50,8 @@
           style="height: 110px;"
         >
           <div class="row no-wrap" style="width: 100%">
-            <q-card v-for="(item, index) in form2.tiendaFiles" class="q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index">
+            <q-card v-for="(item, index) in form2.tiendaFiles" clickable v-ripple class="q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index"
+            @click="imgSelec = baseu3 + item, verImg = true">
               <q-img :src="form2.tiendaFiles ? baseu3 + item : 'noimgpro.png'" spinner-color="white" style="height: 100px; width: 100px" />
             </q-card>
           </div>
@@ -169,6 +170,12 @@
     <div class="q-py-lg column items-center justify-center">
       <q-btn v-if="data.length > 3" color="primary" rounded no-caps :label="!ver ? 'Ver más' : 'Ver menos'" style="width:70%" class="q-py-sm" @click="verMas()" />
     </div>
+
+    <q-dialog v-model="verImg">
+      <q-card class="full-width full-height">
+        <q-img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -183,8 +190,9 @@ export default {
     return {
       listado: true,
       ver: false,
-      listado2: false,
+      verImg: false,
       id: '',
+      imgSelec: '',
       baseu: '',
       baseu2: '',
       baseu3: '',
