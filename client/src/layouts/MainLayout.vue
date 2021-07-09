@@ -23,9 +23,9 @@
       </q-toolbar>
     </q-header>
     <q-footer>
-      <div v-if="rol === 2" class="bg-white row items-center justify-between" style="height: 60px;">
+      <div v-if="rol === 2" class="bg-white row items-center justify-between no-wrap" style="height: 60px;">
         <div v-for="(boton, index) in menu" :key="index">
-          <q-btn rounded :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? 'md' : 'xl'" :to="boton.ruta" @click="selecBtn = boton.id" no-caps/>
+          <q-btn flat rounded :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? '12px' : '17px'" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto" no-caps/>
         </div>
       </div>
       <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
@@ -72,30 +72,30 @@ export default {
           id: 1,
           icon: 'home',
           name: 'Inicio',
-          ruta: ''
+          ruta: '/inicio_cliente'
         },
         {
           id: 2,
-          icon: 'Talleres',
-          name: '',
+          icon: 'drive_eta',
+          name: 'Talleres',
           ruta: ''
         },
         {
           id: 3,
-          icon: '',
-          name: '',
-          ruta: ''
+          icon: 'description',
+          name: 'Solicitudes',
+          ruta: '/solicitudes'
         },
         {
           id: 4,
-          icon: '',
-          name: '',
+          icon: 'forum',
+          name: 'Chat',
           ruta: ''
         },
         {
           id: 5,
-          icon: '',
-          name: '',
+          icon: 'logout',
+          name: 'Salir',
           ruta: ''
         }
       ]
@@ -113,7 +113,8 @@ export default {
         }
       })
     },
-    cerrarsesion () {
+    cerrarsesion (btn) {
+      this.selecBtn = btn
       localStorage.removeItem('TRI_SESSION_INFO')
       this.$router.push('/login')
     }
