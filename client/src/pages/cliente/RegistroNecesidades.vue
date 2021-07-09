@@ -151,15 +151,14 @@ export default {
     },
     agregar () {
       this.$v.$touch()
-      if (this.$v.categoria_id.$error && !this.$v.form.$error && !this.$v.solicitudFiles.$error) {
+      /* if (!this.$v.form.$error && !this.$v.solicitudFiles.$error) {
         this.$q.dialog({
           message: 'Debes seleccionar una categoria',
           persistent: true
         }).onOk(() => {
         })
-      }
-      if (!this.$v.categoria_id.$error && !this.$v.form.$error && !this.$v.solicitudFiles.$error) {
-        this.form.categoria_id = this.categoria_id
+      } */
+      if (!this.$v.form.$error && !this.$v.solicitudFiles.$error) {
         this.form.status = 'Nuevo'
         this.$q.loading.show({
           message: 'Subiendo Solicitud, Por Favor Espere...'
@@ -183,7 +182,6 @@ export default {
     async actualizarSolicitud () {
       this.$v.form.$touch()
       if (!this.$v.form.$error) {
-        this.form.categoria_id = this.categoria_id
         this.$q.loading.show({
           message: 'Actualizando Solicitud, Por Favor Espere...'
         })
