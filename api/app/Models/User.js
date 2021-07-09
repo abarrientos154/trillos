@@ -7,6 +7,9 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
+  static get objectIDs () {
+    return ["country", "city"];
+  }
   static get fillable() {
     return ['run_dni', 'country', 'observaciones', 'region', 'email', 'ciudad', 'full_name', 'fecha', 'Dni', 'name', 'last_name', 'cambioClave', 'cambioSoloClave', 'password', 'phone', 'plan_id', 'roles', 'direccion', 'hora_inicio', 'hora_fin', 'dias', 'delivery', 'categorias', 'birthdate', ' city']
   }
@@ -14,10 +17,7 @@ class User extends Model {
     const rulesUser = {
       run_dni: 'string',
       Dni: 'string',
-      country: 'string',
-      region: 'string',
       observaciones: 'string',
-      city: 'string',
       email: 'required|email',
       full_name: 'string',
       name: 'string',

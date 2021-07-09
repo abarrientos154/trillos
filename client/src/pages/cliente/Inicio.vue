@@ -41,7 +41,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city" size=""/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.region + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place" size=""/>
@@ -88,7 +88,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.region + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place"/>
@@ -132,7 +132,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.region + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place"/>

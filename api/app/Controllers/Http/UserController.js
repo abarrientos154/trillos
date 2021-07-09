@@ -6,6 +6,8 @@ const fs = require('fs')
 var randomize = require('randomatic');
 const User = use("App/Models/User")
 const Role = use("App/Models/Role")
+const Ciudades = use("App/Models/City")
+const Paises = use("App/Models/Country")
 const { validate } = use("Validator")
 const moment = require('moment')
 
@@ -155,6 +157,10 @@ class UserController {
 
   async userInfo({ request, response, auth }) {
     const user = (await auth.getUser()).toJSON()
+    let ciudad = (await Ciudades.query().where('_id', user.city).first()).toJSON()
+    let pais = (await Paises.query().where('_id', user.country).first()).toJSON()
+    user.ciudad = ciudad.name
+    user.pais = pais.name
     response.send(user)
   }
 

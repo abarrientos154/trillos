@@ -46,7 +46,15 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold">Selecciona tu ciudad</div>
-        <q-select filled v-model="form.city" label="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.form.city.$error" @blur="$v.form.city.$touch()" />
+        <q-select filled v-model="form.city" label="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.form.city.$error" @blur="$v.form.city.$touch()" >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                Selecciona un país
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
       <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -194,10 +202,11 @@ export default {
       })
     },
     async getCitiesByCountry (id) {
+      this.form.city = ''
+      this.$v.form.city.$reset()
       await this.$api.get('cityByCountry/' + id).then(res => {
         if (res) {
           this.cities = res
-          console.log('this.cities :>> ', this.cities)
         }
       })
     },
