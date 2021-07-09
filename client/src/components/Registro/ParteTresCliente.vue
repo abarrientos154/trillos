@@ -25,6 +25,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="text-bold">Fecha de nacimiento</div>
         <q-input filled readonly dense v-model="form.birthdate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
         error-message="Este campo es requerido" :error="$v.form.birthdate.$error" @blur="$v.form.birthdate.$touch()">
           <template v-slot:append>
