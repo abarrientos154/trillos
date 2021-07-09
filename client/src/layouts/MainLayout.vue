@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar class="bg-white row justify-between">
+      <q-toolbar v-if="rol != 2" class="bg-white row justify-between">
         <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
         <q-img src="logo-210x47.png" style="width:140px" />
         <q-btn round dense flat icon="settings" color="primary">
@@ -23,16 +23,22 @@
       </q-toolbar>
     </q-header>
     <q-footer>
-      <div class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
-          <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_proveedor' : rol === 1 ? '/inicio_administrador' : ''" />
-          <q-btn :icon="rol === 3 ? 'card_giftcard' : 'view_list'" color="primary" flat round size="md" :to="rol === 2 ? '/solicitudes' : rol === 3 ? '/productos' : rol === 1 ? '/reportes_usuarios' : ''"/>
-          <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
-          <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
-          <q-btn v-if="rol != 1" color="primary" icon="grading" flat round size="md" to="/reportes" />  </div>
+      <div v-if="rol === 2" class="bg-white row items-center justify-between" style="height: 60px;">
+        <div v-for="(boton, index) in menu" :key="index">
+          <q-btn rounded :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? 'md' : 'xl'" :to="boton.ruta" @click="selecBtn = boton.id" no-caps/>
+        </div>
+      </div>
+      <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
+        <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_proveedor' : rol === 1 ? '/inicio_administrador' : ''" />
+        <q-btn :icon="rol === 3 ? 'card_giftcard' : 'view_list'" color="primary" flat round size="md" :to="rol === 2 ? '/solicitudes' : rol === 3 ? '/productos' : rol === 1 ? '/reportes_usuarios' : ''"/>
+        <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
+        <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
+        <q-btn v-if="rol != 1" color="primary" icon="grading" flat round size="md" to="/reportes" />
+      </div>
     </q-footer>
     <q-page-container>
       <router-view />
-        <q-btn v-if="rol != 1 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" />
+      <q-btn v-if="rol != 1 && rol != 2 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" />
     </q-page-container>
   </q-layout>
 </template>
@@ -59,7 +65,40 @@ export default {
       usuario: {},
       rol: null,
       valor: 0,
-      categoria: []
+      categoria: [],
+      selecBtn: 0,
+      menu: [
+        {
+          id: 1,
+          icon: 'home',
+          name: 'Inicio',
+          ruta: ''
+        },
+        {
+          id: 2,
+          icon: 'Talleres',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 3,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 4,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 5,
+          icon: '',
+          name: '',
+          ruta: ''
+        }
+      ]
     }
   },
   mounted () {
@@ -72,7 +111,6 @@ export default {
           this.usuario = res
           this.categoria = this.usuario.categorias
           this.rol = this.usuario.roles[0]
-          console.log(this.categoria, 'categorias')
         }
       })
     },
