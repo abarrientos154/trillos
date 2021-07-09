@@ -1,6 +1,15 @@
 <template>
  <div>
-    <div class="q-mt-lg q-ml-md q-mb-sm text-bold q-pl-sm">¿QUE NECESITAS?</div>
+   <div class="row justify-center q-my-xl">
+     <div style="height: 200px; width: 70%;">
+        <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 25px">
+        <div class="absolute-full column items-center column justify-end">
+          <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+          <div class="text-bold text-grey">¿QUE NECESITAS?</div>
+        </div>
+        </q-img>
+      </div>
+   </div>
     <div>
       <diz class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Nombre de la solicitud</div>
@@ -30,7 +39,7 @@
       </div> -->
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Ingrese su dirección</div>
-        <q-input class="q-mx-md q-mt-md" outlined autogrow filled v-model="form.direccion" label="Ingrese Dirección" dense :error="$v.form.direccion.$error" error-message="Este campo es requerido" @blur="$v.form.direccion.$touch()" />
+        <q-input class="q-mx-md" outlined autogrow filled v-model="form.direccion" label="Ingrese Dirección" dense :error="$v.form.direccion.$error" error-message="Este campo es requerido" @blur="$v.form.direccion.$touch()" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Tiempo de la urgencia</div>
@@ -38,16 +47,16 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Descripción del servicio</div>
-        <q-input filled v-model="form.descripcion" type="textarea" />
+        <q-input class="q-mx-md" filled v-model="form.descripcion" type="textarea" />
       </div>
-      <div class="text-bold q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
-      <div class="row q-ml-lg q-my-sm">
-      <q-avatar square size="50px" style="border-radius: 15px" class="bg-grey row justify-center">
+      <div class="text-bold q-mt-lg q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
+      <div class="row q-ml-md q-my-sm">
+      <q-avatar square size="45px" style="border-radius: 15px" class="bg-grey row justify-center">
         <q-file borderless @input="filesSolicitud" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
-          <q-icon name="file_upload" class="absolute-center" size="50px" color="white" />
+          <q-icon name="file_upload" class="absolute-center" size="45px" color="white" />
         </q-file>
       </q-avatar>
-      <div v-if="imgSolicitud.length" class="row">
+      <div v-if="imgSolicitud.length" class="row q-mr-sm">
         <q-avatar v-ripple v-for="(item, index) in imgSolicitud" :key="index" square size="50px" style="border-radius: 15px" class=" q-ml-sm bg-grey row justify-center">
           <div>
             <q-img
@@ -58,33 +67,6 @@
         </q-avatar>
       </div>
     </div>
-      <!-- <q-card class="shadow-13 q-ma-md bg-yellow-2" style="border-radius:25px">
-            <q-card-section>
-              <div>Fotos referentes a tu solicitud (Obligatorio)</div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 row justify-between">
-              <div class="col-10">
-                  <q-file max-files="5" style="width: 100%" @input="filesSolicitud" accept=".jpg, image/*" multiple append v-model="solicitudFiles" hint="Pueden ser hasta 5 fotos" outlined label="CLICK AQUÍ" :error="$v.solicitudFiles.$error" error-message="Este campo es requerido" @blur="$v.solicitudFiles.$touch()">
-                    <template v-slot:prepend>
-                      <q-icon name="file_upload" />
-                    </template>
-                  </q-file>
-              </div>
-              <div class="col-2 row justify-center">
-                <q-icon size="md" name="close" color="negative" @click="solicitudFiles = [], imgSolicitud = [], edit ? imgsTraidas() : ''" class="cursor-pointer" />
-              </div>
-            </div>
-            </q-card-section>
-            <q-separator />
-            <q-card-section class="row justify-around">
-              <div v-if="!imgSolicitud.length" class="text-subtitle2 text-grey text-center">No hay fotos de la solicitud</div>
-              <div v-else v-ripple v-for="(item, index) in imgSolicitud" :key="index" class="col-5 q-pa-sm">
-                <q-img
-                  :src="imgSolicitud.length > 0 ? imgSolicitud[index] : 'favicon.ico'"
-                  style="width:120px"
-                />
-              </div>
-            </q-card-section>
-      </q-card> -->
       <div class="row justify-center q-pa-sm">
         <q-btn color="primary" :label="edit ? 'Actualizar Solicitud' : 'Enviar Solicitud'" @click="!edit ? agregar() : actualizarSolicitud()"/>
       </div>

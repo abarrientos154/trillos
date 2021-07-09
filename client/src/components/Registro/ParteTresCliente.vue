@@ -1,5 +1,6 @@
 <template>
    <div class="column">
+    <div class="text-h5 text-center q-my-sm">Información del usuario</div>
     <div class="row justify-center q-my-sm">
       <q-avatar size="200px" class="bg-grey row justify-center">
         <q-img :src="perfilFile ? imgPerfil : ''" style="height: 100%">
@@ -8,6 +9,7 @@
           </q-file>
         </q-img>
       </q-avatar>
+      <div class="text-bold q-my-sm">Sube tu foto de perfil</div>
     </div>
     <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -25,6 +27,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="text-bold">Fecha de nacimiento</div>
         <q-input filled readonly dense v-model="form.birthdate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
         error-message="Este campo es requerido" :error="$v.form.birthdate.$error" @blur="$v.form.birthdate.$touch()">
           <template v-slot:append>
