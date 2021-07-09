@@ -46,7 +46,7 @@ export default {
       this.$q.loading.show()
       this.form.roles = rol
       if (this.form.roles === 2) {
-        this.panel.panel = 'parte_dos'
+        this.panel.panel = 'parte_tres_cliente_datos'
       } else if (this.form.roles === 3) {
         this.panel.panel = 'parte_dos_proveedor'
       }
