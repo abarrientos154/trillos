@@ -1,27 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar v-if="rol != 2" class="bg-white row justify-between">
-        <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
-        <q-img src="logo-210x47.png" style="width:140px" />
-        <q-btn round dense flat icon="settings" color="primary">
-        <q-menu>
-          <q-list style="min-width: 80px">
-          <div v-if="rol !== 1">
-            <q-item clickable v-close-popup @click="rol !== 1 ? $router.push('/Datos') : ''">
-              <q-btn flat round dense :icon="rol !== 1 ? 'person' : ''" color="primary"  />
-              <q-item-section>Perfil</q-item-section>
-            </q-item>
-            </div>
-            <q-item clickable v-close-popup @click="cerrarsesion()">
-              <q-btn icon="logout" color="primary" flat round size="md" to="/login" />
-            <q-item-section>Cerrar sesion</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn>
-      </q-toolbar>
-    </q-header>
     <q-footer>
       <div v-if="rol === 2" class="bg-white row items-center justify-between no-wrap" style="height: 60px;">
         <div v-for="(boton, index) in menu" :key="index">

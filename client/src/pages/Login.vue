@@ -3,7 +3,7 @@
     <div class="absolute-center" style="width:80%; height:85%">
       <div class="absolute-center full-width">
           <div class="row justify-center">
-            <q-img :src="url" spinner-color="white" style="width: 100%"/>
+            <q-img :src="url" spinner-color="white" style="width: 300px"/>
           </div>
 
           <div class="row justify-center">

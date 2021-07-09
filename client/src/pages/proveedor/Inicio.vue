@@ -65,35 +65,30 @@
       v-if="data5.length"
       horizontal
       style="height: 230px; width: 100%;"
-      class="rounded-borders"
     >
-      <div class="row no-wrap q-gutter-xl">
-        <q-card v-for="(item, index) in data5" class="" bordered style="width:100%;height:200px; border-bottom-right-radius:25px;border-bottom-left-radius:25px;border-top-right-radius:25px;border-top-left-radius:25px" :key="index">
-              <div class="row">
-                <div class="q-mt-sm column items-center justify-center" style="width:45%">
-                <q-avatar size="110px">
-                  <img :src="baseu + 'perfil' + item.calificador_info._id" spinner-color="white">
-                </q-avatar>
-                  <div class="colum q-mt-xs" style="width:100%">
-                      <div class="q-pl-sm q-pb-md row absolute-bottom">
-                        <q-icon size="sm" name="person" />
-                        <div class="text-bold text-grey">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
-                      </div>
-                    </div>
-                  </div>
-                <div class="row q-mt-md" style="width:55%">
-                  <div class="text-h6 q-mt-lg q-mb-xs">{{item.necesidad_info.name}}</div>
-                  <div class="column justify-center">
-                    <q-scroll-area style="height: 50px; width: 200px;">
-                      <div class="text-center text-grey">{{item.comentario}}</div>
-                    </q-scroll-area>
-                    <div class="column q-pb-md q-pr-md">
-                      <q-rating v-model="item.rating_tienda" size="2em" color="yellow" readonly/>
-                    </div>
-                    <div class="absolute-top-right text-grey q-pr-sm q-mt-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
-                  </div>
-                </div>
+      <div class="row items-center no-wrap q-px-md q-gutter-md">
+        <q-card v-for="(item, index) in data5" :key="index" class="shadow-5" style="width:450px;height:200px; border-radius:25px;">
+          <div class="absolute-top-right text-grey-8 q-pr-sm q-mt-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
+          <div class="row">
+            <div class="column items-center justify-between q-py-md" style="width:45%">
+              <q-avatar size="110px">
+                <img :src="item.calificador_info._id ? baseu + 'perfil' + item.calificador_info._id : 'noimg.png'" spinner-color="white">
+              </q-avatar>
+              <div class="row items-center justify-center" style="width:100%">
+                <q-icon size="sm" name="person" color="grey" />
+                <div class="col-10 text-bold text-grey-8 ellipsis">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
               </div>
+            </div>
+            <div class="q-mt-md" style="width:55%">
+              <div class="text-h6 q-mt-lg q-mb-xs">{{item.necesidad_info.name}}</div>
+              <div class="row q-mb-lg" style="height:50px; width:100%">
+                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.comentario}}</div>
+              </div>
+              <div class="q-pb-md">
+                <q-rating v-model="item.rating_tienda" size="2em" color="yellow" readonly/>
+              </div>
+            </div>
+          </div>
         </q-card>
       </div>
     </q-scroll-area>
@@ -110,28 +105,28 @@
       style="height: 230px; width: 100%;"
       class="rounded-borders"
     >
-      <div class="row no-wrap q-gutter-xl">
-        <q-card v-for="(item, index) in data2" class="" bordered style="width:100%;height:200px; border-bottom-right-radius:25px;border-bottom-left-radius:25px;border-top-right-radius:25px;border-top-left-radius:25px" :key="index" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
-              <div class="row">
-                <div class="q-mt-xs column items-center justify-center" style="width:45%">
-                <q-avatar size="90px">
-                  <img :src="baseu + 'perfil' + item.datos_cliente._id" spinner-color="white">
-                </q-avatar>
-                  <div class="colum q-mt-xs" style="width:100%">
-                      <div class="q-pl-sm row">
-                        <q-icon size="sm" name="person" />
-                        <div class="text-bold text-grey">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
-                      </div>
-                      <div class="q-pl-sm row q-mt-sm">
-                        <q-icon size="sm" name="phone" />
-                        <div class="text-bold text-grey">{{item.datos_cliente.phone}}</div>
-                      </div>
-                      <div class="q-pl-sm row q-mt-sm">
-                        <q-icon size="sm" name="place" />
-                        <div class="text-bold text-grey">{{item.datos_cliente.direccion}}</div>
-                      </div>
-                    </div>
-                  </div>
+      <div class="row no-wrap q-gutter-md q-px-md">
+        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:200px; border-radius:25px" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
+          <div class="row">
+            <div class="q-mt-xs column items-center justify-center" style="width:45%">
+              <q-avatar size="90px">
+                <img :src="item.datos_cliente._id ? baseu + 'perfil' + item.datos_cliente._id : 'noimg.png'" spinner-color="white">
+              </q-avatar>
+              <div class="q-pl-sm q-mt-xs" style="width:100%">
+                <div class="row">
+                  <q-icon size="sm" name="person" color="grey" />
+                  <div class="col-10 text-bold text-grey-8 ellipsis">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
+                </div>
+                <div class="row q-mt-sm">
+                  <q-icon size="sm" name="phone" color="grey" />
+                  <div class="col-10 text-bold text-grey-8 ellipsis">{{item.datos_cliente.phone}}</div>
+                </div>
+                <div class="row q-mt-sm">
+                  <q-icon size="sm" name="place" color="grey" />
+                  <div class="col-10 text-bold text-grey-8 ellipsis">{{item.datos_cliente.direccion}}</div>
+                </div>
+              </div>
+            </div>
                 <div class="row" style="width:55%">
                   <div class="absolute-top-right">
                     <div class="row">
@@ -156,10 +151,10 @@
                         <q-icon size="sm" name="clean_hands" />
                         <div class="text-bold text-grey">{{item.categorianame.name}}</div>
                       </div>
-                    <div class="absolute-bottom-right text-grey q-pr-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
                   </div>
                 </div>
-              </div>
+          </div>
+          <div class="absolute-bottom-right text-grey-8 q-pr-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
         </q-card>
       </div>
     </q-scroll-area>
@@ -257,7 +252,27 @@ export default {
     async getSolicitudes2 () {
       this.$api.get('show_all_cotizations3').then(v => {
         if (v) {
-          this.data2 = v
+          /* this.data2 = v */
+          this.data2 = [
+            {
+              datos_cliente: { full_name: 'Nombre', last_name: 'Apellido', phone: '435634645', direccion: 'Direccion' },
+              colorRadio: 'red',
+              name: 'Nombre solicitud',
+              necesidad_info: { descripcion: 'Descripcion' },
+              status: 'Urgente',
+              categorianame: { name: 'Nombre categoria' },
+              fechaCreacion: '10/10/2021'
+            },
+            {
+              datos_cliente: { full_name: 'Nombre', last_name: 'Apellido', phone: '435634645', direccion: 'Direccion' },
+              colorRadio: 'blue',
+              name: 'Nombre solicitud',
+              necesidad_info: { descripcion: 'Descripcion' },
+              status: 'Urgente',
+              categorianame: { name: 'Nombre categoria' },
+              fechaCreacion: '10/10/2021'
+            }
+          ]
         }
       })
     },
@@ -284,7 +299,6 @@ export default {
         if (res) {
           this.data5 = res
         }
-        console.log(this.data5, 'opiniones')
       })
     },
     estaLogueado () {
