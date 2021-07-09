@@ -42,11 +42,11 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold">Selecciona tu pais</div>
-        <q-select filled v-model="form.country" label="País" outlined dense :options="['Argentina', 'Chile']" error-message="Ingrese su País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
+        <q-select filled v-model="form.country" label="País" outlined dense :options="countries" option-value="_id" option-label="name" emit-value map-options @input="getCitiesByCountry(form.country)" error-message="Ingrese su País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold">Selecciona tu ciudad</div>
-        <q-select filled v-model="form.city" label="Ciudad" outlined dense :options="['ciudad1', 'ciudad2']" error-message="Ingrese su ciudad" :error="$v.form.city.$error" @blur="$v.form.city.$touch()" />
+        <q-select filled v-model="form.city" label="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.form.city.$error" @blur="$v.form.city.$touch()" />
       </div>
       <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -81,7 +81,7 @@
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <q-input
           filled
-          :type="isPwd2 ? 'password' : 'text'"
+          :type="isPwd ? 'password' : 'text'"
           v-model="repeatPassword"
           label="Repita su Contraseña"
           outlined
@@ -90,7 +90,7 @@
           :error="$v.repeatPassword.$error"
           @blur="$v.repeatPassword.$touch()" >
           <template v-slot:append>
-            <q-icon :name="isPwd2 ? 'visibility' : 'visibility_off'" class="cursor-pointer" color="primary" @click="isPwd2 = !isPwd2" />
+            <q-icon :name="isPwd ? 'visibility' : 'visibility_off'" class="cursor-pointer" color="primary" @click="isPwd = !isPwd" />
           </template>
           </q-input>
       </div>
@@ -157,7 +157,9 @@ export default {
       appear: false,
       isPwd: true,
       password: '',
-      repeatPassword: ''
+      repeatPassword: '',
+      cities: [],
+      countries: []
     }
   },
   validations () {
@@ -180,9 +182,25 @@ export default {
   },
   mounted () {
     this.baseu = env.apiUrl
+    this.getCountries()
   },
   methods: {
     ...mapMutations('generals', ['login']),
+    async getCountries () {
+      await this.$api.get('countries').then(res => {
+        if (res) {
+          this.countries = res
+        }
+      })
+    },
+    async getCitiesByCountry (id) {
+      await this.$api.get('cityByCountry/' + id).then(res => {
+        if (res) {
+          this.cities = res
+          console.log('this.cities :>> ', this.cities)
+        }
+      })
+    },
     test () {
       if (this.perfilFile) { this.imgPerfil = URL.createObjectURL(this.perfilFile) }
     },

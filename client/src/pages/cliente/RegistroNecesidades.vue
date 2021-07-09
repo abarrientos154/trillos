@@ -196,7 +196,7 @@ export default {
           }
         }).then(res => {
           this.$q.loading.hide()
-          this.$router.push('/solicitudes')
+          this.$router.push('/inicio_cliente')
         })
       }
     },
