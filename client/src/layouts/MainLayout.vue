@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <!-- <q-header elevated>
       <q-toolbar v-if="rol != 2" class="bg-white row justify-between">
         <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
         <q-img src="logo-210x47.png" style="width:140px" />
@@ -21,26 +21,26 @@
         </q-menu>
       </q-btn>
       </q-toolbar>
-    </q-header>
+    </q-header> -->
     <q-footer>
-      <div v-if="rol === 2" class="bg-white row items-center justify-between no-wrap" style="height: 60px;">
+      <div class="bg-white row items-center justify-between no-wrap" style="height: 70px;">
         <div v-for="(boton, index) in menu" :key="index">
-          <q-btn flat rounded :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? '12px' : '17px'" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto" no-caps/>
+          <q-btn flat rounded dense :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? 'md' : 'xl'" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto"/>
         </div>
       </div>
-      <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
+      <!-- <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
         <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_proveedor' : rol === 1 ? '/inicio_administrador' : ''" />
         <q-btn :icon="rol === 3 ? 'card_giftcard' : 'view_list'" color="primary" flat round size="md" :to="rol === 2 ? '/solicitudes' : rol === 3 ? '/productos' : rol === 1 ? '/reportes_usuarios' : ''"/>
         <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
         <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
         <q-btn v-if="rol != 1" color="primary" icon="grading" flat round size="md" to="/reportes" />
         <q-btn v-if="rol != null" color="primary" icon="logout" flat round size="md" @click="cerrarsesion()" />
-      </div>
+      </div> -->
     </q-footer>
 
     <q-page-container>
       <router-view />
-      <q-btn v-if="rol != 1 && rol != 2 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" />
+      <!-- <q-btn v-if="rol != 1 && rol != 2 && mostrarBoton" class="float" fab icon="forum" color="primary" to="/mis_chats" /> -->
     </q-page-container>
   </q-layout>
 </template>
@@ -67,7 +67,40 @@ export default {
       rol: null,
       categoria: [],
       selecBtn: 0,
-      menu: [
+      menu: [],
+      menuAdmin: [
+        {
+          id: 1,
+          icon: 'home',
+          name: 'Inicio',
+          ruta: '/inicio_administrador'
+        },
+        {
+          id: 2,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 3,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 4,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 5,
+          icon: 'logout',
+          name: 'Salir',
+          ruta: ''
+        }
+      ],
+      menuClien: [
         {
           id: 1,
           icon: 'home',
@@ -90,6 +123,38 @@ export default {
           id: 4,
           icon: 'forum',
           name: 'Chat',
+          ruta: '/mis_chats'
+        },
+        {
+          id: 5,
+          icon: 'logout',
+          name: 'Salir',
+          ruta: ''
+        }
+      ],
+      menuProve: [
+        {
+          id: 1,
+          icon: 'home',
+          name: 'Inicio',
+          ruta: '/inicio_proveedor'
+        },
+        {
+          id: 2,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 3,
+          icon: '',
+          name: '',
+          ruta: ''
+        },
+        {
+          id: 4,
+          icon: '',
+          name: '',
           ruta: ''
         },
         {
@@ -110,6 +175,13 @@ export default {
         if (res) {
           this.categoria = res.categorias
           this.rol = res.roles[0]
+          if (this.rol === 1) {
+            this.menu = this.menuAdmin
+          } else if (this.rol === 2) {
+            this.menu = this.menuClien
+          } else if (this.rol === 3) {
+            this.menu = this.menuProve
+          }
         }
       })
     },

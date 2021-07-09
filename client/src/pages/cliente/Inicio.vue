@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-img :src="baseu + 'perfil' + user._id" style="height: 200px; width: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px"/>
+    <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px"/>
 
     <div>
       <div class="q-py-lg q-px-sm">
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div v-if="tiendas.length > 4" class="column items-center">
-          <q-btn rounded class="q-pa-xs" color="primary" label="Ver más" @click="verMas(1)" style="width: 60%;" no-caps/>
+          <q-btn rounded class="q-pa-xs" color="primary" :label="ver1 ? 'Ver menos' : 'Ver más'" @click="verMas(1)" style="width: 60%;" no-caps/>
         </div>
       </div>
 
@@ -144,9 +144,12 @@
           </div>
         </div>
         <div v-if="TUltimas.length > 4" class="column items-center">
-          <q-btn rounded class="q-pa-xs" color="primary" label="Ver más" @click="verMas(2)" style="width: 60%;" no-caps/>
+          <q-btn rounded class="q-pa-xs" color="primary" :label="ver2 ? 'Ver menos' : 'Ver más'" @click="verMas(2)" style="width: 60%;" no-caps/>
         </div>
       </div>
+      <q-page-sticky position="bottom-right" :offset="[7, 22]">
+        <q-btn class="q-pa-xs q-mb-lg" color="primary" icon="" label="Nueva solicitud" style="border-radius: 10px;" no-caps/>
+      </q-page-sticky>
     </div>
   </div>
 </template>
@@ -157,7 +160,6 @@ export default {
   data () {
     return {
       ratingTienda: 4,
-      baseu: '',
       baseuTienda: '',
       user: {},
       categorias: [],
@@ -182,7 +184,6 @@ export default {
       this.$api.get('user_info').then(v => {
         if (v) {
           this.user = v
-          this.baseu = env.apiUrl + '/perfil_img/'
           console.log(this.user, 'user')
         }
       })
