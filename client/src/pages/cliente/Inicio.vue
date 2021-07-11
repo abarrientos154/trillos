@@ -66,7 +66,7 @@
           <div class="text-bold text-h6">Talleres mejor calificados</div>
           <div class="text-caption text-grey-9 q-mb-xs">Conoce los 10 talleres que prestan mejor servicio.</div>
         </div>
-        <q-scroll-area horizontal style="height: 300px;" class="q-mb-xs">
+        <q-scroll-area v-if="TPopulares.length" horizontal style="height: 300px;" class="q-mb-xs">
           <div class="row no-wrap q-pl-md">
             <q-card class="q-mr-md" @click="$router.push('/tienda/' + tienda._id)" v-for="(tienda, index) in TPopulares" :key="index" style="width: 200px;">
               <div>
@@ -99,6 +99,13 @@
             </q-card>
           </div>
         </q-scroll-area>
+        <div v-else class="q-px-md q-pb-lg">
+          <q-card class="full-width">
+            <q-card-section>
+              <div class="text-center text-bold text-grey">En este momento hay talleres calificados</div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
 
       <div class="row items-center justify-center q-px-lg">

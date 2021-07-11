@@ -25,8 +25,8 @@
     <q-footer>
       <div class="bg-white row items-center justify-between no-wrap" style="height: 70px;">
         <div v-for="(boton, index) in menu" :key="index">
-          <q-btn flat rounded dense :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :size="selecBtn === boton.id ? 'md' : ''" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto">
-            <q-avatar square :class="selecBtn === boton.id ? 'q-mr-xs' : ''" :size="selecBtn === boton.id ? 'md' : 'lg'">
+          <q-btn flat rounded dense :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap q-px-xs' : 'text-primary'" :size="selecBtn === boton.id ? '15px' : ''" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id">
+            <q-avatar square :class="selecBtn === boton.id ? 'q-mr-xs' : ''" :size="selecBtn === boton.id ? '25px' : 'lg'">
               <q-img :src="boton.src"/>
             </q-avatar>
             {{selecBtn === boton.id ? boton.name : ''}}
@@ -152,15 +152,15 @@ export default {
         },
         {
           id: 3,
-          src: '',
+          src: 'reporte.png',
           name: '',
           ruta: ''
         },
         {
           id: 4,
-          src: '',
-          name: '',
-          ruta: ''
+          src: 'chat.png',
+          name: 'Chat',
+          ruta: '/mis_chats'
         },
         {
           id: 5,
