@@ -25,7 +25,12 @@
     <q-footer>
       <div class="bg-white row items-center justify-between no-wrap" style="height: 70px;">
         <div v-for="(boton, index) in menu" :key="index">
-          <q-btn flat rounded dense :icon="boton.icon" :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :label="selecBtn === boton.id ? boton.name : ''" :size="selecBtn === boton.id ? 'md' : 'xl'" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto"/>
+          <q-btn flat rounded dense :class="selecBtn === boton.id ? 'bg-orange-2 text-primary no-wrap' : 'text-primary'" :size="selecBtn === boton.id ? 'md' : ''" :to="boton.ruta" @click="boton.name === 'Salir' ? cerrarsesion(boton.id) : selecBtn = boton.id" style="width: auto">
+            <q-avatar square :class="selecBtn === boton.id ? 'q-mr-xs' : ''" :size="selecBtn === boton.id ? 'md' : 'lg'">
+              <q-img :src="boton.src"/>
+            </q-avatar>
+            {{selecBtn === boton.id ? boton.name : ''}}
+          </q-btn>
         </div>
       </div>
       <!-- <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
@@ -71,31 +76,31 @@ export default {
       menuAdmin: [
         {
           id: 1,
-          icon: 'home',
+          src: 'home',
           name: 'Inicio',
           ruta: '/inicio_administrador'
         },
         {
           id: 2,
-          icon: '',
+          src: '',
           name: '',
           ruta: ''
         },
         {
           id: 3,
-          icon: '',
+          src: '',
           name: '',
           ruta: ''
         },
         {
           id: 4,
-          icon: '',
+          src: '',
           name: '',
           ruta: ''
         },
         {
           id: 5,
-          icon: 'logout',
+          src: 'logout',
           name: 'Salir',
           ruta: ''
         }
@@ -103,31 +108,31 @@ export default {
       menuClien: [
         {
           id: 1,
-          icon: 'home',
+          src: 'home.png',
           name: 'Inicio',
           ruta: '/inicio_cliente'
         },
         {
           id: 2,
-          icon: 'drive_eta',
+          src: 'todoslostaller.png',
           name: 'Talleres',
           ruta: ''
         },
         {
           id: 3,
-          icon: 'description',
+          src: 'reporte.png',
           name: 'Solicitudes',
           ruta: '/solicitudes'
         },
         {
           id: 4,
-          icon: 'forum',
+          src: 'chat.png',
           name: 'Chat',
           ruta: '/mis_chats'
         },
         {
           id: 5,
-          icon: 'logout',
+          src: 'salir.png',
           name: 'Salir',
           ruta: ''
         }
@@ -135,31 +140,31 @@ export default {
       menuProve: [
         {
           id: 1,
-          icon: 'home',
+          src: 'home',
           name: 'Inicio',
           ruta: '/inicio_proveedor'
         },
         {
           id: 2,
-          icon: '',
+          src: '',
           name: '',
           ruta: ''
         },
         {
           id: 3,
-          icon: '',
+          src: '',
           name: '',
           ruta: ''
         },
         {
           id: 4,
-          icon: '',
+          src: '',
           name: '',
           ruta: ''
         },
         {
           id: 5,
-          icon: 'logout',
+          src: 'logout',
           name: 'Salir',
           ruta: ''
         }
