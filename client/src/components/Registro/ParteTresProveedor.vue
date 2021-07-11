@@ -9,11 +9,19 @@
     <div class="row q-pa-sm">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Pais</div>
-        <q-select filled v-model="form.pais" label="País" outlined dense :options="['Argentina', 'Chile']" error-message="Seleccione un País" :error="$v.form.pais.$error" @blur="$v.form.pais.$touch()" />
+        <q-select filled v-model="form.country" label="País" outlined dense :options="countries" option-value="_id" option-label="name" emit-value map-options @input="getCitiesByCountry(form.country)" error-message="Ingrese un País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Ciudad</div>
-        <q-select filled v-model="form.ciudad" label="Ciudad" outlined dense :options="['ciudad1', 'ciudad2']" error-message="Seleccione una ciudad" :error="$v.form.ciudad.$error" @blur="$v.form.ciudad.$touch()" />
+        <q-select filled v-model="form.city" label="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.form.city.$error" @blur="$v.form.city.$touch()" >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-italic text-grey">
+                Selecciona un país
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-caption">Dirección física del taller</div>
@@ -37,31 +45,49 @@
 </template>
 
 <script>
-import { required, maxLength } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 export default {
   props: ['form', 'panel'],
   data () {
     return {
-
+      countries: [],
+      cities: []
     }
   },
   validations () {
     return {
       form: {
-        pais: { required, maxLength: maxLength(40) },
-        ciudad: { required },
+        country: { required },
+        city: { required },
         direccion: { required }
       }
     }
   },
   mounted () {
+    this.getCountries()
   },
   methods: {
+    async getCountries () {
+      await this.$api.get('countries').then(res => {
+        if (res) {
+          this.countries = res
+        }
+      })
+    },
+    async getCitiesByCountry (id) {
+      this.form.city = ''
+      this.$v.form.city.$reset()
+      await this.$api.get('cityByCountry/' + id).then(res => {
+        if (res) {
+          this.cities = res
+        }
+      })
+    },
     async next () {
       if (this.panel.panel === 'parte_tres_proveedor_datos') {
         this.$q.loading.show()
         this.$v.form.$touch()
-        if (!this.$v.form.pais.$error && !this.$v.form.ciudad.$error && !this.$v.form.direccion.$error) {
+        if (!this.$v.form.country.$error && !this.$v.form.city.$error && !this.$v.form.direccion.$error) {
           this.panel.panel = 'parte_cuatro_proveedor_datos'
         }
       }

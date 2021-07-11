@@ -41,7 +41,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city" size=""/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.region + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place" size=""/>
@@ -88,7 +88,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.region + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place"/>
@@ -139,7 +139,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.region + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place"/>
@@ -155,7 +155,7 @@
         </div>
       </div>
       <q-page-sticky position="bottom-right" :offset="[7, 22]">
-        <q-btn class="q-pa-xs q-mb-lg" color="primary" icon="" label="Nueva solicitud" style="border-radius: 10px;" no-caps/>
+        <q-btn class="q-pa-xs q-mb-lg" color="primary" icon="" label="Nueva solicitud" style="border-radius: 10px;" no-caps @click="$router.push('registronecesidades')"/>
       </q-page-sticky>
     </div>
   </div>

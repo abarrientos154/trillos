@@ -16,13 +16,13 @@
       <div class="row q-px-sm" style="width:100%">
         <div class="col-6">
           <div class="text-h6 q-mb-sm">{{form2.full_name}}</div>
-          <div class="row q-mb-sm items-center">
+          <div class="row q-mb-sm no-wrap items-center">
             <q-icon size="sm" name="apartment" />
-            <div>{{form2.pais}}, {{form2.ciudad}}</div>
+            <div class="ellipsis">{{form2.pais}}, {{form2.ciudad}}</div>
           </div>
-          <div class="row items-center">
+          <div class="row no-wrap items-center">
             <q-icon size="sm" name="location_on" />
-            <div>{{form2.direccion}}</div>
+            <div class="ellipsis">{{form2.direccion}}</div>
           </div>
         </div>
         <div class="col-6">
@@ -172,8 +172,8 @@
     </div>
 
     <q-dialog v-model="verImg">
-      <q-card class="full-width full-height">
-        <q-img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
+      <q-card>
+        <img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
       </q-card>
     </q-dialog>
   </div>
@@ -188,7 +188,6 @@ export default {
   },
   data () {
     return {
-      listado: true,
       ver: false,
       verImg: false,
       id: '',
@@ -198,7 +197,6 @@ export default {
       baseu3: '',
       ratingTienda: 0,
       form: {},
-      user: {},
       info: {},
       form2: {},
       allData: [],
@@ -215,37 +213,11 @@ export default {
     await this.getUser()
     this.getSolicitudes()
     this.getSolicitudes2()
-    this.estaLogueado()
   },
   methods: {
     async getSolicitudes () {
       await this.$api.get('user_info').then(res => {
         this.info = res
-        /* if (res.status === 0) {
-          this.data = {}
-          this.$q.dialog({
-            title: 'Atención',
-            message: 'Para cotizar y ver solicitudes de clientes debes esperar por la autorización del administrador.',
-            cancel: false,
-            persistent: true
-          }).onOk(() => {
-            // Ok
-          }).onCancel(() => {
-            // cancel
-          })
-        } else if (res.status === 2) {
-          this.data = {}
-          this.$q.dialog({
-            title: 'Atención',
-            message: 'Tu cuenta ha sido rechazada. Debes modificar tu información de usuario y esperar por respuesta del administrador.',
-            cancel: false,
-            persistent: true
-          }).onOk(() => {
-            // Ok
-          }).onCancel(() => {
-            // cancel
-          })
-        } */
         this.$api.get('necesidades').then(v => {
           if (v) {
             this.allData = v
@@ -254,7 +226,6 @@ export default {
         })
       })
     },
-
     async getSolicitudes2 () {
       this.$api.get('show_all_cotizations3').then(v => {
         if (v) {
@@ -262,7 +233,6 @@ export default {
         }
       })
     },
-
     getUser () {
       this.$api.get('user_info').then(v => {
         if (v) {
@@ -271,6 +241,7 @@ export default {
         if (this.rol === 3) {
           this.datosproveedor = true
           this.form2 = v
+          console.log('datos proveedor', this.form2)
           this.id = this.form2._id
           this.calificacion()
           this.consultaropinion()
@@ -286,12 +257,6 @@ export default {
           this.data5 = res
         }
       })
-    },
-    estaLogueado () {
-      const logueo = JSON.parse(localStorage.getItem('TRI_SESSION_INFO'))
-      if (logueo) {
-        this.user = JSON.parse(localStorage.getItem('TRI_SESSION_INFO'))
-      }
     },
     calificacion () {
       this.$api.get('calificacion_by_proveedor/' + this.form2._id).then(res => {
