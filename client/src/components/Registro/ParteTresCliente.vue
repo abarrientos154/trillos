@@ -1,7 +1,7 @@
 <template>
    <div class="column">
     <div class="text-h5 text-center q-my-sm">Información del usuario</div>
-    <div class="row justify-center q-my-sm">
+    <div class="column items-center q-my-sm">
       <q-avatar size="200px" class="bg-grey row justify-center">
         <q-img :src="perfilFile ? imgPerfil : ''" style="height: 100%">
           <q-file borderless v-model="perfilFile" @input="test()" accept=".jpg, image/*" style="width: 100%; height: 100%; font-size: 0px">
