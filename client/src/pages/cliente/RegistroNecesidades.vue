@@ -17,7 +17,34 @@
       </diz>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Selecciona tu servicio</div>
-        <q-select class="q-mx-md q-mb-md" color="grey" filled v-model="form.categoria_id" :options="categorias" label="Servicios" dense :error="$v.form.categoria_id.$error" option-value="_id" option-label="name" emit-value map-options error-message="Este campo es requerido" @blur="$v.form.categoria_id.$touch()"/>
+        <q-select
+          class="q-mx-md q-mb-md"
+          color="grey"
+          filled
+          v-model="form.categoria_id"
+          :options="categorias"
+          label="Servicios"
+          dense
+          clearable
+          options-selected-class="primary"
+          :error="$v.form.categoria_id.$error"
+          option-value="_id"
+          error-message="Este campo es requerido"
+          @blur="$v.form.categoria_id.$touch()">
+          <template v-slot:option="scope">
+            <q-item v-bind="scope.itemProps">
+              <q-item-section avatar>
+                <q-avatar square size="30px">
+                  <img :src="scope.opt.icons">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label v-html="scope.opt.label" />
+                <q-item-label>{{ scope.opt.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
       <!-- <div class="row justify-around">
       <q-scroll-area
@@ -43,7 +70,21 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Tiempo de la urgencia</div>
-        <q-select class="q-mx-md q-mb-md" color="grey" filled v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()"/>
+        <q-select class="q-mx-md q-mb-md" color="grey" filled v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
+          <template v-slot:option="scope">
+            <q-item v-bind="scope.itemProps">
+              <q-item-section avatar>
+                <q-avatar square size="30px">
+                  <q-icon :name="scope.opt.icon" :color="scope.opt.color"/>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label v-html="scope.opt.label" />
+                <q-item-label>{{ scope.opt.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Descripción del servicio</div>
@@ -89,7 +130,21 @@ export default {
       editImg: false,
       categoria_id: '',
       options: [
-        'Urgente (1 a 3 Horas)', 'Medio (5 a 24 Horas)', 'Programado (2 días en adelante)'
+        {
+          name: 'Urgente (1 a 3 Horas)',
+          color: 'red',
+          icon: 'circle'
+        },
+        {
+          name: 'Medio (5 a 24 Horas)',
+          color: 'yellow',
+          icon: 'circle'
+        },
+        {
+          name: 'Programado (2 días en adelante)',
+          color: 'green',
+          icon: 'circle'
+        }
       ],
       categorias: [
       ]
