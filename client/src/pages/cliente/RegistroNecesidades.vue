@@ -11,10 +11,10 @@
       </div>
    </div>
     <div>
-      <diz class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Nombre de la solicitud</div>
         <q-input class="q-mx-md" filled outlined v-model="form.name" label="Introduce el nombre de solicitud" dense :error="$v.form.name.$error" error-message="Este campo es requerido"  @blur="$v.form.name.$touch()"/>
-      </diz>
+      </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Selecciona tu servicio</div>
         <q-select
@@ -29,10 +29,11 @@
           options-selected-class="primary"
           :error="$v.form.categoria_id.$error"
           option-value="_id"
+          option-label="name"
           error-message="Este campo es requerido"
           @blur="$v.form.categoria_id.$touch()">
           <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps">
+            <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
               <q-item-section avatar>
                 <q-avatar square size="30px">
                   <img :src="scope.opt.icons">
@@ -70,9 +71,9 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Tiempo de la urgencia</div>
-        <q-select class="q-mx-md q-mb-md" color="grey" filled v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
+        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
           <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps">
+            <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
               <q-item-section avatar>
                 <q-avatar square size="30px">
                   <q-icon :name="scope.opt.icon" :color="scope.opt.color"/>
