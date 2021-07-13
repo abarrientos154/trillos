@@ -140,20 +140,20 @@ export default {
       menuProve: [
         {
           id: 1,
-          src: 'home',
+          src: 'home.png',
           name: 'Inicio',
           ruta: '/inicio_proveedor'
         },
-        {
+        /* {
           id: 2,
           src: '',
           name: '',
           ruta: ''
-        },
+        }, */
         {
           id: 3,
           src: 'reporte.png',
-          name: '',
+          name: 'Solicitudes',
           ruta: ''
         },
         {
@@ -164,7 +164,7 @@ export default {
         },
         {
           id: 5,
-          src: 'logout',
+          src: 'salir.png',
           name: 'Salir',
           ruta: ''
         }

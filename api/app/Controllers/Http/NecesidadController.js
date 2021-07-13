@@ -43,23 +43,33 @@ class NecesidadController {
   }
 
   async necesidades ({ response, params, auth }) {
-    const user = (await auth.getUser()).toJSON()
-    let datos = (await Necesidad.query().where({}).with('creador').with('categorianame').fetch()).toJSON()
-
-    for (let j of datos) j.chat_info = await ChatMessage.findBy('necesidad_id', j._id.toString())
-    let filters = []
-    for (let g of user.categorias) {
-      let filterNecesidad = datos.filter(v => v.categoria_id === g)
-      filters = filters.concat(filterNecesidad)
-
-    }
-    let formatearFecha = filters.map(v => {
-      return {
-        ...v,
-        fechaCreacion: moment(v.created_at).format('DD/MM/YYYY')
+    try {  
+      const user = (await auth.getUser()).toJSON()
+      let data = (await Necesidad.query().where({}).with('creador').with('categorianame').fetch()).toJSON()
+  
+      for (let j of data) j.chat_info = await ChatMessage.findBy('necesidad_id', j._id.toString())
+      let filters = []
+      for (let g of user.categorias) {
+        let filterNecesidad = data.filter(v => v.categoria_id === g)
+        filters = filters.concat(filterNecesidad)
       }
-    })
-    response.send(formatearFecha)
+      let formatearFecha = filters.map(v => {
+        return {
+          ...v,
+          fechaCreacion: moment(v.created_at).format('DD/MM/YYYY')
+        }
+      })
+      let needsByCity = []
+      for (let n in formatearFecha) {
+        if (formatearFecha[n].creador.city === user.city) {
+          needsByCity.push(formatearFecha[n])
+        }
+      }
+      console.log('needsByCity :>> ', needsByCity);
+      response.send(needsByCity)
+    } catch (error) {
+      console.error('necesidades: ' + error.message)
+    }
   }
 
   /**
@@ -112,6 +122,7 @@ class NecesidadController {
 
       }
       let body = dat
+      body.status = 0
       delete body.cantidadArchivos
       body.ownerId = ((await auth.getUser()).toJSON())._id
       let guardar = await Necesidad.create(body)

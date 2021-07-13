@@ -162,13 +162,13 @@
     </q-card>
 
     <div class="column items-center justify-center text-bold text-h6 q-ml-sm">Solicitudes en tu zona</div>
-    <listado-de-sugerencia v-if="data.length" :data="data" :direccion="true" ruta="proveedor"/>
+    <listado-de-sugerencia v-if="needs.length" :data="needs" :direccion="true" ruta="proveedor"/>
     <q-card v-else class="shadow-11 q-ma-md q-pa-md">
       <div class="text-center text-subtitle1">Sin solicitudes disponibles</div>
     </q-card>
 
     <div class="q-py-lg column items-center justify-center">
-      <q-btn v-if="data.length > 3" color="primary" rounded no-caps :label="!ver ? 'Ver más' : 'Ver menos'" style="width:70%" class="q-py-sm" @click="verMas()" />
+      <q-btn v-if="needs.length > 3" color="primary" rounded no-caps :label="!ver ? 'Ver más' : 'Ver menos'" style="width:70%" class="q-py-sm" @click="verMas()" />
     </div>
 
     <q-dialog v-model="verImg">
@@ -200,7 +200,7 @@ export default {
       info: {},
       form2: {},
       allData: [],
-      data: [],
+      needs: [],
       data2: [],
       data5: [],
       diasF: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
@@ -220,8 +220,9 @@ export default {
         this.info = res
         this.$api.get('necesidades').then(v => {
           if (v) {
+            console.log('v :>> ', v)
             this.allData = v
-            this.data = this.allData.slice(0, 3)
+            this.needs = this.allData.slice(0, 3)
           }
         })
       })
@@ -267,9 +268,9 @@ export default {
     },
     verMas () {
       if (!this.ver) {
-        this.data = this.allData
+        this.needs = this.allData
       } else {
-        this.data = this.allData.slice(0, 3)
+        this.needs = this.allData.slice(0, 3)
       }
       this.ver = !this.ver
     }

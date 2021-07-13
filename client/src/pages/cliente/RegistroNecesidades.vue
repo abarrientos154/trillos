@@ -71,7 +71,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Tiempo de la urgencia</div>
-        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
+        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" option-value="name" v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
           <template v-slot:option="scope">
             <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
               <q-item-section avatar>
@@ -209,6 +209,9 @@ export default {
       }
     },
     agregar () {
+      this.form.categoria_id = this.form.categoria_id._id
+      this.form.necesidad = this.form.necesidad.name
+      console.log('this.form >> ', this.form)
       this.$v.$touch()
       /* if (!this.$v.form.$error && !this.$v.solicitudFiles.$error) {
         this.$q.dialog({
