@@ -2,7 +2,7 @@
   <div>
     <div class="row justify-around">
       <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-        <q-card @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : $router.push('/descripcionsolicitud/' + item._id)">
+        <q-card @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : showRequest(item)">
             <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
             <div class="column items-center justify-center">
               <div class="text-center text-white q-mt-lg text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
@@ -52,18 +52,27 @@
         </q-card>
       </div>
     </div>
+    <q-dialog v-model="show">
+      <view-request :data="request" :profile="baseu3" style="width: 100%; height: 300px"/>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import env from '../env'
+import ViewRequest from 'components/ViewRequest.vue'
 export default {
+  components: {
+    ViewRequest
+  },
   props: ['data', 'ruta', 'direccion'],
   data () {
     return {
+      show: false,
       baseu: '',
       baseu3: '',
-      color: 'blue'
+      color: 'blue',
+      request: {}
     }
   },
   mounted () {
@@ -72,6 +81,14 @@ export default {
     } else {
       this.baseu = env.apiUrl + '/necesidad_img'
       this.baseu3 = env.apiUrl + '/perfil_img/'
+    }
+    console.log('this.baseu3 :>> ', this.baseu3)
+  },
+  methods: {
+    showRequest (itemRequest) {
+      this.baseu3 = env.apiUrl + '/perfil_img/'
+      this.request = { ...itemRequest }
+      this.show = true
     }
   },
   computed: {
