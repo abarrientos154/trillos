@@ -89,7 +89,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Descripción del servicio</div>
-        <q-input class="q-mx-md" filled v-model="form.descripcion" type="textarea" />
+        <q-input class="q-mx-md" filled v-model="form.descripcion" type="textarea" :error="$v.form.descripcion.$error" error-message="Este campo es requerido" @blur="$v.form.descripcion.$touch()"/>
       </div>
       <div class="text-bold q-mt-lg q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
       <div class="row q-ml-md q-my-sm">
