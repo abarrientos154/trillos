@@ -40,7 +40,7 @@
                 </div>
                 <div class="row q-mt-sm items-center no-wrap">
                   <q-icon size="sm" name="store_mall_directory" color="grey-7" />
-                  <div class="text-grey-9 ellipsis">{{chat.data_request.direccion}}</div>
+                  <div class="text-grey-9 ellipsis">{{chat.data_supplier.direccion}}</div>
                 </div>
             </div>
             <div class="row items-center absolute-bottom-right q-ma-sm">
