@@ -53,7 +53,7 @@
       </div>
     </div>
     <q-dialog v-model="show">
-      <view-request :data="request" :profile="baseu3" style="width: 100%; height: 300px"/>
+      <view-request :data="request" :profile="baseu3" style="width: 100%; height: 80%"/>
     </q-dialog>
   </div>
 </template>

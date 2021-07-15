@@ -114,6 +114,8 @@ addPrefixToGroup(
     Route.post('perfil_imagen', 'UploadController.newimagen')
     Route.post('perfil_imagen/:user_id', 'UploadController.newimagenById')
 
+    Route.post('quotation', 'QuotationController.store')
+
 
 
 

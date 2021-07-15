@@ -73,9 +73,9 @@
             <div class="text-subtitle1 q-ml-md">Envia un mensaje de Contacto</div>
             <q-input class="q-mx-md" filled v-model="form.message" type="textarea" :error="$v.form.message.$error" error-message="Este campo es requerido" @blur="$v.form.message.$touch()"/>
           </div>
-          <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="row justify-around items-center">
             <div class="text-bold">Fecha de termino</div>
-            <q-input filled readonly dense v-model="form.date" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
+            <q-input class="col-5" ss filled readonly dense v-model="form.date" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
             error-message="Este campo es requerido" :error="$v.form.date.$error" @blur="$v.form.date.$touch()">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -90,10 +90,28 @@
               </template>
             </q-input>
           </div>
-          <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="row justify-around items-center">
             <div class="text-bold">Coste estimado</div>
-            <q-input type="number" :min="0" filled dense v-model="form.price" error-message="Este campo es requerido" :error="$v.form.price.$error" @blur="$v.form.price.$touch()">
+            <q-input type="number" class="col-5" prefix="$" :min="0" filled dense v-model="form.price" error-message="Este campo es requerido" :error="$v.form.price.$error" @blur="$v.form.price.$touch()">
             </q-input>
+          </div>
+          <div class="row justify-center q-pa-sm q-mt-md">
+            <q-btn rounded  color="primary" label="Hablar" no-caps style="width:200px" @click="makeAQuote()"/>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" class="q-pa-none column items-center">
+          <div class="q-mt-xl" style="height: 200px; width: 70%;">
+            <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Presupuesto enviado con éxito</div>
+            </div>
+            </q-img>
+          </div>
+          <div class="text-h6 text-center text-bold q-mt-xl">¡Tu mensaje fue enviado con éxito!</div>
+          <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
+          <div class="q-pa-sm q-mt-md">
+            <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="$router.push('inicio_proveedor')"/>
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -133,6 +151,23 @@ export default {
   methods: {
     next () {
       this.slide = 2
+    },
+    async makeAQuote () {
+      this.$v.$touch()
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Subiendo Cotización, Por Favor Espere...'
+        })
+        this.form.request_id = this.data._id
+        this.form.client_id = this.data.creador._id
+        await this.$api.post('quotation', this.form).then(res => {
+          if (res) {
+            this.$q.loading.hide()
+            this.slide = 3
+            console.log('sirve')
+          }
+        })
+      }
     }
   }
 }
