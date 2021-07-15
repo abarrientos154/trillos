@@ -4,6 +4,7 @@ const Chat = use("App/Models/Chat")
 const Country = use("App/Models/Country")
 const City = use("App/Models/City")
 const Categoria = use("App/Models/Categoria")
+const User = use("App/Models/User")
 const moment = require('moment')
 
 
@@ -113,14 +114,21 @@ class QuotationController {
     const user = (await auth.getUser()).toJSON()
     const id_user = user._id
     let quotation = (await Quotation.query().where('_id', params.id).with('data_request').fetch()).toJSON()
+    let category = (await Categoria.query().find(quotation[0].data_request.categoria_id)).toJSON()
+    let client = (await User.query().find(quotation[0].data_request.ownerId)).toJSON()
     console.log('quotation :>> ', quotation);
+    let creationDate = moment(quotation[0].created_at).format('DD/MM/YYYY')
+    quotation[0].data_request.creationDate = creationDate
+    quotation[0].data_request.categoryName = category.name
+    quotation[0].data_request.fullName = client.full_name + ' ' + client.last_name
     let send = {
       datos_proveedor: quotation[0].supplier_id,
       datos_cliente: quotation[0].client_id,
       messages: [],
       status: quotation[0].status,
       id_cotization: quotation[0]._id,
-      nombre_necesidad: quotation[0].data_request.name
+      nombre_necesidad: quotation[0].data_request.name,
+      data_request: quotation[0].data_request,
     }
     console.log('send.datos_cliente :>> ', send.datos_cliente);
     console.log('send.datos_proveedor :>> ', send.datos_proveedor);

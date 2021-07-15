@@ -9,50 +9,62 @@
       </q-toolbar>
     </q-header> -->
 
-    <div v-if="data.length > 0" class="col-12 q-pa-md">
-        <q-card @click="$router.push('/chat/' + chat._id)" v-for="(chat, index) in data" :key="index">
-            <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
-            <div class="column items-center justify-center">
-              <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
-                <div v-if="chat.viewed === false" class="row">
-                  <div class="text-white">Tienes mensajes</div>
-                  <div class="text-white text-bold q-ml-xs">sin leer</div>
-                </div>
-                <div v-else class="row">
-                  <div class="text-white">Todos los mensajes</div>
-                  <div class="text-white text-bold q-ml-xs">leidos</div>
-                </div>
-                <div class="text-white text-h6">{{rol === 2 ? chat.data_supplier.full_name : chat.data_client.full_name + ' ' + chat.data_client.last_name}}</div>
+    <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
+      <q-card class="shadow-8">
+        <div class="row justify-around items-center absolute-top">
+          <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
+          <div class="row justify-around items-center q-mr-sm q-pr-sm">
+            <div class="text-h7 text-grey-9">Nivel de requerimiento</div>
+            <div class="row">
+              <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+            </div>
+          </div>
+        </div>
+        <div class="column items-center justify-center">
+          <div class="text-right text-white q-mt-xl text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
+        </div>
+        <div class="row justify-around q-pb-sm">
+          <div class="col-4 q-mt-sm">
+            <div>
+              <q-avatar size="100px">
+                <img :src="baseu + clientId">
+              </q-avatar>
+            </div>
+            <div class="q-mt-sm">
+              <div class="row items-center no-wrap">
+                <q-icon size="sm" name="person" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{item.fullName}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="phone" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{item.phone}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="place" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{item.direccion}}</div>
               </div>
             </div>
-            <div class="row items-center q-pt-sm q-pb-xl">
-              <div class="col-5 row justify-center">
-                <q-avatar size="100px">
-                  <img :src="chat.data_supplier._id.length > 0 ? baseu + chat.data_supplier._id : 'noimgpro.png'">
-                </q-avatar>
-              </div>
-              <div class="col-7">
-                <div class="row q-mt-sm items-center no-wrap">
-                  <q-icon size="sm" name="place" color="grey-7" />
-                  <div class="text-grey-9 ellipsis">{{chat.country}} / {{chat.city}}</div>
-                </div>
-                <div class="row q-mt-sm items-center no-wrap">
-                  <q-icon size="sm" name="store_mall_directory" color="grey-7" />
-                  <div class="text-grey-9 ellipsis">{{chat.data_supplier.direccion}}</div>
-                </div>
+          </div>
+          <div class="col-4 q-mt-sm">
+            <div class="text-h6">Descripcion</div>
+            <div style="height:60px">
+              <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
             </div>
-            <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false ? 'orange' : 'primary'" label="Ver cotización" no-caps style="width:122px" class="q-mr-sm"/>
-              <div>
-                <div class="text-bold">Servicios del Taller</div>
-                <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
-                  <img :src="item.icons">
-                </q-avatar>
-              </div>
+            <div class="row q-mt-sm">
+              <div class="text-bold">Estado de Solicitud:</div>
+              <div class="q-ml-md">Recibiendo cotizaciones</div>
             </div>
+            <div class="row q-mt-sm items-center no-wrap">
+              <q-icon size="sm" name="clean_hands" color="grey-7" />
+              <div class="text-grey-9 ellipsis">{{item.categoryName}}</div>
             </div>
-        </q-card>
+          </div>
+        </div>
+      </q-card>
     </div>
+    <q-separator horizontal></q-separator>
 
     <q-page-container>
       <div v-if="cotizarBtn" class="row justify-end full-width q-pa-sm">
@@ -70,12 +82,11 @@
       <q-dialog persistent v-model="presupuesto" transition-show="slide-up" transition-hide="slide-down" >
         <enviar-cotizacion @presupuesto="presupuesto = false" :ruta="id" accion="presupuesto" />
       </q-dialog>
-      <div class="column items-center justify-center">
+      <!-- <div class="column items-center justify-center">
       <div class="text-subtitle1">{{data.nombre_necesidad}}</div>
-      </div>
+      </div> -->
       <div class="q-pa-sm" style="width: 100%; max-width: 400px">
         <q-chat-message
-          :label="date"
         />
         <q-chat-message
           v-for="mens in this.data.messages" :key="mens.id"
@@ -120,7 +131,7 @@ export default {
       id: this.$route.params.id,
       text: '',
       baseu: '',
-      request: {},
+      request: [],
       rol: 0,
       data2: '',
       cotizarBtn: false,
@@ -153,7 +164,8 @@ export default {
           this.rol = v.roles[0]
           this.$api.get('show_all_messages/' + this.id).then(v => {
             if (v) {
-              this.request = { ...v.data_request }
+              this.request.push(v.data_request)
+              console.log('this.request :>> ', this.request)
               this.clientId = v.datos_cliente
               this.supplierId = v.datos_proveedor
               this.data = v
@@ -192,6 +204,16 @@ export default {
           })
         })
       }
+    }
+  },
+  computed: {
+    mapeando () {
+      return this.request.map(v => {
+        return {
+          ...v,
+          colorRadio: v.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
+        }
+      })
     }
   }
 }
