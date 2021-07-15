@@ -152,7 +152,7 @@ class QuotationController {
     body.quotation_id = params.id
     body.viewed = false
     let message = (await Chat.create(body)).toJSON()
-    let updateQuotation = await Quotation.query().where('_id', quotation._id).update({ last_message_id: message._id, created_at_message: message.created_at })
+    let updateQuotation = await Quotation.query().where('_id', body.quotation_id).update({ last_message_id: message._id, created_at_message: message.created_at })
     response.send(message)
   }
 

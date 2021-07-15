@@ -10,7 +10,62 @@
     </q-header> -->
 
     <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8">
+      <q-card class="shadow-8" v-if="rol === 3">
+        <div class="row justify-around items-center absolute-top">
+          <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
+          <div class="row justify-around items-center q-mr-sm q-pr-sm">
+            <div class="text-h7 text-grey-9">Nivel de requerimiento</div>
+            <div class="row">
+              <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+            </div>
+          </div>
+        </div>
+        <div class="column items-center justify-center">
+          <div class="text-right text-white q-mt-xl text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
+        </div>
+        <div class="row justify-around q-pb-sm">
+          <div class="col-4 q-mt-sm">
+            <div>
+              <q-avatar size="100px">
+                <img :src="baseu + clientId">
+              </q-avatar>
+            </div>
+            <div class="q-mt-sm">
+              <div class="row items-center no-wrap">
+                <q-icon size="sm" name="person" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{item.fullName}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="phone" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{item.phone}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="place" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{item.direccion}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 q-mt-sm">
+            <div class="text-h6">Descripcion</div>
+            <div style="height:60px">
+              <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
+            </div>
+            <div class="row q-mt-sm">
+              <div class="text-bold">Estado de Solicitud:</div>
+              <div class="q-ml-md">Recibiendo cotizaciones</div>
+            </div>
+            <div class="row q-mt-sm items-center no-wrap">
+              <q-icon size="sm" name="clean_hands" color="grey-7" />
+              <div class="text-grey-9 ellipsis">{{item.categoryName}}</div>
+            </div>
+          </div>
+        </div>
+      </q-card>
+    </div>
+    <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
+      <q-card class="shadow-8" v-if="rol === 2">
         <div class="row justify-around items-center absolute-top">
           <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
           <div class="row justify-around items-center q-mr-sm q-pr-sm">
