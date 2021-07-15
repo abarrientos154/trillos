@@ -55,7 +55,7 @@
             </div>
         </q-card>
     </div>
-    <div v-if="data.length > 0" class="q-pa-md q-gutter-md">
+    <!-- <div v-if="data.length > 0" class="q-pa-md q-gutter-md">
         <q-card class="bordes row" @click="$router.push('/chat/' + chat._id)" v-for="(chat, index) in data" :key="index">
             <div class="col-3">
               <q-avatar class="q-pl-sm" size="60px">
@@ -76,7 +76,7 @@
 
     <q-card v-else class="shadow-2 q-ma-md q-pa-md">
       <div class="text-center text-subtitle1">Actualmente sin chats...</div>
-    </q-card>
+    </q-card> -->
   </div>
 </template>
 
