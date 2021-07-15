@@ -168,10 +168,10 @@
             </div>
           </q-img>
         </div>
-        <div class="text-h6 text-center text-bold q-mt-xl">¡Una de tus solicitudes tiene un nuevo mensaje!</div>
-        <div class="text-h6 text-center text-grey-9 text-subtitle1">Visita la bandeja de mensajes.</div>
+        <div class="text-h6 text-center text-bold q-mt-xl">¡Te están comunicando!</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1">Están intentando comunicarte revisa tu bandeja de mensajes.</div>
         <div class="q-pa-sm q-mt-md">
-          <q-btn rounded  color="primary" label="Mensajes" no-caps style="width:200px" @click="$router.push('/mis_chats')"/>
+          <q-btn rounded  color="primary" label="Ir a bandeja" no-caps style="width:200px" @click="$router.push('/mis_chats')"/>
         </div>
       </q-card>
     </q-dialog>

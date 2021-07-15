@@ -49,10 +49,10 @@ class ChatController {
     const user_id = ((await auth.getUser()).toJSON())._id
     let body = request.only(['message'])
     body.user_id = user_id
-    body.cotisazion_id = params.id_cotisation
-    body.visto = false
+    body.quotation_id = params.id
+    body.viewed = false
     let message = (await Chat.create(body)).toJSON()
-    let chat = await ChatMessage.query().where('_id', params.id_cotisation).update({last_message: message.message, created_at_message: message.created_at})
+    let chat = await ChatMessage.query().where('_id', params.id).update({last_message: message.message, created_at_message: message.created_at})
     response.send(message)
   }
 

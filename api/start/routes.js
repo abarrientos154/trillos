@@ -88,10 +88,8 @@ addPrefixToGroup(
     Route.put('datosnew/:id', 'UserController.updatedata')
 
 
-    Route.post("send_message/:id_cotisation", "ChatController.store") // metod para enviar un mensaje
     Route.post("crear_chat/:id_cotisation", "ChatController.storeChat")
     Route.delete('chat/:id', 'ChatController.destroy')
-    Route.get("show_all_messages/:id_cotisation", "ChatController.showAllMessages")
     Route.put("cotizar_necesidad/:id_cotisation", "ChatController.updateCotization")
     Route.get("show_all_cotizations", "ChatController.showAllCotizations")
     Route.get("show_all_cotizations2", "ChatController.showAllCotizations2")
@@ -116,6 +114,8 @@ addPrefixToGroup(
     Route.post('quotation', 'QuotationController.store')
     Route.get('isNewMessages/:id', 'QuotationController.isNewMessages')
     Route.get("show_all_chats", "QuotationController.showAllChats")
+    Route.get("show_all_messages/:id", "QuotationController.showAllMessages")
+    Route.post("send_message/:id", "QuotationController.sendMessage") // metod para enviar un mensaje
     
     
     

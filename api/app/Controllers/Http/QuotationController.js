@@ -109,6 +109,45 @@ class QuotationController {
     response.send(quotations)
   }
 
+  async showAllMessages ({ params, response, auth }) {
+    const user = (await auth.getUser()).toJSON()
+    const id_user = user._id
+    let quotation = (await Quotation.query().where('_id', params.id).with('data_request').fetch()).toJSON()
+    console.log('quotation :>> ', quotation);
+    let send = {
+      datos_proveedor: quotation[0].supplier_id,
+      datos_cliente: quotation[0].client_id,
+      messages: [],
+      status: quotation[0].status,
+      id_cotization: quotation[0]._id,
+      nombre_necesidad: quotation[0].data_request.name
+    }
+    console.log('send.datos_cliente :>> ', send.datos_cliente);
+    console.log('send.datos_proveedor :>> ', send.datos_proveedor);
+    let messages = (await Chat.where({ cotisazion_id: params.id_cotisation }).with('datos_user').fetch()).toJSON()
+    send.messages = messages
+    send.messages = messages.map(v => {
+      return {
+        send: id_user === v.user_id ? true : false,
+        message: v.message,
+        stamp: moment(v.created_at).lang('es').calendar(),
+        full_name: v.datos_user.full_name
+      }
+    })
+    response.send(send)
+  }
+
+  async sendMessage ({ request, response, auth, params }) {
+    const user_id = ((await auth.getUser()).toJSON())._id
+    let body = request.only(['message'])
+    body.user_id = user_id
+    body.quotation_id = params.id
+    body.viewed = false
+    let message = (await Chat.create(body)).toJSON()
+    let updateQuotation = await Quotation.query().where('_id', quotation._id).update({ last_message_id: message._id, created_at_message: message.created_at })
+    response.send(message)
+  }
+
   /**
    * Display a single quotation.
    * GET quotations/:id
