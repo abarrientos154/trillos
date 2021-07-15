@@ -92,7 +92,6 @@ addPrefixToGroup(
     Route.post("crear_chat/:id_cotisation", "ChatController.storeChat")
     Route.delete('chat/:id', 'ChatController.destroy')
     Route.get("show_all_messages/:id_cotisation", "ChatController.showAllMessages")
-    Route.get("show_all_chats", "ChatController.showAllChats")
     Route.put("cotizar_necesidad/:id_cotisation", "ChatController.updateCotization")
     Route.get("show_all_cotizations", "ChatController.showAllCotizations")
     Route.get("show_all_cotizations2", "ChatController.showAllCotizations2")
@@ -103,7 +102,7 @@ addPrefixToGroup(
     Route.post("opinion/:id/:quien/:chat_message_id", "OpinionController.store")
     Route.get("opiniones/:necesidad_id", "OpinionController.index")
     Route.get("mas_populares", "OpinionController.masPopulares") // metodo para obtener las tiendas mejor calificadas
-
+    
     Route.post("new_favorito/:id_proveedor", "FavoritoController.create")
     Route.post("favorito/:id_proveedor", "FavoritoController.index")
     Route.get("mis_favoritos", "FavoritoController.show")
@@ -113,13 +112,15 @@ addPrefixToGroup(
     Route.get("eliminar_imagen_tienda/:id/:user_id" ,'UploadController.eliminarigmtiendaById')
     Route.post('perfil_imagen', 'UploadController.newimagen')
     Route.post('perfil_imagen/:user_id', 'UploadController.newimagenById')
-
+    
     Route.post('quotation', 'QuotationController.store')
     Route.get('isNewMessages/:id', 'QuotationController.isNewMessages')
-
-
-
-
-
+    Route.get("show_all_chats", "QuotationController.showAllChats")
+    
+    
+    
+    
+    
   }).middleware("auth")
-);
+  );
+  

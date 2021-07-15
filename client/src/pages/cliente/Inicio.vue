@@ -162,10 +162,10 @@
       <q-card style="width: 100%; height: 80%" class="q-pa-none column items-center">
         <div class="q-mt-xl" style="height: 200px; width: 70%;">
           <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
-          <div class="absolute-full column items-center column justify-end">
-            <q-icon name="collections" class="text-grey" size="80px"></q-icon>
-            <div class="text-bold text-center text-grey">Nuevos Mensajes</div>
-          </div>
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Nuevos Mensajes</div>
+            </div>
           </q-img>
         </div>
         <div class="text-h6 text-center text-bold q-mt-xl">¡Una de tus solicitudes tiene un nuevo mensaje!</div>
