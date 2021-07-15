@@ -53,7 +53,7 @@
       </div>
     </div>
     <q-dialog v-model="show">
-      <view-request :data="request" :profile="baseu3" style="width: 100%; height: 80%"/>
+      <view-request :data="request" :profile="baseu3" @close="close" style="width: 100%; height: 80%"/>
     </q-dialog>
   </div>
 </template>
@@ -89,6 +89,11 @@ export default {
       this.baseu3 = env.apiUrl + '/perfil_img/'
       this.request = { ...itemRequest }
       this.show = true
+    },
+    close (emit) {
+      if (emit === true) {
+        this.show = false
+      }
     }
   },
   computed: {

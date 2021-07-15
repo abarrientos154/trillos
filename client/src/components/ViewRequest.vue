@@ -111,7 +111,7 @@
           <div class="text-h6 text-center text-bold q-mt-xl">¡Tu mensaje fue enviado con éxito!</div>
           <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
           <div class="q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="$router.push('inicio_proveedor')"/>
+            <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -168,6 +168,9 @@ export default {
           }
         })
       }
+    },
+    finish () {
+      this.$emit('close', true)
     }
   }
 }

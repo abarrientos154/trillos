@@ -49,13 +49,26 @@ class QuotationController {
     body.supplier_id = user
     const quotation = (await Quotation.create(body)).toJSON()
 
-    let chat = body.message
+    let chat = {}
+    chat.message = body.message
     chat.user_id = user
     chat.quotation_id = quotation._id
     chat.viewed = false
     let message = (await Chat.create(chat)).toJSON()
+    let updateQuotation = await Quotation.query().where('_id', quotation._id).update({ last_message_id: message._id, created_at_message: message.created_at })
     response.send(quotation)
 
+  }
+
+  async isNewMessages ({ params, response, auth }) {
+    let quotations = (await Quotation.query().where('client_id', params.id).fetch()).toJSON()
+    for (let i in quotations) {
+      let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
+      if (lastMessage.viewed === false) {
+        response.send(true)
+        break
+      }
+    }
   }
 
   /**

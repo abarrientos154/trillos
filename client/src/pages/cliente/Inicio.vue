@@ -158,6 +158,23 @@
         <q-btn class="q-pa-xs q-mb-lg" color="primary" icon="touch_app" label="Nueva solicitud" style="border-radius: 10px;" no-caps @click="$router.push('registronecesidades')"/>
       </q-page-sticky>
     </div>
+    <q-dialog v-model="show">
+      <q-card style="width: 100%; height: 80%" class="q-pa-none column items-center">
+        <div class="q-mt-xl" style="height: 200px; width: 70%;">
+          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+          <div class="absolute-full column items-center column justify-end">
+            <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+            <div class="text-bold text-center text-grey">Nuevos Mensajes</div>
+          </div>
+          </q-img>
+        </div>
+        <div class="text-h6 text-center text-bold q-mt-xl">¡Una de tus solicitudes tiene un nuevo mensaje!</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1">Visita la bandeja de mensajes.</div>
+        <div class="q-pa-sm q-mt-md">
+          <q-btn rounded  color="primary" label="Mensajes" no-caps style="width:200px" @click="$router.push('/mis_chats')"/>
+        </div>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -177,7 +194,8 @@ export default {
       city: '',
       seleCat: '',
       ver1: false,
-      ver2: false
+      ver2: false,
+      show: false
     }
   },
   mounted () {
@@ -187,11 +205,20 @@ export default {
     this.getTPopulares()
   },
   methods: {
-    getUser () {
-      this.$api.get('user_info').then(v => {
+    async getUser () {
+      await this.$api.get('user_info').then(v => {
         if (v) {
           this.user = v
           console.log(this.user, 'user')
+          this.getQuotations()
+        }
+      })
+    },
+    async getQuotations () {
+      await this.$api.get('isNewMessages/' + this.user._id).then(res => {
+        if (res && res === true) {
+          this.show = true
+          console.log('this.show :>> ', this.show)
         }
       })
     },
