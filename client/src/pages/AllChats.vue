@@ -30,7 +30,7 @@
             <div class="row items-center q-pt-sm q-pb-xl">
               <div class="col-5 row justify-center">
                 <q-avatar size="100px">
-                  <img :src="chat.data_request.images.length > 0 ? baseu + chat.data_request.images[0] : 'noimgpro.png'">
+                  <img :src="chat.data_supplier._id.length > 0 ? baseu + chat.data_supplier._id : 'noimgpro.png'">
                 </q-avatar>
               </div>
               <div class="col-7">
@@ -95,7 +95,7 @@ export default {
   },
   mounted () {
     this.getRecords()
-    this.baseu = env.apiUrl + '/necesidad_img/'
+    this.baseu = env.apiUrl + '/perfil_img/perfil'
   },
   methods: {
     getRecords () {
