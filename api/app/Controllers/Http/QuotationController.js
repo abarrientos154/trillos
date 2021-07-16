@@ -1,5 +1,6 @@
 'use strict'
 const Quotation = use("App/Models/Quotation")
+const Necesidad = use("App/Models/Necesidad")
 const Chat = use("App/Models/Chat")
 const Country = use("App/Models/Country")
 const City = use("App/Models/City")
@@ -52,6 +53,7 @@ class QuotationController {
     const user = ((await auth.getUser()).toJSON())._id
     let body = request.all()
     body.supplier_id = user
+    body.status = 0
     const quotation = (await Quotation.create(body)).toJSON()
 
     let chat = {}
@@ -62,6 +64,15 @@ class QuotationController {
     let message = (await Chat.create(chat)).toJSON()
     let updateQuotation = await Quotation.query().where('_id', quotation._id).update({ last_message_id: message._id, created_at_message: message.created_at })
     response.send(quotation)
+
+  }
+
+  async updateQuotation ({ response, params }) {
+    let updateQuotation = await Quotation.query().where('_id', params.id).update({ status: 1 })
+    let quotation = (await Quotation.query().find(params.id)).toJSON()
+    console.log('updateQuotation.request_id :>> ', updateQuotation);
+    let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ status: 1 })
+    response.send(updateQuotation)
 
   }
 
@@ -129,6 +140,9 @@ class QuotationController {
       id_cotization: quotation[0]._id,
       nombre_necesidad: quotation[0].data_request.name,
       data_request: quotation[0].data_request,
+      message: quotation[0].message,
+      date: quotation[0].date,
+      price: quotation[0].price
     }
     console.log('send.datos_cliente :>> ', send.datos_cliente);
     console.log('send.datos_proveedor :>> ', send.datos_proveedor);

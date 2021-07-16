@@ -10,7 +10,7 @@
     </q-header> -->
 
     <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8" v-if="rol === 3">
+      <q-card class="shadow-8" v-if="rol === 3" >
         <div class="row justify-around items-center absolute-top">
           <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
           <div class="row justify-around items-center q-mr-sm q-pr-sm">
@@ -65,7 +65,9 @@
       </q-card>
     </div>
     <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8" v-if="rol === 2">
+      <div class="text-h6 text-bold text-center">Toca la tarjeta para ver</div>
+      <div class="text-subtitle2 text-center q-mb-sm">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
+      <q-card class="shadow-8" v-if="rol === 2" @click="show = true">
         <div class="row justify-around items-center absolute-top">
           <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
           <div class="row justify-around items-center q-mr-sm q-pr-sm">
@@ -137,6 +139,56 @@
       <q-dialog persistent v-model="presupuesto" transition-show="slide-up" transition-hide="slide-down" >
         <enviar-cotizacion @presupuesto="presupuesto = false" :ruta="id" accion="presupuesto" />
       </q-dialog>
+      <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
+        <q-carousel class="window-height" animated v-model="slide" infinite ref="carousel">
+          <q-carousel-slide :name="1" class="q-pa-none">
+            <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{request[0].fechaCreacion}}</div>
+            <div class="column items-center justify-center">
+              <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${request[0].colorRadio}`" style="width:100%">{{request[0].name}}</div>
+            </div>
+            <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
+            <div class="row q-mb-lg" style="height:60px">
+              <div class="col-12 q-px-md text-center text-grey-9 ellipsis-3-lines">{{request[0].descripcion}}</div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+              <div class="text-subtitle1 q-ml-md">Mensaje de Contacto</div>
+              <q-input class="q-mx-md" readonly filled v-model="data2.message" type="textarea"/>
+            </div>
+            <div class="row justify-around items-center">
+              <div class="text-bold">Fecha de termino</div>
+              <q-input class="col-5" ss filled readonly dense v-model="data2.date" placeholder="dd/mm/aaaa">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <div class="row justify-around items-center">
+              <div class="text-bold">Coste estimado</div>
+              <q-input type="number" class="col-5" prefix="$" readonly filled dense v-model="data2.price">
+              </q-input>
+            </div>
+            <div class="row justify-center q-pa-sm q-mt-md">
+              <q-btn rounded  color="primary" label="Aceptar" no-caps style="width:200px" @click="acceptQuotation()"/>
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="2" class="q-pa-none column items-center">
+          <div class="q-mt-xl" style="height: 200px; width: 70%;">
+            <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Presupuesto Aceptado</div>
+            </div>
+            </q-img>
+          </div>
+          <div class="text-h6 text-center text-bold q-mt-xl">¡Cambiaste con éxito el estado!</div>
+          <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
+          <div class="q-pa-sm q-mt-md">
+            <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="show = false"/>
+          </div>
+        </q-carousel-slide>
+        </q-carousel>
+      </q-dialog>
       <!-- <div class="column items-center justify-center">
       <div class="text-subtitle1">{{data.nombre_necesidad}}</div>
       </div> -->
@@ -188,12 +240,11 @@ export default {
       baseu: '',
       request: [],
       rol: 0,
-      data2: '',
+      data2: {},
       cotizarBtn: false,
       cotizar: false,
       verCotizacion: false,
       presupuesto: false,
-      form: {},
       info: {},
       date: moment().format('DD-MMMM-YYYY'),
       data: {
@@ -205,16 +256,19 @@ export default {
         }
       },
       clientId: '',
-      supplierId: ''
+      supplierId: '',
+      show: false,
+      slide: 1
     }
   },
   mounted () {
     this.getinfo()
     this.baseu = env.apiUrl + '/perfil_img/perfil'
+    console.log('this.id :>> ', this.id)
   },
   methods: {
-    getinfo () {
-      this.$api.get('user_info').then(v => {
+    async getinfo () {
+      await this.$api.get('user_info').then(v => {
         if (v) {
           this.rol = v.roles[0]
           this.$api.get('show_all_messages/' + this.id).then(v => {
@@ -223,6 +277,12 @@ export default {
               console.log('this.request :>> ', this.request)
               this.clientId = v.datos_cliente
               this.supplierId = v.datos_proveedor
+              this.data2 = {
+                message: v.message,
+                date: v.date,
+                price: v.price
+              }
+              console.log('this.data2 :>> ', this.data2)
               this.data = v
               console.log(v, 'data de v')
               if (this.data.status === 'Pendiente' && this.rol === 3) {
@@ -259,6 +319,13 @@ export default {
           })
         })
       }
+    },
+    async acceptQuotation () {
+      await this.$api.put('updateQuotation/' + this.id).then(res => {
+        if (res) {
+          this.slide = 2
+        }
+      })
     }
   },
   computed: {
