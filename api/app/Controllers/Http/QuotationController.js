@@ -95,11 +95,15 @@ class QuotationController {
       console.log(rol);
       quotations = (await Quotation.query().where('client_id', user._id).with('data_supplier').with('data_request').fetch()).toJSON()
       console.log('quotations :>> ', quotations);
-    } else {
+    } else if (rol === 3) {
       console.log(rol);
-      quotations = (await Quotation.query().where('supplier_id', user._id).with('data_client').with('data_request').fetch()).toJSON()
+      quotations = (await Quotation.query().where('supplier_id', user._id).with('data_client').with('data_request.categorianame').fetch()).toJSON()
+      console.log('quotations :>> ', quotations);
     }
     for (let i = 0; i < quotations.length; i++) {
+      let creationDate = moment(quotations[i].data_request.created_at).format('DD/MM/YYYY')
+      quotations[i].data_request.creationDate = creationDate
+      let services = []
       if (quotations[i].created_at_message) {
         quotations[i].created_at_message = moment(quotations[i].created_at_message).lang('es').calendar()
       }
@@ -107,14 +111,24 @@ class QuotationController {
       if (lastMessage.viewed === false) {
         quotations[i].viewed = false
       }
-      let city = (await City.query().find(quotations[i].data_supplier.city)).toJSON()
-      let country = (await Country.query().find(quotations[i].data_supplier.country)).toJSON()
-      quotations[i].city = city.name
-      quotations[i].country = country.name
-      let services = []
-      for (let j in quotations[i].data_supplier.categorias) {
-        let service = (await Categoria.query().find(quotations[i].data_supplier.categorias[j])).toJSON()
-        services.push(service)
+      if (quotations[0].data_supplier) {
+        let city = (await City.query().find(quotations[i].data_supplier.city)).toJSON()
+        let country = (await Country.query().find(quotations[i].data_supplier.country)).toJSON()
+        quotations[i].city = city.name
+        quotations[i].country = country.name
+        for (let j in quotations[i].data_supplier.categorias) {
+          let service = (await Categoria.query().find(quotations[i].data_supplier.categorias[j])).toJSON()
+          services.push(service)
+        }
+      } else if (quotations[0].data_client) {
+        let city = (await City.query().find(quotations[i].data_client.city)).toJSON()
+        let country = (await Country.query().find(quotations[i].data_client.country)).toJSON()
+        quotations[i].city = city.name
+        quotations[i].country = country.name
+        for (let j in quotations[i].data_client.categorias) {
+          let service = (await Categoria.query().find(quotations[i].data_client.categorias[j])).toJSON()
+          services.push(service)
+        }
       }
       quotations[i].services = services
     }
@@ -128,7 +142,7 @@ class QuotationController {
     let category = (await Categoria.query().find(quotation[0].data_request.categoria_id)).toJSON()
     let client = (await User.query().find(quotation[0].data_request.ownerId)).toJSON()
     console.log('quotation :>> ', quotation);
-    let creationDate = moment(quotation[0].created_at).format('DD/MM/YYYY')
+    let creationDate = moment(quotation[0].data_request.created_at).format('DD/MM/YYYY')
     quotation[0].data_request.creationDate = creationDate
     quotation[0].data_request.categoryName = category.name
     quotation[0].data_request.fullName = client.full_name + ' ' + client.last_name

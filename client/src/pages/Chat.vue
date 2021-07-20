@@ -8,6 +8,8 @@
         <q-btn flat round dense icon="person" color="primary" @click="$router.push('/Datos')"  />
       </q-toolbar>
     </q-header> -->
+    <div class="text-h6 text-bold text-center q-mt-sm">Toca la tarjeta para ver</div>
+    <div class="text-subtitle2 text-center q-mb-sm">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
 
     <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
       <q-card class="shadow-8" v-if="rol === 3" >
@@ -65,8 +67,6 @@
       </q-card>
     </div>
     <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-      <div class="text-h6 text-bold text-center">Toca la tarjeta para ver</div>
-      <div class="text-subtitle2 text-center q-mb-sm">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
       <q-card class="shadow-8" v-if="rol === 2" @click="show = true">
         <div class="row justify-around items-center absolute-top">
           <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
@@ -141,14 +141,14 @@
       </q-dialog>
       <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
         <q-carousel class="window-height" animated v-model="slide" infinite ref="carousel">
-          <q-carousel-slide :name="1" class="q-pa-none">
-            <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{request[0].fechaCreacion}}</div>
+          <q-carousel-slide :name="1" class="q-pa-none" v-for="(item, index) in mapeando" :key="index">
+            <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
             <div class="column items-center justify-center">
-              <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${request[0].colorRadio}`" style="width:100%">{{request[0].name}}</div>
+              <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
             </div>
             <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
             <div class="row q-mb-lg" style="height:60px">
-              <div class="col-12 q-px-md text-center text-grey-9 ellipsis-3-lines">{{request[0].descripcion}}</div>
+              <div class="col-12 q-px-md text-center text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
               <div class="text-subtitle1 q-ml-md">Mensaje de Contacto</div>
