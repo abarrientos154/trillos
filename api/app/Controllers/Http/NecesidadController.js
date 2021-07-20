@@ -2,6 +2,7 @@
 const Necesidad = use("App/Models/Necesidad")
 const ChatMessage = use("App/Models/ChatMessage")
 const Quotation = use("App/Models/Quotation")
+const Categorias = use("App/Models/Categoria")
 const { validate } = use("Validator")
 const Helpers = use('Helpers')
 const mkdirp = use('mkdirp')
@@ -33,7 +34,12 @@ class NecesidadController {
 
   async necesidadByUserId ({ response, params }) {
     let datos = (await Necesidad.query().where({ownerId: params.user_id}).with('creador').fetch()).toJSON()
-    for (let j of datos) j.chat_info = await ChatMessage.findBy('necesidad_id', j._id.toString())
+    for (let i = 0; i < datos.length; i++) {
+      datos[i].chat_info = await ChatMessage.findBy('necesidad_id', datos[i]._id.toString())
+      datos[i].colorRadio = datos[i].necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : datos[i].necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+      datos[i].fechaCreacion = moment(datos[i].created_at).format('DD/MM/YYYY')
+      datos[i].categoriaInfo = (await Categorias.query().where('_id', datos[i].categoria_id).first()).toJSON()
+    }
     response.send(datos)
   }
 
