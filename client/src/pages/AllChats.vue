@@ -359,8 +359,9 @@ export default {
       this.clientData = data.data_client
       this.show2 = true
     },
-    async acceptQuotation () {
-      await this.$api.put('updateQuotation/' + this.id).then(res => {
+    async acceptQuotation (id) {
+      console.log('id :>> ', id)
+      await this.$api.put('updateQuotation/' + id).then(res => {
         if (res) {
           this.slide = 2
         }
