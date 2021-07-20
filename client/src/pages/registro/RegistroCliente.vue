@@ -27,7 +27,7 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div>Apellido paterno y materno</div>
                 <q-input filled v-model="form.last_name" label="Apellido" outlined dense
-                error-message="Ingrese su nombre"
+                error-message="Ingrese su apellido"
                 :error="$v.form.last_name.$error" @blur="$v.form.last_name.$touch()"
                 />
             </div>
@@ -49,6 +49,13 @@
                 </q-input>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div>Número de contacto</div>
+                <q-input filled v-model.number="form.phone" type="number" label="Teléfono" outlined dense
+                error-message="Ingrese un número de contacto"
+                :error="$v.form.phone.$error" @blur="$v.form.phone.$touch()"
+                />
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div>Selecciona tu pais</div>
                 <q-select filled v-model="form.country" label="País" outlined dense :options="countries" option-value="_id" option-label="name" emit-value map-options @input="getCitiesByCountry(form.country)" error-message="Ingrese su País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
             </div>
@@ -63,6 +70,13 @@
                     </q-item>
                 </template>
                 </q-select>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div>Ingresa una dirección</div>
+                <q-input filled v-model="form.direccion" label="Dirección" outlined dense
+                error-message="Ingrese una dirección"
+                :error="$v.form.direccion.$error" @blur="$v.form.direccion.$touch()"
+                />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div>Introduce tu correo</div>
@@ -154,8 +168,10 @@ export default {
       full_name: { required },
       last_name: { required },
       birthdate: { required },
+      phone: { required },
       email: { required, email },
-      country: { required }
+      country: { required },
+      direccion: { required }
     },
     city: { required },
     perfilFile: { required },
