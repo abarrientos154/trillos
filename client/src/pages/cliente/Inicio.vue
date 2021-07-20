@@ -33,11 +33,13 @@
               </div>
               <div class="q-pa-sm">
                 <div class="text-grey text-subtitle1 text-bold">Nuestros servicios</div>
-                <div class="row">
-                  <q-avatar rounded v-for="index in 3" :key="index" class="col q-mr-xs">
-                    <q-img :src="'nopublicidad.jpg'" class="full-height"/>
-                  </q-avatar>
-                </div>
+                <q-scroll-area horizontal style="height: 55px; width:100%" class="q-mb-xs">
+                  <div v-if="tienda.categoriasInfo" class="row no-wrap q-gutter-sm">
+                    <q-avatar rounded v-for="(cat, index) in tienda.categoriasInfo" :key="index">
+                      <q-img :src="cat.icons" style="width:50px; height:50px"/>
+                    </q-avatar>
+                  </div>
+                </q-scroll-area>
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city" size=""/>
@@ -80,11 +82,13 @@
               </div>
               <div class="q-pa-sm">
                 <div class="text-grey text-subtitle1 text-bold">Nuestros servicios</div>
-                <div class="row">
-                  <q-avatar rounded v-for="index in 3" :key="index" class="col q-mr-xs">
-                    <q-img :src="'nopublicidad.jpg'" class="full-height"/>
-                  </q-avatar>
-                </div>
+                <q-scroll-area horizontal style="height: 55px; width:100%" class="q-mb-xs">
+                  <div v-if="tienda.categoriasInfo" class="row no-wrap q-gutter-sm">
+                    <q-avatar rounded v-for="(cat, index) in tienda.categoriasInfo" :key="index">
+                      <q-img :src="cat.icons" style="width:50px; height:50px"/>
+                    </q-avatar>
+                  </div>
+                </q-scroll-area>
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
@@ -131,11 +135,13 @@
               </div>
               <div class="q-pa-sm">
                 <div class="text-grey text-subtitle1 text-bold">Nuestros servicios</div>
-                <div class="row">
-                  <q-avatar rounded v-for="index in 3" :key="index" class="col q-mr-xs">
-                    <q-img :src="'nopublicidad.jpg'" class="full-height"/>
-                  </q-avatar>
-                </div>
+                <q-scroll-area horizontal style="height: 55px; width:100%" class="q-mb-xs">
+                  <div v-if="tienda.categoriasInfo" class="row no-wrap q-gutter-sm">
+                    <q-avatar rounded v-for="(cat, index) in tienda.categoriasInfo" :key="index">
+                      <q-img :src="cat.icons" style="width:50px; height:50px"/>
+                    </q-avatar>
+                  </div>
+                </q-scroll-area>
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
@@ -209,7 +215,6 @@ export default {
       await this.$api.get('user_info').then(v => {
         if (v) {
           this.user = v
-          console.log(this.user, 'user')
           this.getQuotations()
         }
       })
@@ -218,7 +223,6 @@ export default {
       await this.$api.get('isNewMessages/' + this.user._id).then(res => {
         if (res && res === true) {
           this.show = true
-          console.log('this.show :>> ', this.show)
         }
       })
     },
@@ -229,7 +233,6 @@ export default {
           this.tiendas = this.alltiendas.slice(0, 4)
           this.TUltimas = this.alltiendas.reverse().slice(0, 4)
           this.baseuTienda = env.apiUrl + '/perfil_img/perfil'
-          console.log(this.alltiendas, 'tiendas')
         }
       })
     },
@@ -237,7 +240,6 @@ export default {
       this.$api.get('mas_populares').then(res => {
         if (res) {
           this.TPopulares = res.slice(0, 10)
-          console.log(this.TPopulares, 'TPopulares')
         }
       })
     },
@@ -246,7 +248,6 @@ export default {
         if (res) {
           this.categorias = res
           this.seleCat = this.categorias[0]._id
-          console.log(this.categorias, 'cat')
         }
       })
     },
