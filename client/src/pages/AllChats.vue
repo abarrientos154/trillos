@@ -203,8 +203,45 @@
               </q-card>
             </div>
           </q-scroll-area>
-          <div class="row justify-center q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Cambiar estado" no-caps style="width:200px" @click="next()"/>
+          <div v-if="change">
+            <div class="q-ml-md text-h6 text-bold q-mt-md">Cambio de estado</div>
+            <div class="q-mx-md q-mt-md">Cambia el estado de tarjeta de solicitud. Así podrás tener un control mas claro de tu trato con el cliente. Recuerda que una vez que des el trabajo por finalizado el cliente podra cambiar el estado del servicio a finalizado.</div>
+            <q-select class="q-mx-md q-mt-sm" color="grey" filled option-label="name" option-value="value" emit-value map-options v-model="form.status" :options="options" label="Estado de la solicitud" dense :error="$v.form.status.$error" error-message="Este campo es requerido" @blur="$v.form.status.$touch()" @input="extend(form.status)">
+            </q-select>
+            <div v-if="extension == true">
+              <q-input class="q-mx-md" ss filled readonly dense v-model="extensionDate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
+              error-message="Este campo es requerido" :error="$v.extensionDate.$error" @blur="$v.extensionDate.$touch()">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="extensionDate" mask="DD/MM/YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+          </div>
+          <div v-if="request2.status === 1" class="row justify-center q-pa-sm q-mt-md">
+            <q-btn rounded  color="primary" label="Cambiar estado" no-caps style="width:200px" @click="change == false ? activeChange() : changeStatus()"/>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" class="q-pa-none column items-center">
+          <div class="q-mt-xl" style="height: 200px; width: 70%;">
+            <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Cambio realizado</div>
+            </div>
+            </q-img>
+          </div>
+          <div class="text-h6 text-center text-bold q-mt-xl">¡Cambiaste con éxito el estado!</div>
+          <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
+          <div class="q-pa-sm q-mt-md">
+            <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="$router.push('/inicio_proveedor')"/>
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -240,10 +277,12 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import env from '../env'
 export default {
   data () {
     return {
+      idQuotation: '',
       imgSelec: '',
       showImg: false,
       baseu: '',
@@ -260,8 +299,22 @@ export default {
       slide: 1,
       slide2: 1,
       clientData: {},
-      categoryName: ''
+      categoryName: '',
+      change: false,
+      form: {},
+      options: [
+        { name: 'En progreso', value: 1 },
+        { name: 'Finalizado', value: 2 }
+      ],
+      extension: false,
+      extensionDate: ''
     }
+  },
+  validations: {
+    form: {
+      status: { required }
+    },
+    extensionDate: { required }
   },
   mounted () {
     this.getRecords()
@@ -287,13 +340,6 @@ export default {
         }
       })
     },
-    async acceptQuotation (id) {
-      await this.$api.put('updateQuotation/' + id).then(res => {
-        if (res) {
-          this.slide = 2
-        }
-      })
-    },
     showQuotation (data) {
       this.request.push(data.data_request)
       this.data2 = {
@@ -306,10 +352,48 @@ export default {
       this.show = true
     },
     showRequest (data) {
+      console.log('data >> ', data)
+      this.idQuotation = data._id
       this.request2 = data.data_request
       this.categoryName = this.request2.categorianame.name
       this.clientData = data.data_client
       this.show2 = true
+    },
+    async acceptQuotation () {
+      await this.$api.put('updateQuotation/' + this.id).then(res => {
+        if (res) {
+          this.slide = 2
+        }
+      })
+    },
+    activeChange () {
+      if (!this.change) {
+        this.change = true
+      }
+    },
+    async changeStatus () {
+      this.$v.form.$touch()
+      if (this.form.status === 1) {
+        this.$v.extensionDate.$touch()
+        if (!this.$v.extensionDate.$error) {
+          this.form.date = this.extensionDate
+        }
+      }
+      if (!this.$v.form.$error) {
+        console.log('this.form :>> ', this.form)
+        console.log('this.id :>> ', this.id)
+        await this.$api.put('updateQuotation/' + this.idQuotation, this.form).then(res => {
+          if (res) {
+            this.slide2 = 2
+          }
+        })
+      }
+    },
+    extend (value) {
+      console.log('value :>> ', value)
+      if (value === 1) {
+        this.extension = true
+      }
     }
   },
   computed: {
