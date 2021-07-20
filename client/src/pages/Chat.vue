@@ -169,7 +169,7 @@
               </q-input>
             </div>
             <div class="row justify-center q-pa-sm q-mt-md">
-              <q-btn rounded  color="primary" label="Aceptar" no-caps style="width:200px" @click="acceptQuotation()"/>
+              <q-btn v-if="data2.status == 0 && item.status == 0" rounded  color="primary" label="Aceptar" no-caps style="width:200px" @click="acceptQuotation()"/>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2" class="q-pa-none column items-center">
@@ -184,7 +184,7 @@
           <div class="text-h6 text-center text-bold q-mt-xl">¡Cambiaste con éxito el estado!</div>
           <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
           <div class="q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="show = false"/>
+            <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="show = false, slide = 1"/>
           </div>
         </q-carousel-slide>
         </q-carousel>
@@ -278,9 +278,11 @@ export default {
               this.clientId = v.datos_cliente
               this.supplierId = v.datos_proveedor
               this.data2 = {
+                _id: v._id,
                 message: v.message,
                 date: v.date,
-                price: v.price
+                price: v.price,
+                status: v.status
               }
               console.log('this.data2 :>> ', this.data2)
               this.data = v

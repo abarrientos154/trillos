@@ -107,7 +107,7 @@
       class="rounded-borders"
     >
       <div class="row no-wrap q-gutter-md q-px-md">
-        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:230px; border-radius:25px" @click="$router.push('/cotizacion/' + item._id + '/' + item.necesidad_id )">
+        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:230px; border-radius:25px">
           <div class="absolute-top-right q-pr-sm">
             <div class="row">
               <div class="text-h7 text-grey-8 q-mt-xs">Nivel de requerimiento</div>

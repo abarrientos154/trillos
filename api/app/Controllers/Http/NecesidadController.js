@@ -1,6 +1,7 @@
 'use strict'
 const Necesidad = use("App/Models/Necesidad")
 const ChatMessage = use("App/Models/ChatMessage")
+const Quotation = use("App/Models/Quotation")
 const { validate } = use("Validator")
 const Helpers = use('Helpers')
 const mkdirp = use('mkdirp')
@@ -46,6 +47,17 @@ class NecesidadController {
     try {  
       const user = (await auth.getUser()).toJSON()
       let data = (await Necesidad.query().where({}).with('creador').with('categorianame').fetch()).toJSON()
+      let quotations = (await Quotation.query().where({}).fetch()).toJSON()
+      let requests = []
+
+      for (let x in quotations) {
+        for (let k in data) {
+          if (data[k]._id === quotations[x].request_id && quotations[x].supplier_id === user._id) {
+            data.splice(k, 1)
+            console.log('si pasa');
+          }
+        }
+      }
   
       for (let j of data) j.chat_info = await ChatMessage.findBy('necesidad_id', j._id.toString())
       let filters = []
