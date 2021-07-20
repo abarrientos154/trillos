@@ -21,6 +21,7 @@ const routes = [
       { path: '/editar_producto/:id', component: () => import('pages/proveedor/RegistroProductos.vue'), meta: { botonchat: false } },
       { path: '/descripcionsolicitud/:id', component: () => import('pages/proveedor/DescripcionNecesidad.vue'), meta: { botonchat: false } },
       { path: '/allnecesidades', component: () => import('pages/proveedor/Allnecesidades.vue'), meta: { botonchat: false } },
+      { path: '/mis_solicitudes', component: () => import('pages/proveedor/Solicitudes.vue'), meta: { botonchat: true } },
       // Cliente
       { path: '/inicio_cliente', component: () => import('pages/cliente/Inicio.vue'), meta: { botonchat: true } },
       { path: '/solicitudes', component: () => import('pages/cliente/Necesidades.vue'), meta: { botonchat: true } },

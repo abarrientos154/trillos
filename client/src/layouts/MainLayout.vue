@@ -154,7 +154,7 @@ export default {
           id: 3,
           src: 'reporte.png',
           name: 'Solicitudes',
-          ruta: ''
+          ruta: '/mis_solicitudes'
         },
         {
           id: 4,
