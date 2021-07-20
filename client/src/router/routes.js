@@ -41,7 +41,9 @@ const routes = [
   },
   { path: '/chat/:id', component: () => import('pages/Chat.vue') },
   { path: '/login', component: () => import('pages/Login.vue') },
-  { path: '/registro', component: () => import('pages/Registro.vue') },
+  { path: '/registro', component: () => import('pages/registro/TipoRegistro.vue') },
+  { path: '/registro/taller', component: () => import('pages/registro/RegistroProveedor.vue') },
+  { path: '/registro/cliente', component: () => import('pages/registro/RegistroCliente.vue') },
   {
     path: '/',
     redirect: '/login'
