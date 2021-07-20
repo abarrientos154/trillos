@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <q-card>
-      <q-carousel class="window-height" animated v-model="slide" infinite ref="carousel">
+  <div style="heigth:100%">
+      <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
           <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{data.fechaCreacion}}</div>
           <div class="column items-center justify-center">
@@ -100,22 +99,24 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="q-pa-none column items-center">
-          <div class="q-mt-xl" style="height: 200px; width: 70%;">
-            <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
-            <div class="absolute-full column items-center column justify-end">
-              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
-              <div class="text-bold text-center text-grey">Presupuesto enviado con éxito</div>
+          <div class="absolute-center column items-center q-px-md" style="width:100%">
+            <div class="q-mt-xl" style="height: 200px; width: 70%;">
+              <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+              <div class="absolute-full column items-center column justify-end">
+                <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                <div class="text-bold text-center text-grey">Presupuesto enviado con éxito</div>
+              </div>
+              </q-img>
             </div>
-            </q-img>
-          </div>
-          <div class="text-h6 text-center text-bold q-mt-xl">¡Tu mensaje fue enviado con éxito!</div>
-          <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
-          <div class="q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
+            <div class="text-h6 text-center text-bold q-mt-xl">¡Tu mensaje fue enviado con éxito!</div>
+            <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
+            <div class="q-pa-sm q-mt-md">
+              <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
+            </div>
           </div>
         </q-carousel-slide>
       </q-carousel>
-    </q-card>
+
     <q-dialog v-model="showImg">
       <q-card>
         <img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
