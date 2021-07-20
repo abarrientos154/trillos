@@ -8,9 +8,9 @@
 
     <div class="q-pa-md">
       <div class="text-h6">Solicitudes activas</div>
-      <div class="text-caption text-grey-9 q-pb-md">A continuación podrás ver todas las solicitudes activas que has creado.</div>
+      <div class="text-caption text-grey-9 q-pb-md">A continuación podrás ver todas las solicitudes activas.</div>
       <div class="column items-center" v-if="activas.length">
-        <q-card class="q-mb-sm" v-for="(item, index) in activas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
+        <q-card class="q-mb-md" v-for="(item, index) in activas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
@@ -66,7 +66,7 @@
       <div class="text-h6">Solicitudes completadas</div>
       <div class="text-caption text-grey-9 q-pb-md">Historial de solicitudes realizadas y completadas con éxito.</div>
       <div class="column items-center" v-if="completas.length">
-        <q-card class="q-mb-sm" v-for="(item, index) in completas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
+        <q-card class="q-mb-md" v-for="(item, index) in completas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
