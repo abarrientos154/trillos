@@ -8,6 +8,7 @@ const User = use("App/Models/User")
 const Role = use("App/Models/Role")
 const Ciudades = use("App/Models/City")
 const Paises = use("App/Models/Country")
+const Categorias = use("App/Models/Categoria")
 const { validate } = use("Validator")
 const moment = require('moment')
 
@@ -172,6 +173,20 @@ class UserController {
   async userByRol({ request, params, response }) {
     let rol = request.all()
     const user = (await User.query().where({roles: rol.rol}).fetch()).toJSON()
+    for (let i = 0; i < user.length; i++) {
+      let ciudad = (await Ciudades.query().where('_id', user[i].city).first()).toJSON()
+      let pais = (await Paises.query().where('_id', user[i].country).first()).toJSON()
+      user[i].pais = pais.name
+      user[i].ciudad = ciudad.name
+      if (user[i].roles[0] === 3) {
+        var categoriasInfo = []
+        for (let c = 0; c < user[i].categorias.length; c++) {
+          let categoria = (await Categorias.query().where('_id', user[i].categorias[c]).first()).toJSON()
+          categoriasInfo.push(categoria)
+        }
+        user[i].categoriasInfo = categoriasInfo
+      }
+    }
     response.send(user)
   }
 
