@@ -184,6 +184,32 @@ class QuotationController {
     response.send(message)
   }
 
+  async showAllCotizations3 ({ params, response, auth }) {
+    const user = (await auth.getUser()).toJSON()
+    let cotizaciones = []
+    let today = moment().format('YYYY/MM/DD')
+    if (user.roles[0] === 2) {
+      cotizaciones = (await Quotation.query().where({ client_id: user._id, status: 1 }).with('data_supplier').with('data_request.categorianame').fetch()).toJSON()
+    } else {
+      cotizaciones = (await Quotation.query().where({ supplier_id: user._id, status: 1 }).with('data_client').with('data_request.categorianame').fetch()).toJSON()
+    }
+    for (let i = 0; i < cotizaciones.length; i++) {
+      let dat = (await Necesidad.query().where({ _id: cotizaciones[i].necesidad_id }).fetch()).toJSON()
+      cotizaciones[i].datos_necesidad = dat[0]
+      if (cotizaciones[i].fecha_termino && today > cotizaciones[i].fecha_termino && cotizaciones[i].status !== 'Terminado') {
+        let updat = await Quotation.query().where('_id', cotizaciones[i]._id).update({ status: 'Atrasado' })
+      }
+    }
+    let formatearFecha = cotizaciones.map(v => {
+      return {
+        ...v,
+        colorRadio: v.data_request.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.data_request.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+        fechaCreacion: moment(v.created_at).format('DD/MM/YYYY')
+      }
+    })
+    response.send(formatearFecha)
+  }
+
   /**
    * Display a single quotation.
    * GET quotations/:id

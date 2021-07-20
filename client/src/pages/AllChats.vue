@@ -204,7 +204,7 @@
             </div>
           </q-scroll-area>
           <div class="row justify-center q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Contactar" no-caps style="width:200px" @click="next()"/>
+            <q-btn rounded  color="primary" label="Cambiar estado" no-caps style="width:200px" @click="next()"/>
           </div>
         </q-carousel-slide>
       </q-carousel>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-img :src="baseu + 'perfil' + form2._id" spinner-color="white" style="height: 300px; width: 100%;border-bottom-right-radius:25px;border-bottom-left-radius:25px">
+    <q-img v-if="form2._id" :src="baseu + 'perfil' + form2._id" spinner-color="white" style="height: 300px; width: 100%;border-bottom-right-radius:25px;border-bottom-left-radius:25px">
       <div class="absolute-full">
       <div class="column absolute-top-right q-mt-md q-pr-md">
         <q-btn color="primary" label="Editar perfil" rounded no-caps class="q-pa-xs"
@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="q-mt-md" style="width:55%">
-              <div class="text-h6 q-mt-lg q-mb-xs">{{item.necesidad_info.name}}</div>
+              <div class="text-h6 q-mt-lg q-mb-xs">{{item.data_request.name}}</div>
               <div class="row q-mb-lg" style="height:50px; width:100%">
                 <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.comentario}}</div>
               </div>
@@ -121,27 +121,27 @@
           <div class="row">
             <div class="q-mt-xs column items-center justify-center" style="width:45%">
               <q-avatar size="90px">
-                <img :src="item.datos_cliente._id ? baseu + 'perfil' + item.datos_cliente._id : 'noimg.png'" spinner-color="white">
+                <img :src="item.data_client._id ? baseu + 'perfil' + item.data_client._id : 'noimg.png'" spinner-color="white">
               </q-avatar>
               <div class="q-pl-sm q-mt-xs" style="width:100%">
                 <div class="row items-center">
                   <q-icon size="sm" name="person" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.full_name}} {{item.datos_cliente.last_name}}</div>
+                  <div class="col-10 text-grey-8 ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
                 </div>
                 <div class="row q-mt-sm items-center">
                   <q-icon size="sm" name="phone" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.phone}}</div>
+                  <div class="col-10 text-grey-8 ellipsis">{{item.data_client.phone}}</div>
                 </div>
                 <div class="row q-mt-sm items-center">
                   <q-icon size="sm" name="place" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis">{{item.datos_cliente.direccion}}</div>
+                  <div class="col-10 text-grey-8 ellipsis">{{item.data_client.direccion}}</div>
                 </div>
               </div>
             </div>
             <div style="width:55%">
               <div class="text-h6 q-mt-lg q-mb-xs">{{item.name}}</div>
               <div class="row q-mb-lg" style="height:50px; width:100%">
-                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.necesidad_info.descripcion}}</div>
+                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.data_request.descripcion}}</div>
               </div>
               <div class="row items-center">
                 <div class="text-h7 text-bold text-grey-9">Estado de solicitud:</div>
@@ -149,7 +149,7 @@
               </div>
               <div class="row items-center q-mt-xs q-pb-sm">
                 <q-icon size="sm" name="clean_hands" color="grey" />
-                <div class="col-10 text-subtitle1 text-grey-8 q-pl-xs ellipsis">{{item.categorianame.name}}</div>
+                <div class="col-10 text-subtitle1 text-grey-8 q-pl-xs ellipsis">{{item.data_request.categorianame.name}}</div>
               </div>
             </div>
           </div>
@@ -162,14 +162,14 @@
     </q-card>
 
     <div class="column items-center justify-center text-bold text-h6 q-ml-sm">Solicitudes en tu zona</div>
-    <listado-de-sugerencia v-if="needs.length" :data="needs" :direccion="true" ruta="proveedor"/>
+    <listado-de-sugerencia v-if="allData.length" :data="allData" :direccion="true" ruta="proveedor"/>
     <q-card v-else class="shadow-11 q-ma-md q-pa-md">
       <div class="text-center text-subtitle1">Sin solicitudes disponibles</div>
     </q-card>
 
-    <div class="q-py-lg column items-center justify-center">
+    <!-- <div class="q-py-lg column items-center justify-center">
       <q-btn v-if="needs.length > 3" color="primary" rounded no-caps :label="!ver ? 'Ver más' : 'Ver menos'" style="width:70%" class="q-py-sm" @click="verMas()" />
-    </div>
+    </div> -->
 
     <q-dialog v-model="verImg">
       <q-card>
@@ -212,7 +212,7 @@ export default {
     this.baseu3 = env.apiUrl + '/tienda_img/'
     await this.getUser()
     this.getSolicitudes()
-    this.getSolicitudes2()
+    this.getActiveRequest()
   },
   methods: {
     async getSolicitudes () {
@@ -222,15 +222,16 @@ export default {
           if (v) {
             console.log('v :>> ', v)
             this.allData = v
-            this.needs = this.allData.slice(0, 3)
+            /* this.needs = this.allData.slice(0, 3) */
           }
         })
       })
     },
-    async getSolicitudes2 () {
+    async getActiveRequest () {
       this.$api.get('show_all_cotizations3').then(v => {
         if (v) {
           this.data2 = v
+          console.log('this.data2 :>> ', this.data2)
         }
       })
     },
