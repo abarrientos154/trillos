@@ -10,7 +10,7 @@
       <div class="text-h6">Solicitudes activas</div>
       <div class="text-caption text-grey-9 q-pb-md">A continuación podrás ver todas las solicitudes activas que has creado.</div>
       <div class="column items-center" v-if="activas.length">
-        <q-card class="q-mb-sm" v-for="(item, index) in activas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item._id)">
+        <q-card class="q-mb-sm" v-for="(item, index) in activas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
@@ -19,11 +19,11 @@
                 <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
-            <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.name}}</div>
+            <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.necesidad ? item.necesidad.name : ''}}</div>
             <div class="row q-py-sm">
               <div class="column items-center justify-center" style="width:40%">
                 <q-avatar size="90px">
-                  <img :src="item.images ? baseu + '/' + item.images[0] : 'noimgpro.png'" spinner-color="white">
+                  <img :src="item.necesidad ? baseu + '/' + item.necesidad.images[0] : 'noimgpro.png'" spinner-color="white">
                 </q-avatar>
                 <div class="q-pl-sm q-mt-xs" style="width:100%">
                   <div class="row items-center">
@@ -43,7 +43,7 @@
               <div style="width:60%">
                 <div class="text-h6 q-mb-xs">Descripción</div>
                 <div class="row q-mb-md" style="height:50px; width:100%">
-                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.descripcion}}</div>
+                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.necesidad ? item.necesidad.descripcion : ''}}</div>
                 </div>
                 <div class="row items-center">
                   <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.status === 0 ? 'Disponible' : 'En Progreso'}}</div>
@@ -66,7 +66,7 @@
       <div class="text-h6">Solicitudes completadas</div>
       <div class="text-caption text-grey-9 q-pb-md">Historial de solicitudes realizadas y completadas con éxito.</div>
       <div class="column items-center" v-if="completas.length">
-        <q-card class="q-mb-sm" v-for="(item, index) in completas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item._id)">
+        <q-card class="q-mb-sm" v-for="(item, index) in completas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
@@ -75,11 +75,11 @@
                 <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
-            <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.name}}</div>
+            <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.necesidad ? item.necesidad.name : ''}}</div>
             <div class="row q-py-sm">
               <div class="column items-center justify-center" style="width:40%">
                 <q-avatar size="90px">
-                  <img :src="item.images ? baseu + '/' + item.images[0] : 'noimgpro.png'" spinner-color="white">
+                  <img :src="item.necesidad ? baseu + '/' + item.necesidad.images[0] : 'noimgpro.png'" spinner-color="white">
                 </q-avatar>
                 <div class="q-pl-sm q-mt-xs" style="width:100%">
                   <div class="row items-center">
@@ -99,7 +99,7 @@
               <div style="width:60%">
                 <div class="text-h6 q-mb-xs">Descripción</div>
                 <div class="row q-mb-md" style="height:50px; width:100%">
-                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.descripcion}}</div>
+                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.necesidad ? item.necesidad.descripcion : ''}}</div>
                 </div>
                 <div class="row items-center">
                   <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{'Finalizado'}}</div>
@@ -139,7 +139,7 @@ export default {
       this.$api.get('user_info').then(res => {
         if (res) {
           var id = res._id
-          this.$api.get('necesidad_by_user_id/' + id).then(v => {
+          this.$api.get('necesidad_by_prov_id/' + id).then(v => {
             if (v) {
               this.activas = v.filter(v => v.status === 0 || v.status === 1)
               this.completas = v.filter(v => v.status === 2)

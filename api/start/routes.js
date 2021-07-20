@@ -72,6 +72,7 @@ addPrefixToGroup(
     Route.get('necesidad', 'NecesidadController.necesidadByAll')
     Route.get('necesidades', 'NecesidadController.necesidades')
     Route.get('necesidad_by_user_id/:user_id', 'NecesidadController.necesidadByUserId')
+    Route.get('necesidad_by_prov_id/:prov_id', 'NecesidadController.necesidadByProveedorId')
     Route.get('necesidad_by_categoria_id/:categoria_id', 'NecesidadController.necesidadByCategoriaId')
     Route.get('necesidad/:id', 'NecesidadController.show')
     Route.put('necesidad/:id', 'NecesidadController.update')
