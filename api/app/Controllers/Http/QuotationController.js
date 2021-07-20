@@ -69,7 +69,8 @@ class QuotationController {
 
   async updateQuotation ({ response, params, request }) {
     let body = request.all()
-    if (body === null) {
+    console.log('body :>> ', body.status);
+    if (body.status === undefined) {
       console.log('sin body')
       let updateQuotation = await Quotation.query().where('_id', params.id).update({ status: 1 })
       let quotation = (await Quotation.query().find(params.id)).toJSON()
