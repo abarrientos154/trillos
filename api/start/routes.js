@@ -87,6 +87,7 @@ addPrefixToGroup(
     Route.post("user_by_status", "UserController.userByStatus") // metodo para obtener proveedores pendientes
     Route.put("update_status/:id", "UserController.userStatus") // metodo para bloquear o desbloquear usuarios
     Route.put('datosnew/:id', 'UserController.updatedata')
+    Route.put('editar_perfil/:id', 'UserController.editarPerfil')
 
 
     Route.post("crear_chat/:id_cotisation", "ChatController.storeChat")

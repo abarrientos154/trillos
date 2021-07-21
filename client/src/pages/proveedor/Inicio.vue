@@ -4,7 +4,7 @@
       <div class="absolute-full">
       <div class="column absolute-top-right q-mt-md q-pr-md">
         <q-btn color="primary" label="Editar perfil" rounded no-caps class="q-pa-xs"
-        @click="rol !== 1 ? $router.push('/Datos') : ''" />
+        @click="rol !== 1 ? $router.push('/perfil/taller') : ''" />
       </div>
         <div class="column absolute-bottom-right q-pb-md q-pr-md">
           <q-rating v-model="ratingTienda" size="1.5em" color="yellow" readonly/>

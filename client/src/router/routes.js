@@ -16,6 +16,7 @@ const routes = [
       { path: '/reportes_usuarios', component: () => import('pages/admin/Reportes.vue') },
       // Proveedor
       { path: '/inicio_proveedor', component: () => import('pages/proveedor/Inicio.vue'), meta: { botonchat: true } },
+      { path: '/perfil/taller', component: () => import('pages/proveedor/Perfil.vue'), meta: { botonchat: true } },
       { path: '/productos', component: () => import('pages/proveedor/Productos.vue'), meta: { botonchat: true } },
       { path: '/registroproductos', component: () => import('pages/proveedor/RegistroProductos.vue'), meta: { botonchat: false } },
       { path: '/editar_producto/:id', component: () => import('pages/proveedor/RegistroProductos.vue'), meta: { botonchat: false } },
