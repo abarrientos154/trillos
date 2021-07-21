@@ -220,7 +220,6 @@ export default {
         this.info = res
         this.$api.get('necesidades').then(v => {
           if (v) {
-            console.log('v :>> ', v)
             this.allData = v
             /* this.needs = this.allData.slice(0, 3) */
           }
@@ -231,7 +230,6 @@ export default {
       this.$api.get('show_all_cotizations3').then(v => {
         if (v) {
           this.data2 = v
-          console.log('this.data2 :>> ', this.data2)
         }
       })
     },
@@ -243,7 +241,6 @@ export default {
         if (this.rol === 3) {
           this.datosproveedor = true
           this.form2 = v
-          console.log('datos proveedor', this.form2)
           this.id = this.form2._id
           this.calificacion()
           this.consultaropinion()

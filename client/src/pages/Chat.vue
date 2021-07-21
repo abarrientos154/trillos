@@ -414,7 +414,6 @@ export default {
                 price: v.price,
                 status: v.status
               }
-              console.log('this.data2 :>> ', this.data2)
               this.data = v
               if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
@@ -459,7 +458,6 @@ export default {
       })
     },
     showRequest (data) {
-      console.log('data :>> ', data)
       this.request2 = data
       this.categoryName = this.request2.categoryName
       this.clientData = data.data_client
@@ -471,7 +469,6 @@ export default {
       }
     },
     async changeStatus () {
-      console.log('this.form :>> ', this.form)
       this.$v.form.$touch()
       if (this.form.status === 1) {
         this.$v.extensionDate.$touch()
@@ -479,8 +476,6 @@ export default {
           this.form.date = this.extensionDate
         }
         if (!this.$v.form.$error && !this.$v.extensionDate.$error) {
-          console.log('this.form :>> ', this.form)
-          console.log('this.id :>> ', this.id)
           await this.$api.put('updateQuotation/' + this.id, this.form).then(res => {
             if (res) {
               this.slide2 = 2
@@ -490,8 +485,6 @@ export default {
       }
       if (this.form.status === 2) {
         if (!this.$v.form.$error) {
-          console.log('this.form :>> ', this.form)
-          console.log('this.id :>> ', this.id)
           await this.$api.put('updateQuotation/' + this.id, this.form).then(res => {
             if (res) {
               this.slide2 = 2

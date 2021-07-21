@@ -233,7 +233,6 @@ export default {
             this.$api.get('show_all_chats').then(res => {
               if (res) {
                 this.data = res
-                console.log('this.data :>> ', this.data)
               }
             })
           }
@@ -252,7 +251,6 @@ export default {
       this.show = true
     },
     showRequest (data) {
-      console.log('data >> ', data)
       this.idQuotation = data._id
       this.request2 = data.data_request
       this.request2.colorRadio = this.request2.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : this.request2.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
