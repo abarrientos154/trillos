@@ -192,9 +192,9 @@
       <q-dialog v-model="show2" transition-show="slide-up" transition-hide="slide-down">
         <q-carousel class="window-height" animated v-model="slide2" infinite ref="carousel">
           <q-carousel-slide :name="1" class="q-pa-none">
-            <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
+            <div class="text-right q-mt-xs q-mr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
             <div class="column items-center justify-center">
-              <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
+              <div class="text-center text-white q-mt-xs text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
             </div>
             <div class="row items-center q-pt-lg">
               <div class="col-5 row justify-center">
@@ -244,9 +244,15 @@
             <div v-if="change">
               <div class="q-ml-md text-h6 text-bold q-mt-md">Cambio de estado</div>
               <div class="q-mx-md q-mt-md">Cambia el estado de tarjeta de solicitud. Así podrás tener un control mas claro de tu trato con el cliente. Recuerda que una vez que des el trabajo por finalizado el cliente podra cambiar el estado del servicio a finalizado.</div>
-              <q-select class="q-mx-md q-mt-sm" color="grey" filled option-label="name" option-value="value" emit-value map-options v-model="form.status" :options="options" label="Estado de la solicitud" dense :error="$v.form.status.$error" error-message="Este campo es requerido" @blur="$v.form.status.$touch()" @input="extend(form.status)">
-              </q-select>
-              <div v-if="extension == true">
+              <div class="row justify-center q-mt-sm">
+                <q-btn-group>
+                  <q-btn v-for="(btn, index) in btnG" :key="index" no-caps :class="btn.selected ? 'text-white' : 'text-black'" :color="btn.selected == true ? 'primary' : 'white'" :label="btn.name" @click="selectOption(btn)"/>
+                </q-btn-group>
+              </div>
+              <div v-if="finish == true">
+                <div class="q-mx-md q-mt-md">Una vez finalizado el servicio no podrás volver atrás.</div>
+              </div>
+              <div v-if="extension == true" class="q-mt-md">
                 <q-input class="q-mx-md" ss filled readonly dense v-model="extensionDate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
                 error-message="Este campo es requerido" :error="$v.extensionDate.$error" @blur="$v.extensionDate.$touch()">
                   <template v-slot:append>
@@ -263,8 +269,8 @@
                 </q-input>
               </div>
             </div>
-            <div v-if="request2.status === 1" class="row justify-center q-pa-sm q-mt-md">
-              <q-btn rounded  color="primary" label="Cambiar estado" no-caps style="width:200px" @click="change == false ? activeChange() : changeStatus()"/>
+            <div v-if="request2.status === 1" class="row justify-center q-pa-sm q-mt-sm">
+              <q-btn rounded  color="primary" :label="finish == false && extension == false ? 'Cambiar estado': finish == true ? 'Finalizar' : 'Prorrogar fecha'" no-caps style="width:200px" @click="change == false ? activeChange() : changeStatus()"/>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2" class="q-pa-none column items-center">
@@ -370,12 +376,13 @@ export default {
       slide2: 1,
       change: false,
       form: {},
-      options: [
-        { name: 'En progreso', value: 1 },
-        { name: 'Finalizado', value: 2 }
-      ],
       extension: false,
-      extensionDate: ''
+      extensionDate: null,
+      finish: false,
+      btnG: [
+        { name: 'Cambiar fecha', selected: false, value: 1 },
+        { name: 'Finalizar', selected: false, value: 2 }
+      ]
     }
   },
   validations: {
@@ -388,7 +395,6 @@ export default {
     this.getinfo()
     this.baseu = env.apiUrl + '/perfil_img/perfil'
     this.baseu2 = env.apiUrl + '/necesidad_img/'
-    console.log('this.id :>> ', this.id)
   },
   methods: {
     async getinfo () {
@@ -398,7 +404,6 @@ export default {
           this.$api.get('show_all_messages/' + this.id).then(v => {
             if (v) {
               this.request.push(v.data_request)
-              console.log('this.request :>> ', this.request)
               this.clientId = v.datos_cliente
               this.supplierId = v.datos_proveedor
               this.data2 = {
@@ -410,7 +415,6 @@ export default {
               }
               console.log('this.data2 :>> ', this.data2)
               this.data = v
-              console.log(v, 'data de v')
               if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
                 this.presupuesto = true
@@ -466,27 +470,48 @@ export default {
       }
     },
     async changeStatus () {
+      console.log('this.form :>> ', this.form)
       this.$v.form.$touch()
       if (this.form.status === 1) {
         this.$v.extensionDate.$touch()
         if (!this.$v.extensionDate.$error) {
           this.form.date = this.extensionDate
         }
+        if (!this.$v.form.$error && !this.$v.extensionDate.$error) {
+          console.log('this.form :>> ', this.form)
+          console.log('this.id :>> ', this.id)
+          await this.$api.put('updateQuotation/' + this.id, this.form).then(res => {
+            if (res) {
+              this.slide2 = 2
+            }
+          })
+        }
       }
-      if (!this.$v.form.$error) {
-        console.log('this.form :>> ', this.form)
-        console.log('this.id :>> ', this.id)
-        await this.$api.put('updateQuotation/' + this.id, this.form).then(res => {
-          if (res) {
-            this.slide2 = 2
-          }
-        })
+      if (this.form.status === 2) {
+        if (!this.$v.form.$error) {
+          console.log('this.form :>> ', this.form)
+          console.log('this.id :>> ', this.id)
+          await this.$api.put('updateQuotation/' + this.id, this.form).then(res => {
+            if (res) {
+              this.slide2 = 2
+            }
+          })
+        }
       }
     },
-    extend (value) {
-      console.log('value :>> ', value)
-      if (value === 1) {
+    selectOption (btn) {
+      if (btn.value === 1) {
+        this.btnG[1].selected = false
+        this.btnG[0].selected = true
+        this.form.status = 1
         this.extension = true
+        this.finish = false
+      } else if (btn.value === 2) {
+        this.btnG[1].selected = true
+        this.btnG[0].selected = false
+        this.form.status = 2
+        this.finish = true
+        this.extension = false
       }
     }
   },
