@@ -2,13 +2,13 @@
   <div style="heigth:100%">
       <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
-          <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{data.fechaCreacion}}</div>
+          <div class="text-right q-mt-xs q-mr-xs">Fecha de Solicitud {{data.fechaCreacion}}</div>
           <div class="column items-center justify-center">
-            <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${data.colorRadio}`" style="width:100%">{{data.name}}</div>
+            <div class="text-center text-white q-mt-sm text-h5" :class="`bg-${data.colorRadio}`" style="width:100%">{{data.name}}</div>
           </div>
           <div class="row items-center q-pt-lg">
             <div class="col-5 row justify-center">
-              <q-avatar size="100px">
+              <q-avatar v-if="data.creador._id" size="100px">
                 <img :src="profile + 'perfil' + data.creador._id">
               </q-avatar>
             </div>
@@ -55,14 +55,17 @@
               </q-card>
             </div>
           </q-scroll-area>
-          <div class="row justify-center q-pa-sm q-mt-md">
+          <div v-if="data.isQuoted != true" class="row justify-center q-pa-sm q-mt-md">
             <q-btn rounded  color="primary" label="Contactar" no-caps style="width:200px" @click="next()"/>
+          </div>
+          <div v-else class="row justify-center q-pa-sm q-mt-md">
+            <div class="text-subtitle1">¡Tu cotización ya fue enviada!</div>
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="2" class="q-pa-none">
-          <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{data.fechaCreacion}}</div>
+          <div class="text-right q-pr-sm q-mt-xs q-mr-xs">Fecha de Solicitud {{data.fechaCreacion}}</div>
           <div class="column items-center justify-center">
-            <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${data.colorRadio}`" style="width:100%">{{data.name}}</div>
+            <div class="text-center text-white q-mt-sm text-h5" :class="`bg-${data.colorRadio}`" style="width:100%">{{data.name}}</div>
           </div>
           <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
           <div class="row q-mb-lg" style="height:60px">
@@ -171,7 +174,7 @@ export default {
       }
     },
     finish () {
-      this.$emit('close', true)
+      this.$router.push('/inicio_proveedor')
     }
   }
 }

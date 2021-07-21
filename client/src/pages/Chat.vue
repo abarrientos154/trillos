@@ -8,6 +8,7 @@
         <q-btn flat round dense icon="person" color="primary" @click="$router.push('/Datos')"  />
       </q-toolbar>
     </q-header> -->
+    <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
     <div class="text-h6 text-bold text-center q-mt-sm">Toca la tarjeta para ver</div>
     <div class="text-subtitle2 text-center q-mb-sm">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
 

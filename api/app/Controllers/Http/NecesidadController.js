@@ -65,15 +65,19 @@ class NecesidadController {
   async necesidades ({ response, params, auth }) {
     try {  
       const user = (await auth.getUser()).toJSON()
-      let data = (await Necesidad.query().where({}).with('creador').with('categorianame').fetch()).toJSON()
+      let data = (await Necesidad.query().where({ status: 0 }).with('creador').with('categorianame').fetch()).toJSON()
       let quotations = (await Quotation.query().where({}).fetch()).toJSON()
       let requests = []
 
       for (let x in quotations) {
         for (let k in data) {
           if (data[k]._id === quotations[x].request_id && quotations[x].supplier_id === user._id) {
-            data.splice(k, 1)
+            //data.splice(k, 1)
+            data[k].isQuoted = true
             console.log('si pasa');
+          } else {
+            console.log('tambien pasa');
+            data[k].isQuoted = false
           }
         }
       }
