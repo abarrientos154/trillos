@@ -51,7 +51,7 @@
           >
             <div class="row no-wrap" style="width: 100%">
               <q-card v-for="(img, index) in data.images" class="bg-secondary q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index" @click="imgSelec = baseu + img, showImg = true">
-                <q-img :src="data.images ? baseu + img : 'noimgpro.png'" spinner-color="white" style="height: 100px; width: 100px" />
+                <q-img :src="!data.images ? 'noimgpro.png' : baseu + img" spinner-color="white" style="height: 100px; width: 100px" />
               </q-card>
             </div>
           </q-scroll-area>
@@ -143,7 +143,6 @@ export default {
   },
   mounted () {
     this.baseu = env.apiUrl + '/necesidad_img/'
-    console.log('this.data :>> ', this.data)
   },
   validations: {
     form: {
@@ -168,7 +167,6 @@ export default {
           if (res) {
             this.$q.loading.hide()
             this.slide = 3
-            console.log('sirve')
           }
         })
       }
