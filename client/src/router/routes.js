@@ -25,6 +25,7 @@ const routes = [
       { path: '/mis_solicitudes', component: () => import('pages/proveedor/Solicitudes.vue'), meta: { botonchat: true } },
       // Cliente
       { path: '/inicio_cliente', component: () => import('pages/cliente/Inicio.vue'), meta: { botonchat: true } },
+      { path: '/perfil/cliente', component: () => import('pages/cliente/Perfil.vue'), meta: { botonchat: true } },
       { path: '/solicitudes', component: () => import('pages/cliente/Necesidades.vue'), meta: { botonchat: true } },
       { path: '/registronecesidades', component: () => import('pages/cliente/RegistroNecesidades.vue'), meta: { botonchat: false } },
       { path: '/editar_solicitud/:id', component: () => import('pages/cliente/RegistroNecesidades.vue'), meta: { botonchat: false } },

@@ -1,6 +1,10 @@
 <template>
   <div>
     <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px"/>
+    <div class="column absolute-top-right q-pa-md">
+      <q-btn color="primary" label="Editar perfil" rounded no-caps class="q-pa-xs"
+        @click="rol === 2 ? $router.push('/perfil/cliente') : ''" />
+    </div>
 
     <div>
       <div class="q-py-lg q-px-sm">
@@ -190,6 +194,7 @@ export default {
   data () {
     return {
       ratingTienda: 4,
+      rol: 0,
       baseuTienda: '',
       user: {},
       categorias: [],
@@ -215,6 +220,7 @@ export default {
       await this.$api.get('user_info').then(v => {
         if (v) {
           this.user = v
+          this.rol = v.roles[0]
           this.getQuotations()
         }
       })
