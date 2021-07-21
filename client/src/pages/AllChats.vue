@@ -99,32 +99,26 @@
     </div>
 
     <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
-      <q-carousel class="window-height" animated v-model="slide" infinite ref="carousel">
-        <q-carousel-slide :name="1" class="q-pa-none" v-for="(item, index) in mapeando" :key="index">
-          <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
-          <div class="column items-center justify-center">
-            <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
-          </div>
+      <q-carousel style="height:100%; width:100%" animated v-model="slide" infinite ref="carousel">
+        <q-carousel-slide :name="1" class="q-px-none q-pt-md" v-for="(item, index) in mapeando" :key="index">
+          <div class="text-right text-grey-9 q-pb-xs q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
+          <div class="text-center text-white text-h5 q-py-sm" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
           <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
           <div class="row q-mb-lg" style="height:60px">
             <div class="col-12 q-px-md text-center text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <div class="text-subtitle1 q-ml-md">Mensaje de Contacto</div>
-            <q-input class="q-mx-md" readonly filled v-model="data2.message" type="textarea"/>
+            <div class="q-ml-md">Mensaje de Contacto</div>
+            <q-input class="q-mx-md" readonly disable filled v-model="data2.message" type="textarea"/>
           </div>
-          <div class="row justify-around items-center">
-            <div class="text-bold">Fecha de termino</div>
-            <q-input class="col-5" ss filled readonly dense v-model="data2.date" placeholder="dd/mm/aaaa">
-              <template v-slot:append>
-                <q-icon name="event" class="cursor-pointer">
-                </q-icon>
-              </template>
+          <div class="row justify-around items-center q-py-lg">
+            <div>Fecha de termino</div>
+            <q-input class="col-5" filled readonly disable dense v-model="data2.date" placeholder="dd/mm/aaaa">
             </q-input>
           </div>
           <div class="row justify-around items-center">
-            <div class="text-bold">Coste estimado</div>
-            <q-input type="number" class="col-5" prefix="$" readonly filled dense v-model="data2.price">
+            <div>Coste estimado</div>
+            <q-input type="number" class="col-5" prefix="$" readonly disable filled dense v-model="data2.price">
             </q-input>
           </div>
         </q-carousel-slide>
