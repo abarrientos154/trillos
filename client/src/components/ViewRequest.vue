@@ -174,7 +174,7 @@ export default {
       }
     },
     finish () {
-      this.$router.push('/inicio_proveedor')
+      this.$router.push('/inicio_taller')
     }
   }
 }

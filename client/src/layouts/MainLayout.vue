@@ -34,7 +34,7 @@
         </div>
       </div>
       <!-- <div v-else class="bg-grey-1 text-primary shadow-2 full-width row justify-around" >
-        <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_proveedor' : rol === 1 ? '/inicio_administrador' : ''" />
+        <q-btn icon="home" color="primary" flat round size="md" :to="rol === 2 ? '/inicio_cliente' : rol === 3 ? '/inicio_taller' : rol === 1 ? '/inicio_administrador' : ''" />
         <q-btn :icon="rol === 3 ? 'card_giftcard' : 'view_list'" color="primary" flat round size="md" :to="rol === 2 ? '/solicitudes' : rol === 3 ? '/productos' : rol === 1 ? '/reportes_usuarios' : ''"/>
         <q-btn v-if="rol != 1 && comprobar" icon="add" outline color="secondary" class="q-mb-sm" round size="lg" :to="rol === 2 ? '/registronecesidades' : rol === 3 ? '/registroproductos' : ''"/>
         <q-btn :icon="rol === 1 ? 'lock_clock' : 'fact_check'" color="primary" flat round size="md" :to="rol === 1 ? '/proveedores_pendientes' : '/mis_cotizaciones'" />
@@ -116,7 +116,7 @@ export default {
           id: 2,
           src: 'todoslostaller.png',
           name: 'Talleres',
-          ruta: ''
+          ruta: '/talleres'
         },
         {
           id: 3,
@@ -142,7 +142,7 @@ export default {
           id: 1,
           src: 'home.png',
           name: 'Inicio',
-          ruta: '/inicio_proveedor'
+          ruta: '/inicio_taller'
         },
         /* {
           id: 2,

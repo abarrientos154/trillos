@@ -10,20 +10,21 @@
       <div class="q-py-lg q-px-sm">
         <div class="text-bold text-h6">¿Donde necesitas ayuda?</div>
         <div class="text-caption text-grey-9 q-mb-xs">Selecciona la ciudad donde quieres ver los talleres</div>
-        <q-select class="q-mb-md" v-model="city" label="Nombre de la ciudad" outlined dense :options="[]"/>
+        <q-select class="q-mb-md" v-model="city" label="Nombre de la ciudad" option-label="name" option-value="_id" emit-value map-options outlined dense :options="cities"/>
         <q-scroll-area horizontal style="height: 55px;" class="q-mb-xs">
           <div class="row no-wrap">
             <q-btn v-for="(categoria, index) in categorias" :key="index" :color="seleCat === categoria._id ? 'primary' : 'secondary'" @click="seleCat = categoria._id" class="text-no-wrap text-subtitle1 text-bold q-mr-md" :label="categoria.name" style="border-radius: 10px;" no-caps/>
           </div>
         </q-scroll-area>
         <div class="column items-center">
-          <q-btn rounded class="q-pa-xs" color="primary" label="Buscar" style="width: 60%;" no-caps/>
+          <q-btn rounded :disable="!city || seleCat === '' ? true : false" class="q-pa-xs" color="primary" label="Buscar" style="width: 60%;" no-caps
+          @click="buscar()"/>
         </div>
       </div>
 
       <div class="q-pb-lg">
         <div class="text-bold text-h6 q-mb-md q-px-sm">Nuestros talleres disponibles</div>
-        <div class="row q-mb-md">
+        <div v-if="tiendas.length" class="row q-mb-md">
           <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in tiendas" :key="index">
             <q-card @click="$router.push('/tienda/' + tienda._id)">
               <div>
@@ -58,6 +59,13 @@
             </q-card>
           </div>
         </div>
+        <div v-else class="q-px-md q-pb-lg">
+          <q-card class="full-width">
+            <q-card-section>
+              <div class="text-center text-bold text-grey-8">En este momento hay talleres disponibles</div>
+            </q-card-section>
+          </q-card>
+        </div>
         <div v-if="tiendas.length > 4" class="column items-center">
           <q-btn rounded class="q-pa-xs" color="primary" :label="ver1 ? 'Ver menos' : 'Ver más'" @click="verMas(1)" style="width: 60%;" no-caps/>
         </div>
@@ -72,9 +80,9 @@
           <div class="text-bold text-h6">Talleres mejor calificados</div>
           <div class="text-caption text-grey-9 q-mb-xs">Conoce los 10 talleres que prestan mejor servicio.</div>
         </div>
-        <q-scroll-area v-if="TPopulares.length" horizontal style="height: 300px;" class="q-mb-xs">
+        <q-scroll-area v-if="populares.length" horizontal style="height: 300px;" class="q-mb-xs">
           <div class="row no-wrap q-pl-md">
-            <q-card class="q-mr-md" @click="$router.push('/tienda/' + tienda._id)" v-for="(tienda, index) in TPopulares" :key="index" style="width: 200px;">
+            <q-card class="q-mr-md" @click="$router.push('/tienda/' + tienda._id)" v-for="(tienda, index) in populares" :key="index" style="width: 200px;">
               <div>
                 <q-rating class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
                 <div class="bg-primary text-white text-subtitle1 text-bold q-px-sm">{{tienda.full_name}}</div>
@@ -110,7 +118,7 @@
         <div v-else class="q-px-md q-pb-lg">
           <q-card class="full-width">
             <q-card-section>
-              <div class="text-center text-bold text-grey">En este momento hay talleres calificados</div>
+              <div class="text-center text-bold text-grey-8">En este momento hay talleres calificados</div>
             </q-card-section>
           </q-card>
         </div>
@@ -125,8 +133,8 @@
           <div class="text-bold text-h6">Nuevos talleres</div>
           <div class="text-caption text-grey-9 q-mb-xs">Ultimos talleres registrados</div>
         </div>
-        <div class="row q-mb-md">
-          <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in TUltimas" :key="index">
+        <div v-if="ultimas.length" class="row q-mb-md">
+          <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in ultimas" :key="index">
             <q-card @click="$router.push('/tienda/' + tienda._id)">
               <div>
                 <q-rating class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
@@ -160,7 +168,14 @@
             </q-card>
           </div>
         </div>
-        <div v-if="TUltimas.length > 4" class="column items-center">
+        <div v-else class="q-px-md q-pb-lg">
+          <q-card class="full-width">
+            <q-card-section>
+              <div class="text-center text-bold text-grey-8">En este momento hay talleres disponibles</div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div v-if="ultimas.length > 4" class="column items-center">
           <q-btn rounded class="q-pa-xs" color="primary" :label="ver2 ? 'Ver menos' : 'Ver más'" @click="verMas(2)" style="width: 60%;" no-caps/>
         </div>
       </div>
@@ -193,27 +208,28 @@ import env from '../../env'
 export default {
   data () {
     return {
+      ver1: false,
+      ver2: false,
+      show: false,
+      city: null,
       ratingTienda: 4,
       rol: 0,
       baseuTienda: '',
+      seleCat: '',
       user: {},
+      cities: [],
       categorias: [],
       alltiendas: [],
       tiendas: [],
-      TUltimas: [],
-      TPopulares: [],
-      city: '',
-      seleCat: '',
-      ver1: false,
-      ver2: false,
-      show: false
+      ultimas: [],
+      populares: []
     }
   },
   mounted () {
     this.getUser()
     this.getCategorias()
     this.getTiendas()
-    this.getTPopulares()
+    this.getPopulares()
   },
   methods: {
     async getUser () {
@@ -221,6 +237,11 @@ export default {
         if (v) {
           this.user = v
           this.rol = v.roles[0]
+          this.$api.get('cityByCountry/' + this.user.country).then(res => {
+            if (res) {
+              this.cities = res
+            }
+          })
           this.getQuotations()
         }
       })
@@ -237,15 +258,15 @@ export default {
         if (res) {
           this.alltiendas = res
           this.tiendas = this.alltiendas.slice(0, 4)
-          this.TUltimas = this.alltiendas.reverse().slice(0, 4)
+          this.ultimas = this.alltiendas.reverse().slice(0, 4)
           this.baseuTienda = env.apiUrl + '/perfil_img/perfil'
         }
       })
     },
-    getTPopulares () {
+    getPopulares () {
       this.$api.get('mas_populares').then(res => {
         if (res) {
-          this.TPopulares = res.slice(0, 10)
+          this.populares = res.slice(0, 10)
         }
       })
     },
@@ -256,6 +277,9 @@ export default {
           this.seleCat = this.categorias[0]._id
         }
       })
+    },
+    buscar () {
+      this.$router.push('/talleres/' + this.city + '/' + this.seleCat)
     },
     verMas (ver) {
       if (ver === 1) {
@@ -268,9 +292,9 @@ export default {
       } else if (ver === 2) {
         this.ver2 = !this.ver2
         if (this.ver2) {
-          this.TUltimas = this.alltiendas.reverse().slice(0, 8)
+          this.ultimas = this.alltiendas.reverse().slice(0, 8)
         } else {
-          this.TUltimas = this.alltiendas.reverse().slice(0, 4)
+          this.ultimas = this.alltiendas.reverse().slice(0, 4)
         }
       }
     }

@@ -15,7 +15,7 @@ const routes = [
       { path: '/editar_productoprove/:id', component: () => import('pages/admin/EditarProducto.vue') },
       { path: '/reportes_usuarios', component: () => import('pages/admin/Reportes.vue') },
       // Proveedor
-      { path: '/inicio_proveedor', component: () => import('pages/proveedor/Inicio.vue'), meta: { botonchat: true } },
+      { path: '/inicio_taller', component: () => import('pages/proveedor/Inicio.vue'), meta: { botonchat: true } },
       { path: '/perfil/taller', component: () => import('pages/proveedor/Perfil.vue'), meta: { botonchat: true } },
       { path: '/productos', component: () => import('pages/proveedor/Productos.vue'), meta: { botonchat: true } },
       { path: '/registroproductos', component: () => import('pages/proveedor/RegistroProductos.vue'), meta: { botonchat: false } },
@@ -25,6 +25,8 @@ const routes = [
       { path: '/mis_solicitudes', component: () => import('pages/proveedor/Solicitudes.vue'), meta: { botonchat: true } },
       // Cliente
       { path: '/inicio_cliente', component: () => import('pages/cliente/Inicio.vue'), meta: { botonchat: true } },
+      { path: '/talleres', component: () => import('pages/cliente/Tiendas.vue'), meta: { botonchat: true } },
+      { path: '/talleres/:city/:cat', component: () => import('pages/cliente/Tiendas.vue'), meta: { botonchat: true } },
       { path: '/perfil/cliente', component: () => import('pages/cliente/Perfil.vue'), meta: { botonchat: true } },
       { path: '/solicitudes', component: () => import('pages/cliente/Necesidades.vue'), meta: { botonchat: true } },
       { path: '/registronecesidades', component: () => import('pages/cliente/RegistroNecesidades.vue'), meta: { botonchat: false } },

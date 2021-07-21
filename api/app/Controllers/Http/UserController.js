@@ -170,9 +170,15 @@ class UserController {
     response.send(user)
   }
 
-  async userByRol({ request, params, response }) {
+  async userByRol({ request, auth, response }) {
     let rol = request.all()
-    const user = (await User.query().where({roles: rol.rol}).fetch()).toJSON()
+    const logueado = (await auth.getUser()).toJSON()
+    let user
+    if (logueado.roles[0] === 2) {
+      user = (await User.query().where({roles: rol.rol, city: logueado.city}).fetch()).toJSON()
+    } else {
+      user = (await User.query().where({roles: rol.rol}).fetch()).toJSON()
+    }
     for (let i = 0; i < user.length; i++) {
       let ciudad = (await Ciudades.query().where('_id', user[i].city).first()).toJSON()
       let pais = (await Paises.query().where('_id', user[i].country).first()).toJSON()
@@ -206,6 +212,34 @@ class UserController {
     let dat = request.all()
     let modificar = await User.query().where('_id', params.id).update({status: dat.status})
     response.send(modificar)
+  }
+
+  async filtrarTalleres({ response, request }) {
+    let type = request.all().type
+    let city = request.all().ciudad
+    let allTalleres = (await User.query().where({roles: [3], city: city}).fetch()).toJSON()
+    let filtrados = []
+
+    for (let i = 0; i < allTalleres.length; i++) {
+      if (allTalleres[i].categorias.find(v => v === type)) {
+        filtrados.push(allTalleres[i])
+      }
+    }
+
+    for (let i = 0; i < filtrados.length; i++) {
+      let ciudad = (await Ciudades.query().where('_id', filtrados[i].city).first()).toJSON()
+      let pais = (await Paises.query().where('_id', filtrados[i].country).first()).toJSON()
+      filtrados[i].pais = pais.name
+      filtrados[i].ciudad = ciudad.name
+      var categoriasInfo = []
+      for (let c = 0; c < filtrados[i].categorias.length; c++) {
+        let categoria = (await Categorias.query().where('_id', filtrados[i].categorias[c]).first()).toJSON()
+        categoriasInfo.push(categoria)
+      }
+      filtrados[i].categoriasInfo = categoriasInfo
+    }
+
+    response.send(filtrados)
   }
 
   async update({ request, response, params }) {

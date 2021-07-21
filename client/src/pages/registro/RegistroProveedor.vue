@@ -632,7 +632,7 @@ export default {
           const client = res.TRI_SESSION_INFO.roles.find(value => value === 2)
           if (!client) {
             this.login(res)
-            this.$router.push('/inicio_proveedor')
+            this.$router.push('/inicio_taller')
           } else {
             this.login(res)
             this.$router.push('/inicio_cliente')
