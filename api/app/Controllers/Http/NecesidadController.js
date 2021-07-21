@@ -3,6 +3,7 @@ const Necesidad = use("App/Models/Necesidad")
 const ChatMessage = use("App/Models/ChatMessage")
 const Quotation = use("App/Models/Quotation")
 const Categorias = use("App/Models/Categoria")
+const User = use("App/Models/User")
 const { validate } = use("Validator")
 const Helpers = use('Helpers')
 const mkdirp = use('mkdirp')
@@ -39,6 +40,18 @@ class NecesidadController {
       datos[i].colorRadio = datos[i].necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : datos[i].necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
       datos[i].fechaCreacion = moment(datos[i].created_at).format('DD/MM/YYYY')
       datos[i].categoriaInfo = (await Categorias.query().where('_id', datos[i].categoria_id).first()).toJSON()
+    }
+    response.send(datos)
+  }
+
+  async necesidadByProveedorId ({ response, params }) {
+    let datos = (await Quotation.query().where({supplier_id: params.prov_id}).fetch()).toJSON()
+    for (let i = 0; i < datos.length; i++) {
+      datos[i].creador = (await User.query().where('_id', datos[i].client_id).first()).toJSON()
+      datos[i].necesidad = (await Necesidad.query().where('_id', datos[i].request_id).first()).toJSON()
+      datos[i].colorRadio = datos[i].necesidad.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : datos[i].necesidad.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+      datos[i].fechaCreacion = moment(datos[i].necesidad.created_at).format('DD/MM/YYYY')
+      datos[i].categoriaInfo = (await Categorias.query().where('_id', datos[i].necesidad.categoria_id).first()).toJSON()
     }
     response.send(datos)
   }

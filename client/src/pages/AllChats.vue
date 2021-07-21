@@ -12,7 +12,7 @@
     <!-- <div v-if="data.length > 0" class="q-pr-md q-pt-sm text-subtitle2 text-right text-grey-8"><u>Tienes {{ data.length }} Mensajes</u></div> -->
 
     <div v-if="data.length > 0 && data[0].data_supplier" class="col-12 q-pa-md">
-        <q-card v-for="(chat, index) in data" :key="index">
+        <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
               <q-btn :color="chat.viewed === false ? 'orange' : 'primary'" label="Ver cotización" no-caps style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
               <div>
@@ -58,7 +58,7 @@
         </q-card>
     </div>
     <div v-if="data.length > 0 && data[0].data_client" class="col-12 q-pa-md">
-        <q-card v-for="(chat, index) in data" :key="index">
+        <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
               <q-btn :color="chat.viewed === false ? 'orange' : 'primary'" label="Ver Solicitud" no-caps style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
             </div>
@@ -97,6 +97,7 @@
             </div>
         </q-card>
     </div>
+
     <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
       <q-carousel class="window-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none" v-for="(item, index) in mapeando" :key="index">

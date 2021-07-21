@@ -299,6 +299,12 @@ class UserController {
       response.send(s)
     }
 
+    async editarPerfil ({ params, request, response }) {
+      let body = request.only(User.fillable)
+      await User.query().where({_id: params.id}).update(body)
+      response.send(body)
+    }
+
     async updatedata ({ params, request, response }) {
       let body = request.only(User.fillable)
       let verificacion = body.cambioSoloClave
