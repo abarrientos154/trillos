@@ -103,57 +103,56 @@
     <q-scroll-area
       v-if="data2.length"
       horizontal
-      style="height: 250px; width: 100%;"
+      style="height: 230px; width: 100%;"
       class="rounded-borders"
     >
       <div class="row no-wrap q-gutter-md q-px-md">
-        <q-card v-for="(item, index) in data2" :key="index" style="width:450px;height:230px; border-radius:25px">
-          <div class="absolute-top-right q-pr-sm">
-            <div class="row">
-              <div class="text-h7 text-grey-8 q-mt-xs">Nivel de requerimiento</div>
-              <div class="row">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+        <q-card v-for="(item, index) in data2" :key="index" style="width:350px;height:210px; border-radius:10px">
+          <div class="row justify-end q-pr-md">
+            <div class="row items-center">
+              <div class="text-caption text-grey-8">Nivel de requerimiento</div>
+              <div class="row q-gutter-xs q-pl-xs">
+                <q-radio v-model="item.colorRadio" dense keep-color size="xs" val="red" color="red" />
+                <q-radio v-model="item.colorRadio" dense keep-color size="xs" val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" dense keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="q-mt-xs column items-center justify-center" style="width:45%">
+            <div class="column items-center justify-center" style="width:40%">
               <q-avatar size="90px">
                 <img :src="item.data_client._id ? baseu + 'perfil' + item.data_client._id : 'noimg.png'" spinner-color="white">
               </q-avatar>
               <div class="q-pl-sm q-mt-xs" style="width:100%">
                 <div class="row items-center">
-                  <q-icon size="sm" name="person" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
+                  <q-icon size="xs" name="person" color="grey" />
+                  <div class="col-10 text-grey-8 ellipsis text-caption">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
                 </div>
                 <div class="row q-mt-sm items-center">
-                  <q-icon size="sm" name="phone" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis">{{item.data_client.phone}}</div>
+                  <q-icon size="xs" name="phone" color="grey" />
+                  <div class="col-10 text-grey-8 ellipsis text-caption">{{item.data_client.phone}}</div>
                 </div>
                 <div class="row q-mt-sm items-center">
-                  <q-icon size="sm" name="place" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis">{{item.data_client.direccion}}</div>
+                  <q-icon size="xs" name="place" color="grey" />
+                  <div class="col-10 text-grey-8 ellipsis text-caption">{{item.data_client.direccion}}</div>
                 </div>
               </div>
             </div>
-            <div style="width:55%">
-              <div class="text-h6 q-mt-lg q-mb-xs">{{item.name}}</div>
+            <div style="width:60%">
+              <div class="text-subtitle1 text-bold q-mb-xs">{{item.data_request.name}}</div>
               <div class="row q-mb-lg" style="height:50px; width:100%">
                 <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.data_request.descripcion}}</div>
               </div>
-              <div class="row items-center">
-                <div class="text-h7 text-bold text-grey-9">Estado de solicitud:</div>
-                <div class="q-pl-xs text-subtitle1 text-grey-8">{{item.status}}</div>
+              <div class="row items-center no-wrap">
+                <div class="text-grey-9 ellipsis"><b>Estado de solicitud:</b> En progreso</div>
               </div>
               <div class="row items-center q-mt-xs q-pb-sm">
                 <q-icon size="sm" name="clean_hands" color="grey" />
-                <div class="col-10 text-subtitle1 text-grey-8 q-pl-xs ellipsis">{{item.data_request.categorianame.name}}</div>
+                <div class="col-10 text-grey-8 q-pl-xs ellipsis">{{item.data_request.categorianame.name}}</div>
               </div>
             </div>
           </div>
-          <div class="absolute-bottom-right text-grey-8 q-pa-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
+          <div class="absolute-bottom-right text-grey-8 text-caption q-pa-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
         </q-card>
       </div>
     </q-scroll-area>
