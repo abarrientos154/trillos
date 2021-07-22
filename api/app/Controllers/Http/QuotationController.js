@@ -184,7 +184,8 @@ class QuotationController {
       lastMessage: quotation[0].lastMessage,
       message: quotation[0].message,
       date: quotation[0].date,
-      price: quotation[0].price
+      price: quotation[0].price,
+      isActive: quotation[0].isActive
     }
     let messages = (await Chat.where({ quotation_id: params.id }).with('datos_user').fetch()).toJSON()
     send.messages = messages
