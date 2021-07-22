@@ -57,7 +57,7 @@
             </div>
             <div class="row q-mt-sm">
               <div class="text-bold">Estado de Solicitud:</div>
-              <div class="q-ml-md">Recibiendo cotizaciones</div>
+              <div class="q-ml-md">{{item.statusS}}</div>
             </div>
             <div class="row q-mt-sm items-center no-wrap">
               <q-icon size="sm" name="clean_hands" color="grey-7" />
@@ -112,7 +112,7 @@
             </div>
             <div class="row q-mt-sm">
               <div class="text-bold">Estado de Solicitud:</div>
-              <div class="q-ml-md">Recibiendo cotizaciones</div>
+              <div class="q-ml-md">{{item.statusS}}</div>
             </div>
             <div class="row q-mt-sm items-center no-wrap">
               <q-icon size="sm" name="clean_hands" color="grey-7" />
@@ -539,7 +539,8 @@ export default {
       return this.request.map(v => {
         return {
           ...v,
-          colorRadio: v.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
+          colorRadio: v.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+          statusS: v.status === 0 ? 'Disponible' : v.status === 1 ? 'En progreso' : 'Finalizado'
         }
       })
     }
