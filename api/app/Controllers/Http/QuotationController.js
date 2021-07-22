@@ -117,9 +117,9 @@ class QuotationController {
     let rol = user.roles[0]
     let quotations = []
     if (rol === 2) {
-      quotations = (await Quotation.query().where({ client_id: user._id, $or: [{ status: 0 }, { status: 1 }] }).with('data_supplier').with('data_request').with('lastMessage').fetch()).toJSON()
+      quotations = (await Quotation.query().where({ client_id: user._id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_supplier').with('data_request').with('lastMessage').fetch()).toJSON()
     } else if (rol === 3) {
-      quotations = (await Quotation.query().where({ supplier_id: user._id, $or: [{ status: 0 }, { status: 1 }] }).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
+      quotations = (await Quotation.query().where({ supplier_id: user._id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
     }
     for (let i = 0; i < quotations.length; i++) {
       let creationDate = moment(quotations[i].data_request.created_at).format('DD/MM/YYYY')

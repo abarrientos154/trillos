@@ -7,7 +7,6 @@
         <div class="text-bold text-center text-grey">Conversaciones iniciadas</div>
       </div>
     </q-img>
-    <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
     <div class="q-ma-md text-h6">Conversaciones iniciadas</div>
     <!-- <q-separator inset /> -->
     <!-- <div v-if="data.length > 0" class="q-pr-md q-pt-sm text-subtitle2 text-right text-grey-8"><u>Tienes {{ data.length }} Mensajes</u></div> -->
