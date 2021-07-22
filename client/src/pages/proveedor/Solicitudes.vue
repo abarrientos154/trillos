@@ -10,7 +10,7 @@
       <div class="text-h6">Solicitudes activas</div>
       <div class="text-caption text-grey-9 q-pb-md">A continuación podrás ver todas las solicitudes activas.</div>
       <div class="column items-center" v-if="activas.length">
-        <q-card class="q-mb-md" v-for="(item, index) in activas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
+        <q-card class="q-mb-md" v-for="(item, index) in activas" :key="index" style="width:100%;height:270px;" @click="selecData(item)">
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
@@ -66,7 +66,7 @@
       <div class="text-h6">Solicitudes completadas</div>
       <div class="text-caption text-grey-9 q-pb-md">Historial de solicitudes realizadas y completadas con éxito.</div>
       <div class="column items-center" v-if="completas.length">
-        <q-card class="q-mb-md" v-for="(item, index) in completas" :key="index" style="width:100%;height:270px;" @click="$router.push('/descripcionsolicitud/' + item.necesidad._id)">
+        <q-card class="q-mb-md" v-for="(item, index) in completas" :key="index" style="width:100%;height:270px;" @click="selecData(item)">
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
@@ -117,6 +117,68 @@
         <div class="text-center text-subtitle1">Actualmente sin solicitudes...</div>
       </q-card>
     </div>
+
+    <q-dialog v-model="verSolicitud" v-if="verSolicitud">
+      <q-card class="q-pt-md q-pb-lg" style="width:100%">
+        <div class="text-right q-pb-xs q-mr-xs">Fecha de Solicitud {{selec.fechaCreacion}}</div>
+          <div class="text-center text-white text-h5" :class="'bg-' + selec.colorRadio" style="width:100%">{{selec.necesidad.name}}</div>
+          <div class="row items-center q-pt-lg">
+            <div class="col-5 row justify-center">
+              <q-avatar size="100px">
+                <img :src="selec.necesidad ? baseu + '/' + selec.necesidad.images[0] : 'noimgpro.png'">
+              </q-avatar>
+            </div>
+            <div class="col-7">
+              <div class="row items-center no-wrap">
+                <q-icon size="sm" name="person" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{selec.creador.full_name}} {{selec.creador.last_name}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="phone" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{selec.creador.phone}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="place" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{selec.necesidad.direccion}}</div>
+              </div>
+              <div class="row q-mt-sm items-center no-wrap">
+                <q-icon size="sm" name="clean_hands" color="grey-7" />
+                <div class="text-grey-9 ellipsis">{{selec.categoriaInfo.name}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-around items-center q-pt-md q-mb-md">
+            <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
+            <div class="row">
+              <q-radio v-model="selec.colorRadio" keep-color size="xs" val="red" color="red" />
+              <q-radio v-model="selec.colorRadio" keep-color size="xs" val="orange" color="orange" />
+              <q-radio v-model="selec.colorRadio" keep-color size="xs" val="blue" color="blue" />
+            </div>
+          </div>
+          <div class="q-ml-md text-h6 text-bold q-mt-md">Descripcion del servicio</div>
+          <div class="row q-mb-lg" style="height:60px">
+            <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{selec.necesidad.descripcion}}</div>
+          </div>
+          <div class="q-ml-md text-h6 text-bold q-mt-md">Fotos del automovil</div>
+          <q-scroll-area
+            horizontal
+            style="height: 110px;"
+            class="q-ml-md"
+          >
+            <div class="row no-wrap" style="width: 100%">
+              <q-card v-for="(img, index) in selec.necesidad.images" class="bg-secondary q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index" @click="imgSelec = baseu + '/' + img, showImg = true">
+                <q-img :src="baseu + '/' + img" spinner-color="white" style="height: 100px; width: 100px" />
+              </q-card>
+            </div>
+          </q-scroll-area>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="showImg">
+      <q-card>
+        <img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -125,7 +187,11 @@ import env from '../../env'
 export default {
   data () {
     return {
+      verSolicitud: false,
+      showImg: false,
       baseu: '',
+      imgSelec: '',
+      selec: {},
       activas: [],
       completas: []
     }
@@ -148,28 +214,10 @@ export default {
         }
       })
     },
-    editSolicitud (id) {
-      this.$router.push('/editar_solicitud/' + id)
-    },
-    deleteSolicitud (id) {
-      this.$q.dialog({
-        title: 'Confirma',
-        message: '¿Seguro deseas eliminar esta solicitud?',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        this.$api.delete('necesidad/' + id).then(res => {
-          if (res) {
-            this.$q.notify({
-              color: 'positive',
-              message: 'Eliminado Correctamente'
-            })
-            this.getSolicitudes()
-          }
-        })
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      })
+    selecData (data) {
+      console.log('data', data)
+      this.selec = data
+      this.verSolicitud = true
     }
   }
 }
