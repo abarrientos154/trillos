@@ -240,7 +240,7 @@
                 </q-card>
               </div>
             </q-scroll-area>
-            <div>
+            <div  v-if="request2.status === 1">
               <div class="q-ml-md text-h6 text-bold q-mt-md">Cambio de estado</div>
               <div class="q-mx-md q-mt-md">Cambia el estado de tarjeta de solicitud. Así podrás tener un control mas claro de tu trato con el cliente. Recuerda que una vez que des el trabajo por finalizado el cliente podra cambiar el estado del servicio a finalizado.</div>
               <div class="row justify-center q-mt-sm">
@@ -424,6 +424,7 @@ export default {
               this.extensionDate = this.extensionDate.join('/')
               console.log('this.data :>> ', this.data) */
               this.isViewed()
+              this.isQuotationActive()
               /* if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
                 this.presupuesto = true
@@ -523,6 +524,15 @@ export default {
         await this.$api.put('messageSeen/' + this.lastMessage._id).then(res => {
           if (res) {
             console.log('sirve')
+          }
+        })
+      }
+    },
+    async isQuotationActive () {
+      if (this.data.isAtive === false && this.data.status === 1) {
+        await this.$api.put('quotationActive/' + this.id).then(res => {
+          if (res) {
+            console.log('sirve tambien')
           }
         })
       }

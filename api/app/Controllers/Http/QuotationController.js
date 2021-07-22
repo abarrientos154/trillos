@@ -54,6 +54,7 @@ class QuotationController {
     let body = request.all()
     body.supplier_id = user
     body.status = 0
+    body.isActive = false
     const quotation = (await Quotation.create(body)).toJSON()
 
     let chat = {}
@@ -101,14 +102,20 @@ class QuotationController {
       }
     }
     if (user.roles[0] === 3) {
+      let send = {}
       let quotations = (await Quotation.query().where('supplier_id', params.id).fetch()).toJSON()
       for (let i in quotations) {
+        if (quotations[i].status === 1 && quotations[i].isActive === false) {
+          send.quotationActive = true
+        }
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
-          response.send(true)
+          send.newMessages = true
+          // response.send(true)
           break
         }
       }
+      response.send(send)
     }
   }
 
@@ -230,6 +237,10 @@ class QuotationController {
   }
   async messageSeen ({ params, response}) {
     let updateChat = await Chat.query().where('_id', params.id).update({ viewed: true })
+    response.send(true)
+  }
+  async quotationActive ({ params, response}) {
+    let updateQuotation = await Quotation.query().where('_id', params.id).update({ isActive: true })
     response.send(true)
   }
 
