@@ -175,6 +175,23 @@
         <img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
       </q-card>
     </q-dialog>
+    <q-dialog v-model="show">
+      <q-card style="width: 100%; height: 80%" class="q-pa-none column items-center">
+        <div class="q-mt-xl" style="height: 200px; width: 70%;">
+          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Nuevos Mensajes</div>
+            </div>
+          </q-img>
+        </div>
+        <div class="text-h6 text-center text-bold q-mt-xl">¡Te están comunicando!</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1">Están intentando comunicarte revisa tu bandeja de mensajes.</div>
+        <div class="q-pa-sm q-mt-md">
+          <q-btn rounded  color="primary" label="Ir a bandeja" no-caps style="width:200px" @click="$router.push('/mis_chats')"/>
+        </div>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -189,6 +206,7 @@ export default {
     return {
       ver: false,
       verImg: false,
+      show: false,
       id: '',
       imgSelec: '',
       baseu: '',
@@ -202,7 +220,8 @@ export default {
       needs: [],
       data2: [],
       data5: [],
-      diasF: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
+      diasF: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+      user: {}
     }
   },
   async mounted () {
@@ -236,6 +255,7 @@ export default {
       this.$api.get('user_info').then(v => {
         if (v) {
           this.rol = v.roles[0]
+          this.user = v
         }
         if (this.rol === 3) {
           this.datosproveedor = true
@@ -247,6 +267,7 @@ export default {
         if (this.rol === 2) {
           this.form = v
         }
+        this.getQuotations()
       })
     },
     consultaropinion () {
@@ -275,6 +296,13 @@ export default {
       if (emit === true) {
         this.getSolicitudes()
       }
+    },
+    async getQuotations () {
+      await this.$api.get('isNewMessages/' + this.user._id).then(res => {
+        if (res && res === true) {
+          this.show = true
+        }
+      })
     }
   }
 }

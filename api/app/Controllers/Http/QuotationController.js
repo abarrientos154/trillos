@@ -90,12 +90,24 @@ class QuotationController {
 
   async isNewMessages ({ params, response, auth }) {
     const user = (await auth.getUser()).toJSON()
-    let quotations = (await Quotation.query().where('client_id', params.id).fetch()).toJSON()
-    for (let i in quotations) {
-      let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
-      if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
-        response.send(true)
-        break
+    if (user.roles[0] === 2) {
+      let quotations = (await Quotation.query().where('client_id', params.id).fetch()).toJSON()
+      for (let i in quotations) {
+        let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
+        if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
+          response.send(true)
+          break
+        }
+      }
+    }
+    if (user.roles[0] === 3) {
+      let quotations = (await Quotation.query().where('supplier_id', params.id).fetch()).toJSON()
+      for (let i in quotations) {
+        let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
+        if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
+          response.send(true)
+          break
+        }
       }
     }
   }
