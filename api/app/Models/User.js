@@ -23,7 +23,6 @@ class User extends Model {
       name: 'string',
       last_name: 'string',
       password:'required|string',
-      phone: 'string',
       plan_id: 'string',
       roles: 'number',
       direccion: 'string',

@@ -9,12 +9,12 @@
             <div class="column items-center q-my-sm">
             <q-avatar size="200px" class="bg-grey row justify-center">
                 <q-img :src="perfilFile ? imgPerfil : ''" style="height: 100%">
-                <q-file borderless v-model="perfilFile" @input="test()" accept=".jpg, image/*" style="width: 100%; height: 100%; font-size: 0px">
+                <q-file borderless v-model="perfilFile" @input="test()" accept=".jpg, image/*" style="width: 100%; height: 100%; font-size: 0px" @blur="$v.perfilFile.$touch()">
                     <q-icon name="photo_camera" class="absolute-center" size="50px" color="white" />
                 </q-file>
                 </q-img>
             </q-avatar>
-            <div class="q-my-sm">Sube tu foto de perfil</div>
+            <div :class="$v.perfilFile.$error ? 'text-negative' : ''" class="q-my-sm">Sube tu foto de perfil</div>
             </div>
             <div class="row q-pa-sm">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">

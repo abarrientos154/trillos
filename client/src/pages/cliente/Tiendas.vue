@@ -62,7 +62,7 @@
         <div v-else class="q-px-md q-pb-lg">
           <q-card class="full-width">
             <q-card-section>
-              <div class="text-center text-bold text-grey-8">En este momento hay talleres disponibles</div>
+              <div class="text-center text-grey-9">En este momento no hay talleres disponibles</div>
             </q-card-section>
           </q-card>
         </div>
