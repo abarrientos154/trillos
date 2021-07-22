@@ -89,10 +89,11 @@ class QuotationController {
   }
 
   async isNewMessages ({ params, response, auth }) {
+    const user = (await auth.getUser()).toJSON()
     let quotations = (await Quotation.query().where('client_id', params.id).fetch()).toJSON()
     for (let i in quotations) {
       let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
-      if (lastMessage.viewed === false) {
+      if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
         response.send(true)
         break
       }
@@ -104,9 +105,9 @@ class QuotationController {
     let rol = user.roles[0]
     let quotations = []
     if (rol === 2) {
-      quotations = (await Quotation.query().where({ client_id: user._id, $or: [{ status: 0 }, { status: 1 }] }).with('data_supplier').with('data_request').fetch()).toJSON()
+      quotations = (await Quotation.query().where({ client_id: user._id, $or: [{ status: 0 }, { status: 1 }] }).with('data_supplier').with('data_request').with('lastMessage').fetch()).toJSON()
     } else if (rol === 3) {
-      quotations = (await Quotation.query().where({ supplier_id: user._id, $or: [{ status: 0 }, { status: 1 }]}).with('data_client').with('data_request.categorianame').fetch()).toJSON()
+      quotations = (await Quotation.query().where({ supplier_id: user._id, $or: [{ status: 0 }, { status: 1 }] }).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
     }
     for (let i = 0; i < quotations.length; i++) {
       let creationDate = moment(quotations[i].data_request.created_at).format('DD/MM/YYYY')
@@ -146,7 +147,7 @@ class QuotationController {
   async showAllMessages ({ params, response, auth }) {
     const user = (await auth.getUser()).toJSON()
     const id_user = user._id
-    let quotation = (await Quotation.query().where('_id', params.id).with('data_request').fetch()).toJSON()
+    let quotation = (await Quotation.query().where('_id', params.id).with('data_request').with('lastMessage').fetch()).toJSON()
     let category = (await Categoria.query().find(quotation[0].data_request.categoria_id)).toJSON()
     let client = (await User.query().find(quotation[0].data_request.ownerId)).toJSON()
     let creationDate = moment(quotation[0].data_request.created_at).format('DD/MM/YYYY')
@@ -161,13 +162,12 @@ class QuotationController {
       id_cotization: quotation[0]._id,
       nombre_necesidad: quotation[0].data_request.name,
       data_request: quotation[0].data_request,
+      lastMessage: quotation[0].lastMessage,
       message: quotation[0].message,
       date: quotation[0].date,
       price: quotation[0].price
     }
-    console.log('params.id_cotisation :>> ', params.id_cotisation);
     let messages = (await Chat.where({ quotation_id: params.id }).with('datos_user').fetch()).toJSON()
-    console.log('messages :>> ', messages);
     send.messages = messages
     send.messages = messages.map(v => {
       return {
@@ -215,6 +215,10 @@ class QuotationController {
       }
     })
     response.send(formatearFecha)
+  }
+  async messageSeen ({ params, response}) {
+    let updateChat = await Chat.query().where('_id', params.id).update({ viewed: true })
+    response.send(true)
   }
 
   /**

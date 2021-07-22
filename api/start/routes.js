@@ -121,6 +121,7 @@ addPrefixToGroup(
     Route.post("send_message/:id", "QuotationController.sendMessage") // metod para enviar un mensaje
     Route.put("updateQuotation/:id", "QuotationController.updateQuotation")
     Route.get("show_all_cotizations3", "QuotationController.showAllCotizations3")
+    Route.put("messageSeen/:id", "QuotationController.messageSeen")
     
     
     

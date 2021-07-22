@@ -342,6 +342,7 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
+      userId: '',
       text: '',
       imgSelec: '',
       showImg: false,
@@ -381,7 +382,8 @@ export default {
       btnG: [
         { name: 'Cambiar fecha', selected: false, value: 1 },
         { name: 'Finalizar', selected: false, value: 2 }
-      ]
+      ],
+      lastMessage: {}
     }
   },
   validations: {
@@ -400,12 +402,13 @@ export default {
       await this.$api.get('user_info').then(v => {
         if (v) {
           this.rol = v.roles[0]
+          this.userId = v._id
           this.$api.get('show_all_messages/' + this.id).then(v => {
             if (v) {
-              console.log('v :>> ', v)
               this.request.push(v.data_request)
-              this.clientId = v.datos_cliente
-              this.supplierId = v.datos_proveedor
+              this.lastMessage = JSON.parse(JSON.stringify(v.lastMessage))
+              this.clientId = JSON.parse(JSON.stringify(v.datos_cliente))
+              this.supplierId = JSON.parse(JSON.stringify(v.datos_proveedor))
               this.data2 = {
                 _id: v._id,
                 message: v.message,
@@ -414,7 +417,8 @@ export default {
                 status: v.status
               }
               this.data = v
-              if (this.data.status === 'Pendiente' && this.rol === 3) {
+              this.isViewed()
+              /* if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
                 this.presupuesto = true
               }
@@ -431,7 +435,7 @@ export default {
               }
               if ((this.data.status === 'Cotizado' || this.data.status === 'Presupuesto') && this.rol === 2) {
                 this.verCotizacion = true
-              }
+              } */
             }
           })
         }
@@ -512,6 +516,15 @@ export default {
       this.slide = 1
       this.request = []
       this.getinfo()
+    },
+    async isViewed () {
+      if (this.userId !== this.lastMessage.user_id) {
+        await this.$api.put('messageSeen/' + this.lastMessage._id).then(res => {
+          if (res) {
+            console.log('sirve')
+          }
+        })
+      }
     }
   },
   computed: {

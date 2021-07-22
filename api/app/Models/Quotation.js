@@ -13,6 +13,9 @@ class Quotation extends Model {
   data_request () {
     return this.hasOne('App/Models/Necesidad', 'request_id', '_id')
   }
+  lastMessage () {
+    return this.hasOne('App/Models/Chat', 'last_message_id', '_id')
+  }
   /* categoryName () {
     return this.hasOne('App/Models/Categoria', 'categoria_id', '_id')
   } */

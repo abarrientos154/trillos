@@ -15,7 +15,7 @@
     <div v-if="data.length > 0 && data[0].data_supplier" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false ? 'orange' : 'primary'" label="Ver cotización" no-caps style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver cotización" no-caps style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
               <div>
                 <div class="text-bold">Servicios del Taller</div>
                 <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
@@ -26,8 +26,8 @@
             <div @click="$router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
-                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
-                  <div v-if="chat.viewed === false" class="row">
+                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
+                  <div v-if="chat.viewed === false && chat.isMyMessage === false" class="row">
                     <div class="text-white">Tienes mensajes</div>
                     <div class="text-white text-bold q-ml-xs">sin leer</div>
                   </div>
@@ -61,13 +61,13 @@
     <div v-if="data.length > 0 && data[0].data_client" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false ? 'orange' : 'primary'" label="Ver Solicitud" no-caps style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver Solicitud" no-caps style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
             </div>
             <div @click="$router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
-                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
-                  <div v-if="chat.viewed === false" class="row">
+                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
+                  <div v-if="chat.viewed === false && chat.isMyMessage === false" class="row">
                     <div class="text-white">Tienes mensajes</div>
                     <div class="text-white text-bold q-ml-xs">sin leer</div>
                   </div>
@@ -198,6 +198,7 @@ export default {
   data () {
     return {
       idQuotation: '',
+      userId: '',
       imgSelec: '',
       showImg: false,
       baseu: '',
@@ -226,6 +227,7 @@ export default {
       this.$api.get('user_info').then(v => {
         if (v) {
           this.rol = v.roles[0]
+          this.userId = v._id
           /* if (this.rol === 3 && (v.status === 0 || v.status === 2)) {
             this.ver = false
           } */
@@ -233,6 +235,14 @@ export default {
             this.$api.get('show_all_chats').then(res => {
               if (res) {
                 this.data = res
+                for (const i in this.data) {
+                  this.lastMessage = JSON.parse(JSON.stringify(this.data[i].lastMessage))
+                  if (this.userId === this.lastMessage.user_id) {
+                    this.data[i].isMyMessage = true
+                  } else {
+                    this.data[i].isMyMessage = false
+                  }
+                }
               }
             })
           }
