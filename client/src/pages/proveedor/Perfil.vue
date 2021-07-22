@@ -366,7 +366,6 @@ export default {
               this.cities = res
             }
           })
-          console.log('data', this.form)
         }
       })
     },

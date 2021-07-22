@@ -30,6 +30,7 @@
           :error="$v.form.categoria_id.$error"
           option-value="_id"
           option-label="name"
+          map-options
           error-message="Este campo es requerido"
           @blur="$v.form.categoria_id.$touch()">
           <template v-slot:option="scope">
@@ -94,7 +95,7 @@
       <div class="text-bold q-mt-lg q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
       <div class="row q-ml-md q-my-sm">
       <q-avatar square size="45px" style="border-radius: 15px" class="bg-grey row justify-center">
-        <q-file borderless @input="filesSolicitud" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
+        <q-file :disable="imgSolicitud.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud : addImg()" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
           <q-icon name="file_upload" class="absolute-center" size="45px" color="white" />
         </q-file>
       </q-avatar>
@@ -188,6 +189,7 @@ export default {
   },
   methods: {
     imgsTraidas () {
+      this.imgSolicitud = []
       for (let i = 0; i < this.form.images.length; i++) {
         var cc = ''
         cc = this.baseu + '/' + this.form.images[i]
@@ -211,7 +213,6 @@ export default {
     agregar () {
       this.form.categoria_id = this.form.categoria_id._id
       this.form.necesidad = this.form.necesidad.name
-      console.log('this.form >> ', this.form)
       this.$v.$touch()
       /* if (!this.$v.form.$error && !this.$v.solicitudFiles.$error) {
         this.$q.dialog({
@@ -279,9 +280,26 @@ export default {
               name: v.name
             }
           })
-          console.log('this.categorias :>> ', this.categorias)
         }
       })
+    },
+    async addImg () {
+      if (this.solicitudFiles) {
+        var formData = new FormData()
+        var files = []
+        files[0] = this.solicitudFiles[0]
+        formData.append('files', files[0])
+        await this.$api.post('subir_archivo_necesidad/' + this.form._id, formData, {
+          headers: {
+            'Content-Type': undefined
+          }
+        }).then((res) => {
+          this.solicitudFiles = []
+          this.$v.solicitudFiles.$reset()
+          this.form.images = res.images
+          this.imgsTraidas()
+        })
+      }
     }
     /* seleccionarcategoria (item) {
       this.categoria_id = item._id

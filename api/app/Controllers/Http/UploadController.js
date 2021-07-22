@@ -4,6 +4,7 @@ const Helpers = use('Helpers')
 const mkdirp = use('mkdirp')
 const User = use("App/Models/User")
 const Producto = use("App/Models/Producto")
+const Necesidad = use("App/Models/Necesidad")
 const { validate } = use("Validator")
 const fs = require('fs')
 var randomize = require('randomatic');
@@ -58,6 +59,33 @@ class UploadController {
     response.download(Helpers.appRoot('storage/uploads') + `/${fileName}`)
   }
 
+  async subirimgnecesidad ({ request, response, params }) {
+    let codeFile = randomize('Aa0', 30)
+    let necesidad = await Necesidad.find(params.id)
+    var profilePic = request.file('files', {
+      types: ['image'],
+      size: '25mb'
+    })
+    if (profilePic) {
+      if (Helpers.appRoot('storage/uploads/necesidades')) {
+        await profilePic.move(Helpers.appRoot('storage/uploads/necesidades'), {
+          name: codeFile,
+          overwrite: true
+        })
+      } else {
+        mkdirp.sync(`${__dirname}/storage/Excel`)
+      }
+
+      if (!profilePic.moved()) {
+        return profilePic.error()
+      } else {
+        necesidad.images.push(codeFile)
+        await necesidad.save()
+        response.send(necesidad)
+      }
+    }
+  }
+
    async subirimgtienda ({ request, response, auth }) {
     let codeFile = randomize('Aa0', 30)
     let user = await auth.getUser()
@@ -87,7 +115,6 @@ class UploadController {
         }
         proveedor.status = 0
         await proveedor.save()
-        console.log(proveedor, 'proveedor buscar')
         response.send(proveedor)
       }
     }
@@ -148,7 +175,6 @@ class UploadController {
         let proveedor = await User.find(user._id)
         proveedor.status = 0
         proveedor = await proveedor.save()
-        console.log(proveedor, 'proveedor buscar')
         user = await auth.getUser()
         response.send(user)
       }

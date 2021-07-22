@@ -215,7 +215,6 @@ export default {
       })
     },
     selecData (data) {
-      console.log('data', data)
       this.selec = data
       this.verSolicitud = true
     }
