@@ -82,7 +82,7 @@
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="form.date" mask="DD/MM/YYYY">
+                    <q-date v-model="form.date" mask="DD/MM/YYYY" :options="optionsFn2">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="Cerrar" color="primary" flat />
                       </div>
@@ -129,6 +129,7 @@
 </template>
 <script>
 import env from '../env'
+import moment from 'moment'
 import { required } from 'vuelidate/lib/validators'
 export default {
   props: ['data', 'profile'],
@@ -173,6 +174,11 @@ export default {
     },
     finish () {
       this.$emit('close', true)
+    },
+    optionsFn2 (datee) {
+      var dd = moment().format('YYYY/MM/DD')
+      const formattedString = moment(datee).format('YYYY/MM/DD')
+      return formattedString >= dd
     }
   }
 }

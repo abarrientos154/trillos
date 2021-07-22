@@ -240,7 +240,7 @@
                 </q-card>
               </div>
             </q-scroll-area>
-            <div v-if="change">
+            <div>
               <div class="q-ml-md text-h6 text-bold q-mt-md">Cambio de estado</div>
               <div class="q-mx-md q-mt-md">Cambia el estado de tarjeta de solicitud. Así podrás tener un control mas claro de tu trato con el cliente. Recuerda que una vez que des el trabajo por finalizado el cliente podra cambiar el estado del servicio a finalizado.</div>
               <div class="row justify-center q-mt-sm">
@@ -257,7 +257,7 @@
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date v-model="extensionDate" mask="DD/MM/YYYY">
+                        <q-date v-model="extensionDate" mask="DD/MM/YYYY" :options="optionsFn2">
                           <div class="row items-center justify-end">
                             <q-btn v-close-popup label="Cerrar" color="primary" flat />
                           </div>
@@ -269,7 +269,7 @@
               </div>
             </div>
             <div v-if="request2.status === 1" class="row justify-center q-pa-sm q-mt-sm">
-              <q-btn rounded  color="primary" :label="finish == false && extension == false ? 'Cambiar estado': finish == true ? 'Finalizar' : 'Prorrogar fecha'" no-caps style="width:200px" @click="change == false ? activeChange() : changeStatus()"/>
+              <q-btn rounded  color="primary" :label="finish == false && extension == false ? 'Cambiar estado': finish == true ? 'Finalizar' : 'Prorrogar fecha'" no-caps style="width:200px" @click="changeStatus()"/>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2" class="q-pa-none column items-center">
@@ -374,7 +374,6 @@ export default {
       show2: false,
       slide: 1,
       slide2: 1,
-      change: false,
       form: {},
       extension: false,
       extensionDate: null,
@@ -417,6 +416,12 @@ export default {
                 status: v.status
               }
               this.data = v
+              this.extensionDate = v.date
+              this.extensionDate = this.extensionDate.split('/')
+              this.extensionDate[0] = parseInt(this.extensionDate[0]) + 1
+              this.extensionDate[0].toString()
+              this.extensionDate = this.extensionDate.join('/')
+              console.log('this.data :>> ', this.data)
               this.isViewed()
               /* if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
@@ -465,11 +470,6 @@ export default {
       this.categoryName = this.request2.categoryName
       this.clientData = data.data_client
       this.show2 = true
-    },
-    activeChange () {
-      if (!this.change) {
-        this.change = true
-      }
     },
     async changeStatus () {
       this.$v.form.$touch()
@@ -525,6 +525,12 @@ export default {
           }
         })
       }
+    },
+    optionsFn2 (datee) {
+      const str = this.data.date.split('/').reverse().join('/')
+      // var dd = moment().format('YYYY/MM/DD')
+      const formattedString = moment(datee).format('YYYY/MM/DD')
+      return formattedString > str
     }
   },
   computed: {
