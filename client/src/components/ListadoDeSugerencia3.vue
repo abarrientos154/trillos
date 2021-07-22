@@ -82,7 +82,6 @@ export default {
       this.baseu = env.apiUrl + '/necesidad_img'
       this.baseu3 = env.apiUrl + '/perfil_img/'
     }
-    console.log('this.baseu3 :>> ', this.baseu3)
   },
   methods: {
     showRequest (itemRequest) {
@@ -93,6 +92,7 @@ export default {
     close (emit) {
       if (emit === true) {
         this.show = false
+        this.$emit('close', true)
       }
     }
   },

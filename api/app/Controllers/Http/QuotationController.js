@@ -165,7 +165,9 @@ class QuotationController {
       date: quotation[0].date,
       price: quotation[0].price
     }
-    let messages = (await Chat.where({ cotisazion_id: params.id_cotisation }).with('datos_user').fetch()).toJSON()
+    console.log('params.id_cotisation :>> ', params.id_cotisation);
+    let messages = (await Chat.where({ quotation_id: params.id }).with('datos_user').fetch()).toJSON()
+    console.log('messages :>> ', messages);
     send.messages = messages
     send.messages = messages.map(v => {
       return {

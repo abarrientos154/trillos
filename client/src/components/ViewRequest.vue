@@ -172,7 +172,7 @@ export default {
       }
     },
     finish () {
-      this.$router.push('/inicio_taller')
+      this.$emit('close', true)
     }
   }
 }

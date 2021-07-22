@@ -183,7 +183,7 @@
           <div class="text-h6 text-center text-bold q-mt-xl">¡Cambiaste con éxito el estado!</div>
           <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
           <div class="q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="show = false, slide = 1"/>
+            <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="reload()"/>
           </div>
         </q-carousel-slide>
         </q-carousel>
@@ -402,6 +402,7 @@ export default {
           this.rol = v.roles[0]
           this.$api.get('show_all_messages/' + this.id).then(v => {
             if (v) {
+              console.log('v :>> ', v)
               this.request.push(v.data_request)
               this.clientId = v.datos_cliente
               this.supplierId = v.datos_proveedor
@@ -505,6 +506,12 @@ export default {
         this.finish = true
         this.extension = false
       }
+    },
+    reload () {
+      this.show = false
+      this.slide = 1
+      this.request = []
+      this.getinfo()
     }
   },
   computed: {

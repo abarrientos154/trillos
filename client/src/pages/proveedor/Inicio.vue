@@ -161,7 +161,7 @@
     </q-card>
 
     <div class="column items-center justify-center text-bold text-h6 q-ml-sm">Solicitudes en tu zona</div>
-    <listado-de-sugerencia v-if="allData.length" :data="allData" :direccion="true" ruta="proveedor"/>
+    <listado-de-sugerencia v-if="allData.length" :data="allData" :direccion="true" ruta="proveedor" @close="close"/>
     <q-card v-else class="shadow-11 q-ma-md q-pa-md">
       <div class="text-center text-subtitle1">Sin solicitudes disponibles</div>
     </q-card>
@@ -270,6 +270,11 @@ export default {
         this.needs = this.allData.slice(0, 3)
       }
       this.ver = !this.ver
+    },
+    close (emit) {
+      if (emit === true) {
+        this.getSolicitudes()
+      }
     }
   }
 }

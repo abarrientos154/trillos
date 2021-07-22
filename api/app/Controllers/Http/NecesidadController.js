@@ -72,12 +72,7 @@ class NecesidadController {
       for (let x in quotations) {
         for (let k in data) {
           if (data[k]._id === quotations[x].request_id && quotations[x].supplier_id === user._id) {
-            //data.splice(k, 1)
             data[k].isQuoted = true
-            console.log('si pasa');
-          } else {
-            console.log('tambien pasa');
-            data[k].isQuoted = false
           }
         }
       }
