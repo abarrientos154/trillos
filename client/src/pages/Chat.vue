@@ -416,12 +416,13 @@ export default {
                 status: v.status
               }
               this.data = v
-              this.extensionDate = v.date
-              this.extensionDate = this.extensionDate.split('/')
+              /* this.extensionDate = v.date
+              this.extensionDate = moment(this.extensionDate).add(1, 'dd') */
+              /* this.extensionDate = this.extensionDate.split('/')
               this.extensionDate[0] = parseInt(this.extensionDate[0]) + 1
               this.extensionDate[0].toString()
               this.extensionDate = this.extensionDate.join('/')
-              console.log('this.data :>> ', this.data)
+              console.log('this.data :>> ', this.data) */
               this.isViewed()
               /* if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
