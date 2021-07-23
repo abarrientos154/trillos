@@ -42,7 +42,7 @@
               <div style="width:60%">
                 <div class="text-h6 q-mb-xs">Descripción</div>
                 <div class="row q-mb-md" style="height:50px; width:100%">
-                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.descripcion}}</div>
+                  <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
                 </div>
                 <div class="row items-center">
                   <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.status === 0 ? 'Disponible' : item.status === 1 ? 'En Progreso' : 'Finalizado'}}</div>

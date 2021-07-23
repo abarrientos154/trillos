@@ -125,7 +125,7 @@
       </q-carousel>
     </q-dialog>
     <q-dialog v-model="show2" transition-show="slide-up" transition-hide="slide-down">
-      <q-carousel class="window-height" animated v-model="slide2" infinite ref="carousel">
+      <q-carousel style="height:100%; width:100%" animated v-model="slide2" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
           <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
           <div class="column items-center justify-center">

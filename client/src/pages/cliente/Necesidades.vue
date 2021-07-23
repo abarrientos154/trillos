@@ -239,14 +239,6 @@
               </q-card>
             </div>
           </q-scroll-area>
-          <div v-if="selec.status === 0" class="row justify-around items-center q-pt-lg">
-            <div class="col-4">
-              <q-btn no-caps color="primary" label="Editar" style="width: 100%" @click="editSolicitud(selec._id)" />
-            </div>
-            <div class="col-4">
-              <q-btn no-caps color="negative" label="Eliminar" style="width: 100%" @click="deleteSolicitud(selec._id)" />
-            </div>
-          </div>
       </q-card>
     </q-dialog>
 
