@@ -95,7 +95,7 @@
       <div class="text-bold q-mt-lg q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
       <div class="row q-ml-md q-my-sm">
       <q-avatar square size="45px" style="border-radius: 15px" class="bg-grey row justify-center">
-        <q-file :disable="imgSolicitud.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud : addImg()" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
+        <q-file :disable="imgSolicitud.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud() : addImg()" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
           <q-icon name="file_upload" class="absolute-center" size="45px" color="white" />
         </q-file>
       </q-avatar>
@@ -103,7 +103,7 @@
         <q-avatar v-ripple v-for="(item, index) in imgSolicitud" :key="index" square size="50px" style="border-radius: 15px" class=" q-ml-sm bg-grey row justify-center">
           <div>
             <q-img
-              :src="imgSolicitud.length > 0 ? imgSolicitud[index] : 'favicon.ico'"
+              :src="imgSolicitud.length > 0 ? item : 'favicon.ico'"
               style="width:120px"
             />
           </div>

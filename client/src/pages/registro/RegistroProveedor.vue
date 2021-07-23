@@ -154,52 +154,7 @@
 
       <q-carousel-slide :name="2" class="q-pa-none">
         <div class="q-pa-lg">
-          <q-btn flat round color="grey-7" icon="arrow_back" @click="slide = 1"/>
-          <div class="text-h6 text-center">¿Dónde estará mi taller?</div>
-          <div class="row justify-center q-mt-md">
-            <img src="nopublicidad.jpg" style="width: 80%;height:200px; border-radius: 15px">
-          </div>
-
-          <div class="row q-pa-sm">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="text-caption">País</div>
-                <q-select filled v-model="form.country" label="País" outlined dense :options="countries" option-value="_id" option-label="name" emit-value map-options @input="getCitiesByCountry(form.country)" error-message="Ingrese un País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="text-caption">Ciudad</div>
-                <q-select filled v-model="city" label="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.city.$error" @blur="$v.city.$touch()" >
-                <template v-slot:no-option>
-                    <q-item>
-                    <q-item-section class="text-italic text-grey">
-                        Selecciona un país
-                    </q-item-section>
-                    </q-item>
-                </template>
-                </q-select>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="text-caption">Dirección física del taller</div>
-                <q-input
-                    v-model="form.direccion"
-                    placeholder="Mi direccion #1234"
-                    outlined
-                    filled
-                    dense
-                    error-message="Ingrese su Direccion"
-                    :error="$v.form.direccion.$error"
-                    @blur="$v.form.direccion.$touch()"
-                />
-            </div>
-          </div>
-          <div class="row justify-center" style="width:100%">
-            <q-btn @click="siguiente2()" color="primary" label="Siguiente" rounded no-caps style="width:70%" class="q-py-xs"/>
-          </div>
-        </div>
-      </q-carousel-slide>
-
-      <q-carousel-slide :name="3" class="q-pa-none">
-        <div class="q-pa-lg">
-            <q-btn flat round color="grey-7" icon="arrow_back" @click="slide = 2"/>
+            <q-btn flat round color="grey-7" icon="arrow_back" @click="slide = 1"/>
             <div class="text-h6 text-center">¡Da a conocer tu taller!</div>
             <div class="text-h8 q-mt-lg text-center">Sube una foto de perfil de tu taller</div>
             <div class="column q-mt-sm items-center justify-center">
@@ -391,8 +346,53 @@
                 </div>
             </div>
             <div class="row justify-center" style="width:100%">
-                <q-btn @click="finalizar()" color="primary" label="Finalizar" rounded no-caps style="width:70%" class="q-py-xs"/>
+                <q-btn @click="siguiente2()" color="primary" label="Siguiente" rounded no-caps style="width:70%" class="q-py-xs"/>
             </div>
+        </div>
+      </q-carousel-slide>
+
+      <q-carousel-slide :name="3" class="q-pa-none">
+        <div class="q-pa-lg">
+          <q-btn flat round color="grey-7" icon="arrow_back" @click="slide = 2"/>
+          <div class="text-h6 text-center">¿Dónde estará mi taller?</div>
+          <div class="row justify-center q-mt-md">
+            <img :src="imgPerfil ? imgPerfil : 'nopublicidad.jpg'" style="width: 80%;height:200px; border-radius: 15px">
+          </div>
+
+          <div class="row q-pa-sm">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="text-caption">País</div>
+                <q-select filled v-model="form.country" label="País" outlined dense :options="countries" option-value="_id" option-label="name" emit-value map-options @input="getCitiesByCountry(form.country)" error-message="Ingrese un País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="text-caption">Ciudad</div>
+                <q-select filled v-model="city" label="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.city.$error" @blur="$v.city.$touch()" >
+                <template v-slot:no-option>
+                    <q-item>
+                    <q-item-section class="text-italic text-grey">
+                        Selecciona un país
+                    </q-item-section>
+                    </q-item>
+                </template>
+                </q-select>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="text-caption">Dirección física del taller</div>
+                <q-input
+                    v-model="form.direccion"
+                    placeholder="Mi direccion #1234"
+                    outlined
+                    filled
+                    dense
+                    error-message="Ingrese su Direccion"
+                    :error="$v.form.direccion.$error"
+                    @blur="$v.form.direccion.$touch()"
+                />
+            </div>
+          </div>
+          <div class="row justify-center" style="width:100%">
+            <q-btn @click="finalizar()" color="primary" label="Finalizar" rounded no-caps style="width:70%" class="q-py-xs"/>
+          </div>
         </div>
       </q-carousel-slide>
 
@@ -563,15 +563,6 @@ export default {
       }
     },
     siguiente2 () {
-      this.$v.form.country.$touch()
-      this.$v.form.direccion.$touch()
-      this.$v.city.$touch()
-      if (!this.$v.form.country.$error && !this.$v.form.direccion.$error && !this.$v.city.$error) {
-        this.form.city = this.city
-        this.slide = 3
-      }
-    },
-    async finalizar () {
       this.$v.form.full_name.$touch()
       this.$v.form.hora_inicio.$touch()
       this.$v.form.hora_fin.$touch()
@@ -581,36 +572,7 @@ export default {
       this.$v.perfilFile.$touch()
       if (!this.$v.dias.$error && !this.$v.categorias.$error && !this.$v.perfilFile.$error && !this.$v.form.full_name.$error && !this.$v.form.hora_inicio.$error && !this.$v.form.hora_fin.$error && !this.$v.form.observaciones.$error) {
         if (this.tiendaFiles.length > 0) {
-          this.$q.loading.show({
-            message: 'Registrando...'
-          })
-          var formData = new FormData()
-          formData.append('perfilFile', this.perfilFile)
-          this.form.cantidadArchivos = this.tiendaFiles.length
-          this.form.status = 0
-          this.form.enable = true
-          this.form.roles = 3
-          this.form.dias = this.dias
-          this.form.categorias = this.categorias
-          for (let i = 0; i < this.tiendaFiles.length; i++) {
-            formData.append('tiendaFiles_' + i, this.tiendaFiles[i])
-          }
-
-          for (let i = 0; i < this.form.imgDni.length; i++) {
-            formData.append('dniFiles_' + i, this.form.imgDni[i])
-          }
-          delete this.form.imgDni
-          formData.append('dat', JSON.stringify(this.form))
-          await this.$api.post('register', formData, {
-            headers: {
-              'Content-Type': undefined
-            }
-          }).then(res => {
-            if (res) {
-              this.$q.loading.hide()
-              this.slide = 4
-            }
-          })
+          this.slide = 3
         } else {
           this.$q.loading.hide()
           this.$q.dialog({
@@ -619,6 +581,44 @@ export default {
           }).onOk(() => {
           })
         }
+      }
+    },
+    async finalizar () {
+      this.$v.form.country.$touch()
+      this.$v.form.direccion.$touch()
+      this.$v.city.$touch()
+      if (!this.$v.form.country.$error && !this.$v.form.direccion.$error && !this.$v.city.$error) {
+        this.$q.loading.show({
+          message: 'Registrando...'
+        })
+        var formData = new FormData()
+        formData.append('perfilFile', this.perfilFile)
+        this.form.cantidadArchivos = this.tiendaFiles.length
+        this.form.city = this.city
+        this.form.status = 0
+        this.form.enable = true
+        this.form.roles = 3
+        this.form.dias = this.dias
+        this.form.categorias = this.categorias
+        for (let i = 0; i < this.tiendaFiles.length; i++) {
+          formData.append('tiendaFiles_' + i, this.tiendaFiles[i])
+        }
+
+        for (let i = 0; i < this.form.imgDni.length; i++) {
+          formData.append('dniFiles_' + i, this.form.imgDni[i])
+        }
+        delete this.form.imgDni
+        formData.append('dat', JSON.stringify(this.form))
+        await this.$api.post('register', formData, {
+          headers: {
+            'Content-Type': undefined
+          }
+        }).then(res => {
+          if (res) {
+            this.$q.loading.hide()
+            this.slide = 4
+          }
+        })
       } else {
         this.$q.notify({
           message: 'Debe ingresar todos los datos requeridos',
