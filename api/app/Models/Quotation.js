@@ -16,6 +16,9 @@ class Quotation extends Model {
   lastMessage () {
     return this.hasOne('App/Models/Chat', 'last_message_id', '_id')
   }
+  opinion () {
+    return this.hasOne('App/Models/Opinion', '_id', 'quotation_id')
+  }
   /* categoryName () {
     return this.hasOne('App/Models/Categoria', 'categoria_id', '_id')
   } */

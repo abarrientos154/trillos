@@ -229,7 +229,7 @@
                 </div>
               </q-img>
             </div>
-            <div class="text-h6 text-center text-bold q-mt-xl">¡La solicitud de {{quotationFinished.data_request.name}} fue finalizada!</div>
+            <div class="text-h6 text-center text-bold q-mt-xl">¡La solicitud de {{data_request.name}} fue finalizada!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus solicitudes fue finalizada.</div>
             <div class="column q-pa-sm q-mt-xs">
               <q-btn round dense flat no-caps label="Omitir" color="grey" @click="show3 = false"/>
@@ -254,10 +254,27 @@
             <div class="absolute-bottom q-my-md q-mx-md">
               <q-input filled v-model="form.opinion" type="textarea" :error="$v.form.opinion.$error" error-message="Este campo es requerido" @blur="$v.form.opinion.$touch()"/>
               <div class="column items-center">
-                <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="slide = 2"/>
+                <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="setNewOpinion(quotationFinished._id)"/>
               </div>
             </div>
           </q-card>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" class="q-pa-none column items-center">
+          <div class="absolute-center column items-center q-px-md" style="width:100%">
+            <div class="q-mt-xl" style="height: 200px; width: 70%;">
+              <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+              <div class="absolute-full column items-center column justify-end">
+                <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                <div class="text-bold text-center text-grey">Comentario añadido con éxito</div>
+              </div>
+              </q-img>
+            </div>
+            <div class="text-h6 text-center text-bold q-mt-xl">¡Comentario añadido con éxito!</div>
+            <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver los comentarios en el perfil del taller.</div>
+            <!-- <div class="q-pa-sm q-mt-md">
+              <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
+            </div> -->
+          </div>
         </q-carousel-slide>
       </q-carousel>
     </q-dialog>
@@ -289,8 +306,11 @@ export default {
       populares: [],
       idQuotationExtend: '',
       slide: 1,
-      form: {},
-      quotationFinished: {}
+      form: {
+        rating: 4
+      },
+      quotationFinished: {},
+      data_request: {}
     }
   },
   validations: {
@@ -334,6 +354,7 @@ export default {
           this.idQuotationFinished = res.idQuotationFinished
           this.show3 = true
           this.quotationFinished = res.finished
+          this.data_request = res.finished.data_request
         }
       })
     },
@@ -380,6 +401,21 @@ export default {
         } else {
           this.ultimas = this.alltiendas.reverse().slice(0, 4)
         }
+      }
+    },
+    async setNewOpinion (id) {
+      this.$v.$touch()
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Subiendo Cotización, Por Favor Espere...'
+        })
+        await this.$api.post('newOpinion/' + id, this.form).then(res => {
+          if (res) {
+            console.log('que pasa')
+            this.slide = 3
+            this.$q.loading.hide()
+          }
+        })
       }
     }
   }

@@ -143,21 +143,15 @@ class OpinionController {
 
       response.send(opinion)
   } */
-  /* async store ({ request, response, params, auth })  {
+  async store ({ request, response, params, auth })  {
       const user = (await auth.getUser()).toJSON()
       let body = request.all()
-      body. = params.quien === 'cliente' ? true : false
-      let chat_message = await Chatmessage.find(params.chat_message_id)
-      body.calificador = user._id
-      body.calificado = chat_message.proveedor_id === user._id ? chat_message.cliente_id : chat_message.proveedor_id
+      body.user_id = user._id
+      body.quotation_id = params.id
       const opinion = await Opinion.create(body)
-      if (user.roles[0] === 2) {
-        let status = await Chatmessage.query().where('_id', params.chat_message_id).update({calificado: true})
-      }
-
-
+      let status = await Quotation.query().where('_id', params.id).update({qualified: true})
       response.send(opinion)
-  } */
+  }
 
 
   /**
