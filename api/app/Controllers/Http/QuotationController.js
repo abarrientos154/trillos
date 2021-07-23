@@ -85,7 +85,7 @@ class QuotationController {
       let today = moment().format('YYYY/MM/DD')
       let updateQuotation = await Quotation.query().where('_id', params.id).update({ status: 2, endDate: today })
       let quotation = (await Quotation.query().find(params.id)).toJSON()
-      let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ status: 2, endDate: today })
+      let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ status: 2, endDate: today, isFinished: false })
       response.send(updateQuotation)
     }
 
@@ -95,13 +95,18 @@ class QuotationController {
     const user = (await auth.getUser()).toJSON()
     if (user.roles[0] === 2) {
       let send = {}
-      let quotations = (await Quotation.query().where('client_id', params.id).fetch()).toJSON()
+      let quotations = (await Quotation.query().where('client_id', params.id).with('data_request').fetch()).toJSON()
       for (let i in quotations) {
         let request = (await Necesidad.query().find(quotations[i].request_id)).toJSON()
         console.log('request :>> ', request);
         if (request.status === 1 && request.isExtend === false) {
           send.quotationExtend = true
-          send.idQuotation = quotations[i]._id
+          send.idQuotationExtend = quotations[i]._id
+        }
+        if (request.status === 2 && request.isFinished === false) {
+          send.quotationFinished = true
+          send.idQuotationFinished = quotations[i]._id
+          send.finished = quotations[i]
         }
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {

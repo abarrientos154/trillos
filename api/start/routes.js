@@ -67,7 +67,7 @@ addPrefixToGroup(
     Route.get('producto', 'ProductoController.index')
     Route.get('producto/:id', 'ProductoController.show')
     Route.get('producto_filtrado/:filtrar', 'ProductoController.productoFiltrado')
-
+    
     Route.post('necesidad', 'NecesidadController.store')
     Route.get('necesidad', 'NecesidadController.necesidadByAll')
     Route.get('necesidades', 'NecesidadController.necesidades')
@@ -78,7 +78,7 @@ addPrefixToGroup(
     Route.put('necesidad/:id', 'NecesidadController.update')
     Route.put('necesidadestatus/:id/:status', 'NecesidadController.cambioestado')
     Route.delete('necesidad/:id', 'NecesidadController.destroy')
-
+    
     Route.get("user_info", "UserController.userInfo") // metodo para obtener informacion del usuario que esta logueado
     Route.get("all_user", "UserController.allUser") // metodo para obtener informacion del usuario que esta logueado
     Route.post("filtrar_talleres", "UserController.filtrarTalleres")
@@ -89,8 +89,8 @@ addPrefixToGroup(
     Route.put("update_status/:id", "UserController.userStatus") // metodo para bloquear o desbloquear usuarios
     Route.put('datosnew/:id', 'UserController.updatedata')
     Route.put('editar_perfil/:id', 'UserController.editarPerfil')
-
-
+    
+    
     Route.post("crear_chat/:id_cotisation", "ChatController.storeChat")
     Route.delete('chat/:id', 'ChatController.destroy')
     Route.put("cotizar_necesidad/:id_cotisation", "ChatController.updateCotization")
@@ -99,7 +99,7 @@ addPrefixToGroup(
     Route.get('cotization_by_id/:id_cotisation', 'ChatController.cotizationById')
     Route.put("new_status/:id_cotisation", "ChatController.updateStatus")
     Route.put("fecha_de_termino/:id_cotisation", "ChatController.updateFechaTermino")
-    Route.post("opinion/:id/:quien/:chat_message_id", "OpinionController.store")
+    // Route.post("opinion/:id/:quien/:chat_message_id", "OpinionController.store")
     Route.get("opiniones/:necesidad_id", "OpinionController.index")
     Route.get("mas_populares", "OpinionController.masPopulares") // metodo para obtener las tiendas mejor calificadas
     
@@ -124,6 +124,8 @@ addPrefixToGroup(
     Route.put("messageSeen/:id", "QuotationController.messageSeen")
     Route.put("quotationActive/:id", "QuotationController.quotationActive")
     Route.put("quotationExtend/:id", "QuotationController.quotationExtend")
+
+    Route.post('newOpinion', 'OpinionController.store')
     
     
     

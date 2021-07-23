@@ -213,15 +213,60 @@
         <div class="text-h6 text-center text-bold q-mt-xl">¡Solicitud Prorrogada!</div>
         <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus solicitudes fue prorrogada revisa la conversación.</div>
         <div class="q-pa-sm q-mt-md">
-          <q-btn rounded  color="primary" label="Ir al chat" no-caps style="width:200px" @click="$router.push('/chat/' + idQuotation)"/>
+          <q-btn rounded  color="primary" label="Ir al chat" no-caps style="width:200px" @click="$router.push('/chat/' + idQuotationExtend)"/>
         </div>
       </q-card>
+    </q-dialog>
+    <q-dialog v-model="show3">
+      <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
+        <q-carousel-slide :name="1" class="q-pa-none">
+          <q-card style="width: 100%; height: 100%" class="q-pa-none column items-center">
+            <div class="q-mt-xl" style="height: 200px; width: 70%;">
+              <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+                <div class="absolute-full column items-center column justify-end">
+                  <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                  <div class="text-bold text-center text-grey">Solicitud Finalizada</div>
+                </div>
+              </q-img>
+            </div>
+            <div class="text-h6 text-center text-bold q-mt-xl">¡La solicitud de {{quotationFinished.data_request.name}} fue finalizada!</div>
+            <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus solicitudes fue finalizada.</div>
+            <div class="column q-pa-sm q-mt-xs">
+              <q-btn round dense flat no-caps label="Omitir" color="grey" @click="show3 = false"/>
+              <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="slide = 2"/>
+            </div>
+          </q-card>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" class="q-pa-none">
+          <q-card style="width: 100%; height: 100%" class="q-pa-lg column items-center">
+            <div class="q-mt-sm" style="height: 200px; width: 70%;">
+              <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+                <div class="absolute-full column items-center column justify-end">
+                  <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                  <div class="text-bold text-center text-grey">Comenta a tu taller</div>
+                </div>
+              </q-img>
+            </div>
+            <div class="text-h6 text-center text-bold q-mt-sm">¡Califica tu taller!</div>
+            <div class="text-h6 text-center text-grey-9 text-subtitle1">Selecciona la cantidad de estrellas que quieres dar a tu taller.</div>
+            <q-rating v-model="form.rating" size="2em" color="yellow"/>
+            <div class="text-subtitle1">Escribe un comentario</div>
+            <div class="absolute-bottom q-my-md q-mx-md">
+              <q-input filled v-model="form.opinion" type="textarea" :error="$v.form.opinion.$error" error-message="Este campo es requerido" @blur="$v.form.opinion.$touch()"/>
+              <div class="column items-center">
+                <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="slide = 2"/>
+              </div>
+            </div>
+          </q-card>
+        </q-carousel-slide>
+      </q-carousel>
     </q-dialog>
   </div>
 </template>
 
 <script>
 import env from '../../env'
+import { required } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
@@ -229,6 +274,7 @@ export default {
       ver2: false,
       show: false,
       show2: false,
+      show3: false,
       city: null,
       ratingTienda: 4,
       rol: 0,
@@ -241,7 +287,16 @@ export default {
       tiendas: [],
       ultimas: [],
       populares: [],
-      idQuotation: ''
+      idQuotationExtend: '',
+      slide: 1,
+      form: {},
+      quotationFinished: {}
+    }
+  },
+  validations: {
+    form: {
+      opinion: { required },
+      rating: { required }
     }
   },
   mounted () {
@@ -272,8 +327,13 @@ export default {
           this.show = true
         }
         if (res && res.quotationExtend === true) {
-          this.idQuotation = res.idQuotation
+          this.idQuotationExtend = res.idQuotationExtend
           this.show2 = true
+        }
+        if (res && res.quotationFinished === true) {
+          this.idQuotationFinished = res.idQuotationFinished
+          this.show3 = true
+          this.quotationFinished = res.finished
         }
       })
     },

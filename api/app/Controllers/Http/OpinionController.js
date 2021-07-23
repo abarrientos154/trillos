@@ -8,7 +8,8 @@
  * Resourceful controller for interacting with opinions
  *
  */
-const Opiniones = use("App/Models/Opinion")
+const Opinion = use("App/Models/Opinion")
+const Quotation = use("App/Models/Quotation")
 const Necesidad = use("App/Models/Necesidad")
 const Chatmessage = use ("App/Models/ChatMessage")
 const User = use("App/Models/User")
@@ -27,7 +28,7 @@ class OpinionController {
    */
   async index ({ request, response, params, auth }) {
     const user = (await auth.getUser()).toJSON()
-    let opiniones = (await Opiniones.query().where({necesidad_id: params.necesidad_id, cliente: user.roles[0] === 2 ? false : true}).with('calificador_info').with('calificado_info').fetch()).toJSON()
+    let opiniones = (await Opinion.query().where({necesidad_id: params.necesidad_id, cliente: user.roles[0] === 2 ? false : true}).with('calificador_info').with('calificado_info').fetch()).toJSON()
     let formatearFecha = opiniones.map(v => {
       return {
         ...v,
@@ -39,7 +40,7 @@ class OpinionController {
   }
 
   async todos ({ request, response, params, auth }) {
-    let opiniones = (await Opiniones.query().where({calificado: params.proveedor_id}).with('calificador_info').with('necesidad_info').fetch()).toJSON()
+    let opiniones = (await Opinion.query().where({calificado: params.proveedor_id}).with('calificador_info').with('necesidad_info').fetch()).toJSON()
     let formatearFecha = opiniones.map(v => {
       return {
         ...v,
@@ -49,7 +50,7 @@ class OpinionController {
     response.send(formatearFecha)
   }
   async index2 ({ request, response, params, auth }) {
-    let opiniones = (await Opiniones.query().where({calificado: params.proveedor_id}).fetch()).toJSON()
+    let opiniones = (await Opinion.query().where({calificado: params.proveedor_id}).fetch()).toJSON()
     var calificacion = 0
     var promedio = 0
 
@@ -65,7 +66,7 @@ class OpinionController {
   }
 
   async index3 ({ request, response, params, auth }) {
-    let opiniones = (await Opiniones.query().where({calificado: params.cliente_id}).fetch()).toJSON()
+    let opiniones = (await Opinion.query().where({calificado: params.cliente_id}).fetch()).toJSON()
     var calificacion = 0
     var contador = 0
 
@@ -83,7 +84,7 @@ class OpinionController {
     const user = (await User.query().where({roles: [3]}).fetch()).toJSON()
 
     for (let i = 0; i < user.length; i++) {
-      let opiniones = (await Opiniones.query().where({calificado: user[i]._id}).fetch()).toJSON()
+      let opiniones = (await Opinion.query().where({calificado: user[i]._id}).fetch()).toJSON()
       var calificacion = 0
       var contador = 0
       for (let j in opiniones) {
@@ -127,7 +128,7 @@ class OpinionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response, params, auth })  {
+  /* async store ({ request, response, params, auth })  {
       const user = (await auth.getUser()).toJSON()
       let body = request.only(Opiniones.fillable)
       body.cliente = params.quien === 'cliente' ? true : false
@@ -141,7 +142,22 @@ class OpinionController {
 
 
       response.send(opinion)
-  }
+  } */
+  /* async store ({ request, response, params, auth })  {
+      const user = (await auth.getUser()).toJSON()
+      let body = request.all()
+      body. = params.quien === 'cliente' ? true : false
+      let chat_message = await Chatmessage.find(params.chat_message_id)
+      body.calificador = user._id
+      body.calificado = chat_message.proveedor_id === user._id ? chat_message.cliente_id : chat_message.proveedor_id
+      const opinion = await Opinion.create(body)
+      if (user.roles[0] === 2) {
+        let status = await Chatmessage.query().where('_id', params.chat_message_id).update({calificado: true})
+      }
+
+
+      response.send(opinion)
+  } */
 
 
   /**
