@@ -529,10 +529,7 @@ export default {
       }
     },
     async isQuotationActive () {
-      console.log('this.data.isActive :>> ', this.data.isActive)
-      console.log('this.data.status :>> ', this.data.status)
-      if (this.data.isActive === false && this.data.status === 1) {
-        console.log('que pasa')
+      if (this.data.isActive === false && this.data.status === 1 && this.rol === 3) {
         await this.$api.put('quotationActive/' + this.id).then(res => {
           if (res) {
             console.log('sirve tambien')

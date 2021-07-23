@@ -203,9 +203,9 @@
           </q-img>
         </div>
         <div class="text-h6 text-center text-bold q-mt-xl">¡Cotización Aceptada!</div>
-        <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus cotizaciones fue aceptada revisa tu bandeja de mensajes.</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus cotizaciones fue aceptada revisa la conversación.</div>
         <div class="q-pa-sm q-mt-md">
-          <q-btn rounded  color="primary" label="Ir a bandeja" no-caps style="width:200px" @click="$router.push('/mis_chats')"/>
+          <q-btn rounded  color="primary" label="Ir al chat" no-caps style="width:200px" @click="$router.push('/chat/' + idQuotation)"/>
         </div>
       </q-card>
     </q-dialog>
@@ -239,7 +239,8 @@ export default {
       data2: [],
       data5: [],
       diasF: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-      user: {}
+      user: {},
+      idQuotation: ''
     }
   },
   async mounted () {
@@ -321,6 +322,8 @@ export default {
           this.show = true
         }
         if (res && res.quotationActive === true) {
+          console.log('que sucede :>> ')
+          this.idQuotation = res.idQuotation
           this.show2 = true
         }
       })

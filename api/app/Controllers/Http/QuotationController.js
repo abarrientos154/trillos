@@ -107,6 +107,7 @@ class QuotationController {
       for (let i in quotations) {
         if (quotations[i].status === 1 && quotations[i].isActive === false) {
           send.quotationActive = true
+          send.idQuotation = quotations[i]._id
         }
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
