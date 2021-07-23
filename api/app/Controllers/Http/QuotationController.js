@@ -193,6 +193,7 @@ class QuotationController {
     send.messages = messages.map(v => {
       return {
         send: id_user === v.user_id ? true : false,
+        rol: v.datos_user.roles[0],
         message: v.message,
         stamp: moment(v.created_at).lang('es').calendar(),
         full_name: v.datos_user.full_name

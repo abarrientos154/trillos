@@ -290,7 +290,7 @@
           v-for="mens in this.data.messages" :key="mens.id"
           :name="mens.full_name"
           :text="[mens.message]"
-          :avatar="mens.send === true ? baseu + clientId : baseu + supplierId"
+          :avatar="mens.rol === 2 ? baseu + clientId : baseu + supplierId"
           :stamp="mens.stamp"
           :sent="mens.send"
           bg-color="grey-2"
@@ -402,6 +402,7 @@ export default {
                 status: v.status
               }
               this.data = v
+              console.log('this.data >> ', this.data)
               /* this.extensionDate = v.date
               this.extensionDate = moment(this.extensionDate).add(1, 'dd') */
               /* this.extensionDate = this.extensionDate.split('/')
