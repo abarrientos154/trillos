@@ -13,7 +13,7 @@
     <div class="text-center q-px-md q-pb-sm text-caption">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
 
     <div class="col-12 q-px-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8" v-if="rol === 3" @click="showRequest(item)" style="width:100%;height:270px;">
+      <q-card class="shadow-8" @click="rol === 3 ? showRequest(item) : show = true" style="width:100%;height:270px;">
           <div class="row justify-end items-center q-pa-xs">
             <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
             <div class="row q-gutter-xs">
@@ -60,7 +60,7 @@
         <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud {{item.creationDate}}</div>
       </q-card>
     </div>
-    <div class="col-12 q-px-md" v-for="(item, index) in mapeando" :key="index">
+    <!-- <div class="col-12 q-px-md" v-for="(item, index) in mapeando" :key="index">
       <q-card class="shadow-8" v-if="rol === 2" @click="show = true" style="width:100%;height:270px;">
           <div class="row justify-end items-center q-pa-xs">
             <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
@@ -107,7 +107,7 @@
         </div>
         <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud {{item.creationDate}}</div>
       </q-card>
-    </div>
+    </div> -->
     <q-separator class="q-mt-md" horizontal></q-separator>
 
     <q-page-container>
