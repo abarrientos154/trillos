@@ -9,120 +9,106 @@
       </q-toolbar>
     </q-header> -->
     <q-btn round dense flat icon="keyboard_backspace" color="primary" @click="$router.go(-1)"/>
-    <div class="text-h6 text-bold text-center q-mt-sm">Toca la tarjeta para ver</div>
-    <div class="text-subtitle2 text-center q-mb-sm">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
+    <div class="text-h6 text-center q-mt-sm">Toca la tarjeta para ver</div>
+    <div class="text-center q-px-md q-pb-sm text-caption">Selecciona la tarjeta de solicitud para aceptar la propuesta</div>
 
-    <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8" v-if="rol === 3" @click="showRequest(item)">
-        <div class="row justify-around items-center absolute-top">
-          <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
-          <div class="row justify-around items-center q-mr-sm q-pr-sm">
-            <div class="text-h7 text-grey-9">Nivel de requerimiento</div>
-            <div class="row">
-              <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-              <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+    <div class="col-12 q-px-md" v-for="(item, index) in mapeando" :key="index">
+      <q-card class="shadow-8" v-if="rol === 3" @click="showRequest(item)" style="width:100%;height:270px;">
+          <div class="row justify-end items-center q-pa-xs">
+            <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
+            <div class="row q-gutter-xs">
+              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
             </div>
           </div>
-        </div>
-        <div class="column items-center justify-center">
-          <div class="text-right text-white q-mt-xl text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
-        </div>
-        <div class="row justify-around q-pb-sm">
-          <div class="col-4 q-mt-sm">
-            <div>
-              <q-avatar size="100px">
+        <div class="text-right text-white q-py-xs q-px-md text-bold" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
+        <div class="row q-py-sm">
+          <div class="column items-center justify-center" style="width:40%">
+              <q-avatar size="90px">
                 <img :src="baseu + clientId">
               </q-avatar>
-            </div>
-            <div class="q-mt-sm">
+            <div class="q-pl-sm q-mt-xs" style="width:100%">
               <div class="row items-center no-wrap">
-                <q-icon size="sm" name="person" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{item.fullName}}</div>
+                <q-icon size="xs" name="person" color="grey-8" />
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.fullName}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="phone" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{item.phone}}</div>
+                <q-icon size="xs" name="phone" color="grey-8" />
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.phone}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="place" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{item.direccion}}</div>
+                <q-icon size="xs" name="place" color="grey-8" />
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.direccion}}</div>
               </div>
             </div>
           </div>
-          <div class="col-4 q-mt-sm">
-            <div class="text-h6">Descripcion</div>
-            <div style="height:60px">
+          <div style="width:60%">
+            <div class="text-h6 q-mb-xs">Descripcion</div>
+            <div class="row q-mb-md" style="height:50px; width:100%">
               <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
             </div>
-            <div class="row q-mt-sm">
-              <div class="text-bold">Estado de Solicitud:</div>
-              <div class="q-ml-md">{{item.statusS}}</div>
+            <div class="row items-center">
+              <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.statusS}}</div>
             </div>
-            <div class="row q-mt-sm items-center no-wrap">
-              <q-icon size="sm" name="clean_hands" color="grey-7" />
-              <div class="text-grey-9 ellipsis">{{item.categoryName}}</div>
+            <div class="row items-center no-wrap q-mt-xs" style="width:100%">
+              <q-icon size="xs" name="clean_hands" color="grey-8" />
+              <div class="text-grey-8 q-pl-xs ellipsis">{{item.categoryName}}</div>
             </div>
           </div>
         </div>
+        <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud {{item.creationDate}}</div>
       </q-card>
     </div>
-    <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8" v-if="rol === 2" @click="show = true">
-        <div class="row justify-around items-center absolute-top">
-          <div class="q-ml-sm q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
-          <div class="row justify-around items-center q-mr-sm q-pr-sm">
-            <div class="text-h7 text-grey-9">Nivel de requerimiento</div>
-            <div class="row">
-              <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-              <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+    <div class="col-12 q-px-md" v-for="(item, index) in mapeando" :key="index">
+      <q-card class="shadow-8" v-if="rol === 2" @click="show = true" style="width:100%;height:270px;">
+          <div class="row justify-end items-center q-pa-xs">
+            <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
+            <div class="row q-gutter-xs">
+              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
             </div>
           </div>
-        </div>
-        <div class="column items-center justify-center">
-          <div class="text-right text-white q-mt-xl text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
-        </div>
-        <div class="row justify-around q-pb-sm">
-          <div class="col-4 q-mt-sm">
-            <div>
-              <q-avatar size="100px">
+        <div class="text-right text-white q-py-xs q-px-md text-bold" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
+        <div class="row q-py-sm">
+          <div class="column items-center justify-center" style="width:40%">
+              <q-avatar size="90px">
                 <img :src="baseu + clientId">
               </q-avatar>
-            </div>
-            <div class="q-mt-sm">
+            <div class="q-pl-sm q-mt-xs" style="width:100%">
               <div class="row items-center no-wrap">
-                <q-icon size="sm" name="person" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{item.fullName}}</div>
+                <q-icon size="xs" name="person" color="grey-8" />
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.fullName}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="phone" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{item.phone}}</div>
+                <q-icon size="xs" name="phone" color="grey-8" />
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.phone}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="place" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{item.direccion}}</div>
+                <q-icon size="xs" name="place" color="grey-8" />
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.direccion}}</div>
               </div>
             </div>
           </div>
-          <div class="col-4 q-mt-sm">
-            <div class="text-h6">Descripcion</div>
-            <div style="height:60px">
+          <div style="width:60%">
+            <div class="text-h6 q-mb-xs">Descripcion</div>
+            <div class="row q-mb-md" style="height:50px; width:100%">
               <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
             </div>
-            <div class="row q-mt-sm">
-              <div class="text-bold">Estado de Solicitud:</div>
-              <div class="q-ml-md">{{item.statusS}}</div>
+            <div class="row items-center">
+              <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.statusS}}</div>
             </div>
-            <div class="row q-mt-sm items-center no-wrap">
-              <q-icon size="sm" name="clean_hands" color="grey-7" />
-              <div class="text-grey-9 ellipsis">{{item.categoryName}}</div>
+            <div class="row items-center no-wrap q-mt-xs" style="width:100%">
+              <q-icon size="xs" name="clean_hands" color="grey-8" />
+              <div class="text-grey-8 q-pl-xs ellipsis">{{item.categoryName}}</div>
             </div>
           </div>
         </div>
+        <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud {{item.creationDate}}</div>
       </q-card>
     </div>
-    <q-separator horizontal></q-separator>
+    <q-separator class="q-mt-md" horizontal></q-separator>
 
     <q-page-container>
       <div v-if="cotizarBtn" class="row justify-end full-width q-pa-sm">
