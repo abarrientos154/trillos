@@ -259,7 +259,7 @@
             </div>
           </q-card>
         </q-carousel-slide>
-        <q-carousel-slide :name="3" class="q-pa-none column items-center">
+        <!-- <q-carousel-slide :name="3" class="q-pa-none column items-center">
           <div class="absolute-center column items-center q-px-md" style="width:100%">
             <div class="q-mt-xl" style="height: 200px; width: 70%;">
               <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
@@ -271,11 +271,11 @@
             </div>
             <div class="text-h6 text-center text-bold q-mt-xl">¡Comentario añadido con éxito!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver los comentarios en el perfil del taller.</div>
-            <!-- <div class="q-pa-sm q-mt-md">
+            <div class="q-pa-sm q-mt-md">
               <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
-            </div> -->
+            </div>
           </div>
-        </q-carousel-slide>
+        </q-carousel-slide> -->
       </q-carousel>
     </q-dialog>
   </div>
@@ -412,7 +412,7 @@ export default {
         await this.$api.post('newOpinion/' + id, this.form).then(res => {
           if (res) {
             console.log('que pasa')
-            this.slide = 3
+            // this.slide = 3
             this.$q.loading.hide()
           }
         })
