@@ -192,7 +192,7 @@
           <div class="row items-center q-pt-lg">
             <div class="col-5 row justify-center">
               <q-avatar size="100px">
-                <img :src="selec.necesidad ? baseu + '/' + selec.necesidad.images[0] : baseu + '/' + selec.images[0]">
+                <img :src="selec.ownerId ? baseuPerfil + selec.ownerId : baseuPerfil + selec.client_id">
               </q-avatar>
             </div>
             <div class="col-7">
@@ -260,6 +260,7 @@ export default {
       verSolicitud: false,
       showImg: false,
       baseu: '',
+      baseuPerfil: '',
       imgSelec: '',
       selec: {},
       allSolicitudes: [],
@@ -274,6 +275,7 @@ export default {
     this.getSolicitudes()
     this.getSolicitudesZona()
     this.baseu = env.apiUrl + '/necesidad_img'
+    this.baseuPerfil = env.apiUrl + '/perfil_img/perfil'
   },
   methods: {
     getSolicitudes () {

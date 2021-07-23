@@ -193,7 +193,7 @@
           <div class="row items-center q-pt-lg">
             <div class="col-5 row justify-center">
               <q-avatar size="100px">
-                <img :src="baseu + '/' + selec.images[0]">
+                <img :src="baseuPerfil + selec.ownerId">
               </q-avatar>
             </div>
             <div class="col-7">
@@ -261,6 +261,7 @@ export default {
       verSolicitud: false,
       showImg: false,
       baseu: '',
+      baseuPerfil: '',
       imgSelec: '',
       selec: {},
       allSolicitudes: [],
@@ -274,6 +275,7 @@ export default {
   mounted () {
     this.getSolicitudes()
     this.baseu = env.apiUrl + '/necesidad_img'
+    this.baseuPerfil = env.apiUrl + '/perfil_img/perfil'
   },
   methods: {
     getSolicitudes () {
