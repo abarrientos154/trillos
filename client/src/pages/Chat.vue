@@ -60,54 +60,6 @@
         <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud {{item.creationDate}}</div>
       </q-card>
     </div>
-    <!-- <div class="col-12 q-px-md" v-for="(item, index) in mapeando" :key="index">
-      <q-card class="shadow-8" v-if="rol === 2" @click="show = true" style="width:100%;height:270px;">
-          <div class="row justify-end items-center q-pa-xs">
-            <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
-            <div class="row q-gutter-xs">
-              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-              <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
-            </div>
-          </div>
-        <div class="text-right text-white q-py-xs q-px-md text-bold" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
-        <div class="row q-py-sm">
-          <div class="column items-center justify-center" style="width:40%">
-              <q-avatar size="90px">
-                <img :src="baseu + clientId">
-              </q-avatar>
-            <div class="q-pl-sm q-mt-xs" style="width:100%">
-              <div class="row items-center no-wrap">
-                <q-icon size="xs" name="person" color="grey-8" />
-                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.fullName}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="xs" name="phone" color="grey-8" />
-                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.phone}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="xs" name="place" color="grey-8" />
-                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.direccion}}</div>
-              </div>
-            </div>
-          </div>
-          <div style="width:60%">
-            <div class="text-h6 q-mb-xs">Descripcion</div>
-            <div class="row q-mb-md" style="height:50px; width:100%">
-              <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{item.descripcion}}</div>
-            </div>
-            <div class="row items-center">
-              <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.statusS}}</div>
-            </div>
-            <div class="row items-center no-wrap q-mt-xs" style="width:100%">
-              <q-icon size="xs" name="clean_hands" color="grey-8" />
-              <div class="text-grey-8 q-pl-xs ellipsis">{{item.categoryName}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud {{item.creationDate}}</div>
-      </q-card>
-    </div> -->
     <q-separator class="q-mt-md" horizontal></q-separator>
 
     <q-page-container>
@@ -126,9 +78,10 @@
       <q-dialog persistent v-model="presupuesto" transition-show="slide-up" transition-hide="slide-down" >
         <enviar-cotizacion @presupuesto="presupuesto = false" :ruta="id" accion="presupuesto" />
       </q-dialog>
+
       <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
-        <q-carousel style="height:100%; width:100%" animated v-model="slide" infinite ref="carousel">
-          <q-carousel-slide :name="1" class="q-px-none q-pt-md" v-for="(item, index) in mapeando" :key="index">
+        <q-carousel style="height:auto; width:100%" animated v-model="slide" infinite ref="carousel">
+          <q-carousel-slide :name="1" class="q-px-none q-pt-md q-pb-lg" v-for="(item, index) in mapeando" :key="index">
             <div class="text-right q-pb-xs q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
             <div class="text-center text-white q-py-sm text-h5" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
             <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
@@ -157,7 +110,7 @@
               <q-btn v-if="data2.status == 0 && item.status == 0" rounded  color="primary" label="Aceptar" no-caps style="width:200px" @click="acceptQuotation()"/>
             </div>
           </q-carousel-slide>
-          <q-carousel-slide :name="2" class="q-pa-none column items-center">
+          <q-carousel-slide :name="2" class="q-px-none q-pb-xl column items-center">
           <div class="q-mt-xl" style="height: 200px; width: 70%;">
             <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
             <div class="absolute-full column items-center column justify-end">
@@ -175,12 +128,10 @@
         </q-carousel>
       </q-dialog>
       <q-dialog v-model="show2" transition-show="slide-up" transition-hide="slide-down">
-        <q-carousel style="height:100%; width:100%" animated v-model="slide2" infinite ref="carousel">
-          <q-carousel-slide :name="1" class="q-pa-none">
-            <div class="text-right q-pt-xs q-mr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
-            <div class="column items-center justify-center">
-              <div class="text-center text-white q-mt-xs text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
-            </div>
+        <q-carousel style="height:auto; width:100%" animated v-model="slide2" infinite ref="carousel">
+          <q-carousel-slide :name="1" class="q-pa-none q-pt-md q-pb-lg">
+            <div class="text-right q-mr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
+              <div class="text-center text-white q-py-xs text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
             <div class="row items-center q-pt-lg">
               <div class="col-5 row justify-center">
                 <q-avatar size="100px">
@@ -210,7 +161,7 @@
                 <q-radio v-model="request2.colorRadio" keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>
-            <div class="q-ml-md text-h6 text-bold q-mt-md">Descripcion del servicio</div>
+            <div class="q-ml-md text-h6 text-bold q-mt-md">Descripción del servicio</div>
             <div class="row q-mb-lg" style="height:60px">
               <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{request2.descripcion}}</div>
             </div>
@@ -227,15 +178,15 @@
               </div>
             </q-scroll-area>
             <div  v-if="request2.status === 1">
-              <div class="q-ml-md text-h6 text-bold q-mt-md">Cambio de estado</div>
-              <div class="q-mx-md q-mt-md">Cambia el estado de tarjeta de solicitud. Así podrás tener un control mas claro de tu trato con el cliente. Recuerda que una vez que des el trabajo por finalizado el cliente podra cambiar el estado del servicio a finalizado.</div>
+              <div class="q-ml-md text-h6 text-bold q-mt-sm">Cambio de estado</div>
+              <div class="q-mx-md q-mt-xs text-caption">Cambia el estado de tarjeta de solicitud. Así podrás tener un control mas claro de tu trato con el cliente. Recuerda que una vez que des el trabajo por finalizado el cliente podra cambiar el estado del servicio a finalizado.</div>
               <div class="row justify-center q-mt-sm">
                 <q-btn-group>
                   <q-btn v-for="(btn, index) in btnG" :key="index" no-caps :class="btn.selected ? 'text-white' : 'text-black'" :color="btn.selected == true ? 'primary' : 'white'" :label="btn.name" @click="selectOption(btn)"/>
                 </q-btn-group>
               </div>
               <div v-if="finish == true">
-                <div class="q-mx-md q-mt-md">Una vez finalizado el servicio no podrás volver atrás.</div>
+                <div class="q-mx-md q-mt-md text-caption">Una vez finalizado el servicio no podrás volver atrás.</div>
               </div>
               <div v-if="extension == true" class="q-mt-md">
                 <q-input class="q-mx-md" ss filled readonly dense v-model="extensionDate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"

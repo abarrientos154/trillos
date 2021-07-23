@@ -14,7 +14,7 @@
     <div v-if="data.length > 0 && data[0].data_supplier" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver cotización" no-caps style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
               <div>
                 <div class="text-bold">Servicios del Taller</div>
                 <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
@@ -60,7 +60,7 @@
     <div v-if="data.length > 0 && data[0].data_client" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver Solicitud" no-caps style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
             </div>
             <div @click="$router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
@@ -99,8 +99,8 @@
     </div>
 
     <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
-      <q-carousel style="height:100%; width:100%" animated v-model="slide" infinite ref="carousel">
-        <q-carousel-slide :name="1" class="q-px-none q-pt-md" v-for="(item, index) in mapeando" :key="index">
+      <q-carousel style="height:auto; width:100%" animated v-model="slide" infinite ref="carousel">
+        <q-carousel-slide :name="1" class="q-px-none q-pt-md q-pb-xl" v-for="(item, index) in mapeando" :key="index">
           <div class="text-right text-grey-9 q-pb-xs q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
           <div class="text-center text-white text-h5 q-py-sm" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
           <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
@@ -125,12 +125,10 @@
       </q-carousel>
     </q-dialog>
     <q-dialog v-model="show2" transition-show="slide-up" transition-hide="slide-down">
-      <q-carousel style="height:100%; width:100%" animated v-model="slide2" infinite ref="carousel">
-        <q-carousel-slide :name="1" class="q-pa-none">
-          <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
-          <div class="column items-center justify-center">
-            <div class="text-center text-white q-mt-lg text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
-          </div>
+      <q-carousel style="height:auto; width:100%" animated v-model="slide2" infinite ref="carousel">
+        <q-carousel-slide :name="1" class="q-px-none q-pt-md q-pb-xl">
+          <div class="text-right q-pr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
+          <div class="text-center text-white text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
           <div class="row items-center q-pt-lg">
             <div class="col-5 row justify-center">
               <q-avatar size="100px">
