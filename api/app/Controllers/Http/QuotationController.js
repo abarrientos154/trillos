@@ -77,6 +77,8 @@ class QuotationController {
       response.send(updateQuotation)
     } else if (body.status === 1) {
       let updateQuotation = await Quotation.query().where('_id', params.id).update({ date: body.date })
+      let quotation = (await Quotation.query().find(params.id)).toJSON()
+      let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ isExtend: false })
       response.send(updateQuotation)
 
     } else if (body.status === 2) {
@@ -92,14 +94,22 @@ class QuotationController {
   async isNewMessages ({ params, response, auth }) {
     const user = (await auth.getUser()).toJSON()
     if (user.roles[0] === 2) {
+      let send = {}
       let quotations = (await Quotation.query().where('client_id', params.id).fetch()).toJSON()
       for (let i in quotations) {
+        let request = (await Necesidad.query().find(quotations[i].request_id)).toJSON()
+        console.log('request :>> ', request);
+        if (request.status === 1 && request.isExtend === false) {
+          send.quotationExtend = true
+          send.idQuotation = quotations[i]._id
+        }
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
-          response.send(true)
+          send.newMessages = true
           break
         }
       }
+      response.send(send)
     }
     if (user.roles[0] === 3) {
       let send = {}
@@ -112,7 +122,6 @@ class QuotationController {
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
           send.newMessages = true
-          // response.send(true)
           break
         }
       }
@@ -167,7 +176,7 @@ class QuotationController {
   async showAllMessages ({ params, response, auth }) {
     const user = (await auth.getUser()).toJSON()
     const id_user = user._id
-    let quotation = (await Quotation.query().where('_id', params.id).with('data_request').with('lastMessage').fetch()).toJSON()
+    let quotation = (await Quotation.query().where('_id', params.id).with('data_request').with('lastMessage').with('data_client').fetch()).toJSON()
     let category = (await Categoria.query().find(quotation[0].data_request.categoria_id)).toJSON()
     let client = (await User.query().find(quotation[0].data_request.ownerId)).toJSON()
     let creationDate = moment(quotation[0].data_request.created_at).format('DD/MM/YYYY')
@@ -177,6 +186,7 @@ class QuotationController {
     let send = {
       datos_proveedor: quotation[0].supplier_id,
       datos_cliente: quotation[0].client_id,
+      data_client: quotation[0].data_client,
       messages: [],
       status: quotation[0].status,
       id_cotization: quotation[0]._id,
@@ -244,6 +254,10 @@ class QuotationController {
   }
   async quotationActive ({ params, response}) {
     let updateQuotation = await Quotation.query().where('_id', params.id).update({ isActive: true })
+    response.send(true)
+  }
+  async quotationExtend ({ params, response}) {
+    let updateRequest= await Necesidad.query().where('_id', params.id).update({ isExtend: true })
     response.send(true)
   }
 

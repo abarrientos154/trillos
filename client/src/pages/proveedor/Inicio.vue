@@ -322,7 +322,6 @@ export default {
           this.show = true
         }
         if (res && res.quotationActive === true) {
-          console.log('que sucede :>> ')
           this.idQuotation = res.idQuotation
           this.show2 = true
         }

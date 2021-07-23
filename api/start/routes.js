@@ -123,6 +123,7 @@ addPrefixToGroup(
     Route.get("show_all_cotizations3", "QuotationController.showAllCotizations3")
     Route.put("messageSeen/:id", "QuotationController.messageSeen")
     Route.put("quotationActive/:id", "QuotationController.quotationActive")
+    Route.put("quotationExtend/:id", "QuotationController.quotationExtend")
     
     
     

@@ -35,7 +35,7 @@
               </div>
               <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="xs" name="phone" color="grey-8" />
-                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.phone}}</div>
+                <div class="col-10 text-grey-8 text-caption ellipsis">{{client.phone}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="xs" name="place" color="grey-8" />
@@ -355,6 +355,7 @@ export default {
         }
       },
       clientId: '',
+      client: {},
       supplierId: '',
       show: false,
       show2: false,
@@ -393,6 +394,7 @@ export default {
               this.request.push(v.data_request)
               this.lastMessage = JSON.parse(JSON.stringify(v.lastMessage))
               this.clientId = JSON.parse(JSON.stringify(v.datos_cliente))
+              this.client = JSON.parse(JSON.stringify(v.data_client))
               this.supplierId = JSON.parse(JSON.stringify(v.datos_proveedor))
               this.data2 = {
                 _id: v._id,
@@ -412,6 +414,7 @@ export default {
               console.log('this.data :>> ', this.data) */
               this.isViewed()
               this.isQuotationActive()
+              this.isQuotationExtend()
               /* if (this.data.status === 'Pendiente' && this.rol === 3) {
                 this.cotizarBtn = true
                 this.presupuesto = true
@@ -520,6 +523,15 @@ export default {
         await this.$api.put('quotationActive/' + this.id).then(res => {
           if (res) {
             console.log('sirve tambien')
+          }
+        })
+      }
+    },
+    async isQuotationExtend () {
+      if (this.request[0].isExtend === false && this.request[0].status === 1 && this.rol === 2) {
+        await this.$api.put('quotationExtend/' + this.request[0]._id).then(res => {
+          if (res) {
+            console.log('sirve tambien x2')
           }
         })
       }
