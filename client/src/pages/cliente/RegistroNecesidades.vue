@@ -110,9 +110,9 @@
         </q-avatar>
       </div>
     </div>
-      <div class="row justify-center q-pa-sm">
-        <q-btn color="primary" :label="edit ? 'Actualizar Solicitud' : 'Enviar Solicitud'" @click="!edit ? agregar() : actualizarSolicitud()"/>
-      </div>
+    </div>
+    <div class="row justify-center q-py-md">
+      <q-btn no-caps rounded class="q-px-lg" color="primary" size="18px" :label="edit ? 'Actualizar Solicitud' : 'Enviar Solicitud'" @click="!edit ? agregar() : actualizarSolicitud()"/>
     </div>
  </div>
 </template>
