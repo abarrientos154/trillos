@@ -65,28 +65,28 @@
     <q-scroll-area
       v-if="data5.length"
       horizontal
-      style="height: 230px; width: 100%;"
+      style="height: 200px; width: 100%;"
     >
       <div class="row items-center no-wrap q-px-md q-gutter-md">
-        <q-card v-for="(item, index) in data5" :key="index" class="shadow-5" style="width:450px;height:200px; border-radius:25px;">
-          <div class="absolute-top-right text-grey-8 q-pr-sm q-mt-sm">Fecha de Solicitud: {{item.fechaCreacion}} </div>
+        <q-card v-for="(item, index) in data5" :key="index" class="shadow-5" style="width:350px;height:180px; border-radius:25px;">
+          <div class="text-right text-grey-8 q-pr-sm q-pt-sm text-caption">Fecha de Solicitud: {{item.fechaCreacion}} </div>
           <div class="row">
-            <div class="column items-center justify-between q-py-md" style="width:45%">
+            <div class="column items-center" style="width:45%">
               <q-avatar size="110px">
                 <img :src="item.data_client._id ? baseu + 'perfil' + item.data_client._id : 'noimg.png'" spinner-color="white">
               </q-avatar>
-              <div class="row items-center justify-center" style="width:100%">
-                <q-icon size="sm" name="person" color="grey" />
-                <div class="col-10 text-grey-8 ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
+              <div class="row items-center justify-center no-wrap" style="width:100%">
+                <q-icon size="xs" name="person" color="grey" />
+                <div class="text-grey-8 text-caption ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}} </div>
               </div>
             </div>
-            <div class="q-mt-md" style="width:55%">
-              <div class="text-h6 q-mt-lg q-mb-xs">{{item.quotation_data.data_request.name}}</div>
+            <div style="width:55%">
+              <div class="text-h6 q-mb-xs">{{item.quotation_data.data_request.name}}</div>
               <div class="row q-mb-lg" style="height:50px; width:100%">
                 <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.opinion}}</div>
               </div>
               <div class="q-pb-md">
-                <q-rating v-model="item.rating" size="2em" color="yellow" readonly/>
+                <q-rating v-model="item.rating" size="2em" color="orange" readonly/>
               </div>
             </div>
           </div>
