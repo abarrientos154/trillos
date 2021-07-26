@@ -18,17 +18,20 @@ class Opinion extends Model {
   user_info () {
     return this.hasOne('App/Models/User', 'user_id', '_id')
   }
-  calificado_info () {
-    return this.hasOne('App/Models/User', 'calificado', '_id')
+  data_supplier () {
+    return this.hasOne('App/Models/User', 'supplier_id', '_id')
   }
-  calificador_info () {
-    return this.hasOne('App/Models/User', 'calificador', '_id')
+  data_client () {
+    return this.hasOne('App/Models/User', 'client_id', '_id')
   }
   creador () {
     return this.hasOne('App/Models/User', 'ownerId', '_id')
   }
   necesidad_info () {
     return this.hasOne('App/Models/Necesidad', 'necesidad_id', '_id')
+  }
+  quotation_data () {
+    return this.hasOne('App/Models/Quotation', 'quotation_id', '_id')
   }
 }
 

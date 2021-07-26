@@ -265,6 +265,10 @@ class QuotationController {
     let updateRequest= await Necesidad.query().where('_id', params.id).update({ isExtend: true })
     response.send(true)
   }
+  async quotationFinished ({ params, response}) {
+    let updateRequest = await Necesidad.query().where('_id', params.id).update({ isFinished: true })
+    response.send(true)
+  }
 
   /**
    * Display a single quotation.

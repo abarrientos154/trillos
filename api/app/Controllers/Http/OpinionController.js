@@ -40,7 +40,7 @@ class OpinionController {
   }
 
   async todos ({ request, response, params, auth }) {
-    let opiniones = (await Opinion.query().where({calificado: params.proveedor_id}).with('calificador_info').with('necesidad_info').fetch()).toJSON()
+    let opiniones = (await Opinion.query().where({ supplier_id: params.proveedor_id }).with('quotation_data.data_request').with('data_client').with('data_supplier').fetch()).toJSON()
     let formatearFecha = opiniones.map(v => {
       return {
         ...v,
@@ -146,7 +146,8 @@ class OpinionController {
   async store ({ request, response, params, auth })  {
       const user = (await auth.getUser()).toJSON()
       let body = request.all()
-      body.user_id = user._id
+      body.client_id = user._id
+      body.supplier_id = params.idSupplier
       body.quotation_id = params.id
       const opinion = await Opinion.create(body)
       let status = await Quotation.query().where('_id', params.id).update({qualified: true})

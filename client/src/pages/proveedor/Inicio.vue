@@ -73,20 +73,20 @@
           <div class="row">
             <div class="column items-center justify-between q-py-md" style="width:45%">
               <q-avatar size="110px">
-                <img :src="item.calificador_info._id ? baseu + 'perfil' + item.calificador_info._id : 'noimg.png'" spinner-color="white">
+                <img :src="item.data_client._id ? baseu + 'perfil' + item.data_client._id : 'noimg.png'" spinner-color="white">
               </q-avatar>
               <div class="row items-center justify-center" style="width:100%">
                 <q-icon size="sm" name="person" color="grey" />
-                <div class="col-10 text-grey-8 ellipsis">{{item.calificador_info.full_name}} {{item.calificador_info.last_name}}</div>
+                <div class="col-10 text-grey-8 ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
               </div>
             </div>
             <div class="q-mt-md" style="width:55%">
-              <div class="text-h6 q-mt-lg q-mb-xs">{{item.data_request.name}}</div>
+              <div class="text-h6 q-mt-lg q-mb-xs">{{item.quotation_data.data_request.name}}</div>
               <div class="row q-mb-lg" style="height:50px; width:100%">
-                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.comentario}}</div>
+                <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.opinion}}</div>
               </div>
               <div class="q-pb-md">
-                <q-rating v-model="item.rating_tienda" size="2em" color="yellow" readonly/>
+                <q-rating v-model="item.rating" size="2em" color="yellow" readonly/>
               </div>
             </div>
           </div>
@@ -293,6 +293,7 @@ export default {
       this.$api.get('opiniones2/' + this.form2._id).then(res => {
         if (res) {
           this.data5 = res
+          console.log('this.data5 >> ', this.data5)
         }
       })
     },

@@ -124,8 +124,9 @@ addPrefixToGroup(
     Route.put("messageSeen/:id", "QuotationController.messageSeen")
     Route.put("quotationActive/:id", "QuotationController.quotationActive")
     Route.put("quotationExtend/:id", "QuotationController.quotationExtend")
+    Route.put("quotationFinished/:id", "QuotationController.quotationFinished")
 
-    Route.post('newOpinion/:id', 'OpinionController.store')
+    Route.post('newOpinion/:id/:idSupplier', 'OpinionController.store')
     
     
     

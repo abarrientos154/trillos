@@ -217,7 +217,7 @@
         </div>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="show3">
+    <q-dialog persistent v-model="show3">
       <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
           <q-card style="width: 100%; height: 100%" class="q-pa-none column items-center">
@@ -232,7 +232,7 @@
             <div class="text-h6 text-center text-bold q-mt-xl">¡La solicitud de {{data_request.name}} fue finalizada!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus solicitudes fue finalizada.</div>
             <div class="column q-pa-sm q-mt-xs">
-              <q-btn round dense flat no-caps label="Omitir" color="grey" @click="show3 = false"/>
+              <q-btn round dense flat no-caps label="Omitir" color="grey" @click="isQuotationFinish(data_request._id)"/>
               <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="slide = 2"/>
             </div>
           </q-card>
@@ -254,28 +254,28 @@
             <div class="absolute-bottom q-my-md q-mx-md">
               <q-input filled v-model="form.opinion" type="textarea" :error="$v.form.opinion.$error" error-message="Este campo es requerido" @blur="$v.form.opinion.$touch()"/>
               <div class="column items-center">
-                <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="setNewOpinion(quotationFinished._id)"/>
+                <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="setNewOpinion(quotationFinished._id, quotationFinished.supplier_id)"/>
               </div>
             </div>
           </q-card>
         </q-carousel-slide>
-        <!-- <q-carousel-slide :name="3" class="q-pa-none column items-center">
-          <div class="absolute-center column items-center q-px-md" style="width:100%">
-            <div class="q-mt-xl" style="height: 200px; width: 70%;">
+        <q-carousel-slide :name="3" class="q-pa-none">
+          <q-card style="width: 100%; height: 100%" class="q-pa-lg column items-center">
+            <div class="q-mt-sm" style="height: 200px; width: 70%;">
               <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
-              <div class="absolute-full column items-center column justify-end">
-                <q-icon name="collections" class="text-grey" size="80px"></q-icon>
-                <div class="text-bold text-center text-grey">Comentario añadido con éxito</div>
-              </div>
+                <div class="absolute-full column items-center column justify-end">
+                  <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                  <div class="text-bold text-center text-grey">Comentario añadido con éxito</div>
+                </div>
               </q-img>
             </div>
             <div class="text-h6 text-center text-bold q-mt-xl">¡Comentario añadido con éxito!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver los comentarios en el perfil del taller.</div>
             <div class="q-pa-sm q-mt-md">
-              <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
+              <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="isQuotationFinish(data_request._id)"/>
             </div>
-          </div>
-        </q-carousel-slide> -->
+          </q-card>
+        </q-carousel-slide>
       </q-carousel>
     </q-dialog>
   </div>
@@ -403,20 +403,28 @@ export default {
         }
       }
     },
-    async setNewOpinion (id) {
+    async setNewOpinion (id, idSupp) {
       this.$v.$touch()
       if (!this.$v.form.$error) {
         this.$q.loading.show({
           message: 'Subiendo Cotización, Por Favor Espere...'
         })
-        await this.$api.post('newOpinion/' + id, this.form).then(res => {
+        await this.$api.post('newOpinion/' + id + '/' + idSupp, this.form).then(res => {
           if (res) {
             console.log('que pasa')
-            // this.slide = 3
+            this.slide = 3
             this.$q.loading.hide()
           }
         })
       }
+    },
+    async isQuotationFinish (id) {
+      await this.$api.put('quotationFinished/' + id).then(res => {
+        if (res) {
+          console.log('sirve?')
+          this.show3 = false
+        }
+      })
     }
   }
 }
