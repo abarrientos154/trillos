@@ -95,7 +95,7 @@ class QuotationController {
     const user = (await auth.getUser()).toJSON()
     if (user.roles[0] === 2) {
       let send = {}
-      let quotations = (await Quotation.query().where('client_id', params.id).with('data_request').fetch()).toJSON()
+      let quotations = (await Quotation.query().where('client_id', params.id).with('data_request').with('data_supplier').fetch()).toJSON()
       for (let i in quotations) {
         let request = (await Necesidad.query().find(quotations[i].request_id)).toJSON()
         console.log('request :>> ', request);
@@ -107,6 +107,7 @@ class QuotationController {
           send.quotationFinished = true
           send.idQuotationFinished = quotations[i]._id
           send.finished = quotations[i]
+          send.supplier = quotations[i].data_supplier
         }
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {

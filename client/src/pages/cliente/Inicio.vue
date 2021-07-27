@@ -220,7 +220,7 @@
     <q-dialog persistent v-model="show3">
       <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
-          <q-card style="width: 100%; height: 100%" class="q-pa-none column items-center">
+          <q-card style="width: 100%; height: 100%" class="q-pa-lg column no-wrap items-center">
             <div class="q-mt-xl" style="height: 200px; width: 70%;">
               <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
                 <div class="absolute-full column items-center column justify-end">
@@ -229,7 +229,7 @@
                 </div>
               </q-img>
             </div>
-            <div class="text-h6 text-center text-bold q-mt-xl">¡La solicitud de {{data_request.name}} fue finalizada!</div>
+            <div class="text-h6 text-center text-bold q-mt-md">¡La solicitud de {{data_request.name}} fue finalizada!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">Una de tus solicitudes fue finalizada.</div>
             <div class="column q-pa-sm q-mt-xs">
               <q-btn round dense flat no-caps label="Omitir" color="grey" @click="isQuotationFinish(data_request._id)"/>
@@ -237,30 +237,32 @@
             </div>
           </q-card>
         </q-carousel-slide>
-        <q-carousel-slide :name="2" class="q-pa-none">
-          <q-card style="width: 100%; height: 100%" class="q-pa-lg column items-center">
-            <div class="q-mt-sm" style="height: 200px; width: 70%;">
-              <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
-                <div class="absolute-full column items-center column justify-end">
-                  <q-icon name="collections" class="text-grey" size="80px"></q-icon>
-                  <div class="text-bold text-center text-grey">Comenta a tu taller</div>
-                </div>
-              </q-img>
-            </div>
-            <div class="text-h6 text-center text-bold q-mt-sm">¡Califica tu taller!</div>
-            <div class="text-h6 text-center text-grey-9 text-subtitle1">Selecciona la cantidad de estrellas que quieres dar a tu taller.</div>
-            <q-rating v-model="form.rating" size="2em" color="yellow"/>
-            <div class="text-subtitle1">Escribe un comentario</div>
-            <div class="absolute-bottom q-my-md q-mx-md">
-              <q-input filled v-model="form.opinion" type="textarea" :error="$v.form.opinion.$error" error-message="Este campo es requerido" @blur="$v.form.opinion.$touch()"/>
-              <div class="column items-center">
-                <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width:200px" @click="setNewOpinion(quotationFinished._id, quotationFinished.supplier_id)"/>
+        <q-carousel-slide :name="2" class="q-pa-lg column no-wrap items-center">
+          <div class="q-mt-sm" style="height: 200px; width: 70%;">
+            <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+              <div class="absolute-full column items-center column justify-end">
+                <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                <div class="text-bold text-center text-grey">Comenta a tu taller</div>
               </div>
+            </q-img>
+          </div>
+          <q-avatar class="q-mt-sm" size="70px">
+            <img :src="supplier._id ? baseu + 'perfil' + supplier._id : 'noimg.png'" spinner-color="white">
+          </q-avatar>
+          <div class="text-h6 text-center text-bold q-mt-xs">{{supplier.full_name}}</div>
+          <div class="text-h6 text-center text-bold q-mt-xs">¡Califica tu taller!</div>
+          <div class="text-h6 text-center text-grey-9 text-subtitle1">Selecciona la cantidad de estrellas que quieres dar a tu taller.</div>
+          <q-rating v-model="form.rating" size="2em" color="yellow"/>
+          <div class="text-subtitle1">Escribe un comentario</div>
+          <div class="q-my-md q-mx-md" style="width: 80%">
+            <q-input filled v-model="form.opinion" type="textarea" :error="$v.form.opinion.$error" error-message="Este campo es requerido" style="width: 100%" @blur="$v.form.opinion.$touch()"/>
+            <div class="column items-center q-mb-md">
+              <q-btn rounded  color="primary" label="Calificar taller" no-caps style="width: 100%" @click="setNewOpinion(quotationFinished._id, quotationFinished.supplier_id)"/>
             </div>
-          </q-card>
+          </div>
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="q-pa-none">
-          <q-card style="width: 100%; height: 100%" class="q-pa-lg column items-center">
+          <q-card style="width: 100%; height: 100%" class="q-pa-lg column no-wrap items-center">
             <div class="q-mt-sm" style="height: 200px; width: 70%;">
               <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
                 <div class="absolute-full column items-center column justify-end">
@@ -310,7 +312,9 @@ export default {
         rating: 4
       },
       quotationFinished: {},
-      data_request: {}
+      data_request: {},
+      supplier: {},
+      baseu: ''
     }
   },
   validations: {
@@ -320,6 +324,7 @@ export default {
     }
   },
   mounted () {
+    this.baseu = env.apiUrl + '/perfil_img/'
     this.getUser()
     this.getCategorias()
     this.getTiendas()
@@ -355,6 +360,7 @@ export default {
           this.show3 = true
           this.quotationFinished = res.finished
           this.data_request = res.finished.data_request
+          this.supplier = res.supplier
         }
       })
     },
