@@ -77,15 +77,15 @@
               </q-avatar>
               <div class="row items-center justify-center no-wrap" style="width:100%">
                 <q-icon size="xs" name="person" color="grey" />
-                <div class="text-grey-8 text-caption ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}} </div>
+                <div class="text-grey-8 text-caption ellipsis">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
               </div>
             </div>
             <div style="width:55%">
               <div class="text-h6 q-mb-xs">{{item.quotation_data.data_request.name}}</div>
-              <div class="row q-mb-lg" style="height:50px; width:100%">
+              <div class="row" style="height:50px; width:100%">
                 <div class="col-12 text-grey-9 ellipsis-3-lines">{{item.opinion}}</div>
               </div>
-              <div class="q-pb-md">
+              <div>
                 <q-rating v-model="item.rating" size="2em" color="orange" readonly/>
               </div>
             </div>

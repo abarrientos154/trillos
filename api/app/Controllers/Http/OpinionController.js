@@ -149,8 +149,10 @@ class OpinionController {
       body.client_id = user._id
       body.supplier_id = params.idSupplier
       body.quotation_id = params.id
+      let requestId = (await Quotation.query().with('data_request').find(params.id)).toJSON().data_request._id
+      body.request_id = requestId
       const opinion = await Opinion.create(body)
-      let status = await Quotation.query().where('_id', params.id).update({qualified: true})
+      let status = await Necesidad.query().where('_id', requestId).update({isQualified: true})
       response.send(opinion)
   }
 

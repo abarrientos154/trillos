@@ -239,6 +239,16 @@
               </q-card>
             </div>
           </q-scroll-area>
+          <div v-if="selec.opinion">
+            <div class="q-ml-md text-h6 text-bold q-mt-md">Comentarios del servicio</div>
+            <div class="row" style="height:60px">
+              <div class="col-12 q-px-md text-grey-9 ellipsis-3-lines">{{selec.opinion.opinion}}</div>
+              <div class="col-12 q-ml-xs q-px-md text-bold text-grey-9">Calificación</div>
+              <div class="row q-mb-lg q-ml-md">
+                <q-rating v-model="selec.opinion.rating" size="2em" color="orange" readonly/>
+              </div>
+            </div>
+          </div>
       </q-card>
     </q-dialog>
 

@@ -27,8 +27,8 @@ class Opinion extends Model {
   creador () {
     return this.hasOne('App/Models/User', 'ownerId', '_id')
   }
-  necesidad_info () {
-    return this.hasOne('App/Models/Necesidad', 'necesidad_id', '_id')
+  data_request () {
+    return this.hasOne('App/Models/Necesidad', 'request_id', '_id')
   }
   quotation_data () {
     return this.hasOne('App/Models/Quotation', 'quotation_id', '_id')

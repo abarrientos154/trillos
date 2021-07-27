@@ -25,6 +25,9 @@ class Necesidad extends Model {
   chat_info () {
     return this.belongsTo('App/Models/ChatMessage', '_id', 'necesidad_id')
   }
+  data_opinion () {
+    return this.hasOne('App/Models/Opinion', '_id', 'request_id')
+  }
 }
 
 module.exports = Necesidad

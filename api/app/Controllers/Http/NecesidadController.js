@@ -2,6 +2,7 @@
 const Necesidad = use("App/Models/Necesidad")
 const ChatMessage = use("App/Models/ChatMessage")
 const Quotation = use("App/Models/Quotation")
+const Opinion = use("App/Models/Opinion")
 const Categorias = use("App/Models/Categoria")
 const User = use("App/Models/User")
 const { validate } = use("Validator")
@@ -36,6 +37,9 @@ class NecesidadController {
   async necesidadByUserId ({ response, params }) {
     let datos = (await Necesidad.query().where({ownerId: params.user_id}).with('creador').fetch()).toJSON()
     for (let i = 0; i < datos.length; i++) {
+      if (datos[i].isQualified && datos[i].isQualified === true) {
+        datos[i].opinion = (await Opinion.query().where('request_id', datos[i]._id).first()).toJSON()
+      }
       datos[i].chat_info = await ChatMessage.findBy('necesidad_id', datos[i]._id.toString())
       datos[i].colorRadio = datos[i].necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : datos[i].necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
       datos[i].fechaCreacion = moment(datos[i].created_at).format('DD/MM/YYYY')
@@ -49,6 +53,9 @@ class NecesidadController {
     for (let i = 0; i < datos.length; i++) {
       datos[i].creador = (await User.query().where('_id', datos[i].client_id).first()).toJSON()
       datos[i].necesidad = (await Necesidad.query().where('_id', datos[i].request_id).first()).toJSON()
+      if (datos[i].necesidad.isQualified && datos[i].necesidad.isQualified === true) {
+        datos[i].opinion = (await Opinion.query().where('request_id', datos[i].necesidad._id).first()).toJSON()
+      }
       datos[i].colorRadio = datos[i].necesidad.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : datos[i].necesidad.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
       datos[i].fechaCreacion = moment(datos[i].necesidad.created_at).format('DD/MM/YYYY')
       datos[i].categoriaInfo = (await Categorias.query().where('_id', datos[i].necesidad.categoria_id).first()).toJSON()
