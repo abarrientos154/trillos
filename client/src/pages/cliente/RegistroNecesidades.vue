@@ -93,6 +93,7 @@
         <q-input class="q-mx-md" filled v-model="form.descripcion" type="textarea" :error="$v.form.descripcion.$error" error-message="Este campo es requerido" @blur="$v.form.descripcion.$touch()"/>
       </div>
       <div class="text-bold q-mt-lg q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
+      <div class="text-caption q-mt-xs q-mx-md">Saca buenas fotos de los daños, desperfectos o de las piezas que solicites para obtener un presupuesto acertado</div>
       <div class="row q-ml-md q-my-sm">
       <q-avatar square size="45px" style="border-radius: 15px" class="bg-grey row justify-center">
         <q-file :disable="imgSolicitud.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud() : addImg()" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">

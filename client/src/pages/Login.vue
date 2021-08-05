@@ -10,7 +10,6 @@
             <div class="col-12">Ingresa tu correo</div>
             <q-input
               style="width: 100%"
-              autofocus
               filled
               v-model="form.email"
               :error="$v.form.email.$error"
@@ -23,7 +22,6 @@
             <div class="col-12">Ingresa tu contraseña</div>
             <q-input
               style="width: 100%"
-              autofocus
               filled
               v-model="form.password"
               :error="$v.form.password.$error"

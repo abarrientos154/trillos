@@ -71,6 +71,9 @@
         </div>
       </div>
     </div>
+    <q-page-sticky position="bottom-right" :offset="[7, 22]">
+      <q-btn class="q-pa-xs q-mb-lg" color="primary" icon="touch_app" label="Nueva solicitud" style="border-radius: 10px;" no-caps @click="$router.push('registronecesidades')"/>
+    </q-page-sticky>
   </div>
 </template>
 

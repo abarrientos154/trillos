@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  props: ['id'],
   data () {
     return {
       categorias: [
@@ -32,9 +33,9 @@ export default {
   },
   methods: {
     obtenerDatos () {
-      this.$api.get('categoria').then(res => {
+      this.$api.get('categoryById/' + this.id).then(res => {
         if (res) {
-          this.categorias = res
+          this.categorias.push(res)
         }
       })
     }

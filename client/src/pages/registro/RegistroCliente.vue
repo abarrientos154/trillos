@@ -17,21 +17,21 @@
             <div :class="$v.perfilFile.$error ? 'text-negative' : ''" class="q-my-sm">Sube tu foto de perfil</div>
             </div>
             <div class="row q-pa-sm">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Pon tu nombre(s)</div>
                 <q-input filled v-model="form.full_name" placeholder="Nombre" outlined dense
                 error-message="Ingrese su nombre"
                 :error="$v.form.full_name.$error" @blur="$v.form.full_name.$touch()"
                 />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div>Apellido paterno y materno</div>
+            <div class="col-12">
+                <div>Apellido</div>
                 <q-input filled v-model="form.last_name" placeholder="Apellido" outlined dense
                 error-message="Ingrese su apellido"
                 :error="$v.form.last_name.$error" @blur="$v.form.last_name.$touch()"
                 />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Fecha de nacimiento</div>
                 <q-input filled readonly dense v-model="form.birthdate" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
                 error-message="Este campo es requerido" :error="$v.form.birthdate.$error" @blur="$v.form.birthdate.$touch()">
@@ -48,18 +48,18 @@
                 </template>
                 </q-input>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Número de contacto</div>
                 <q-input filled v-model.number="form.phone" type="number" placeholder="Teléfono" outlined dense
                 error-message="Ingrese un número de contacto"
                 :error="$v.form.phone.$error" @blur="$v.form.phone.$touch()"
                 />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Selecciona tu pais</div>
                 <q-select filled v-model="form.country" placeholder="País" outlined dense :options="countries" option-value="_id" option-label="name" emit-value map-options @input="getCitiesByCountry(form.country)" error-message="Ingrese su País" :error="$v.form.country.$error" @blur="$v.form.country.$touch()" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Selecciona tu ciudad</div>
                 <q-select filled v-model="city" placeholder="Ciudad" outlined dense :options="cities" option-value="_id" option-label="name" emit-value map-options error-message="Ingrese su ciudad" :error="$v.city.$error" @input="form.city = city" @blur="$v.city.$touch()" >
                 <template v-slot:no-option>
@@ -71,14 +71,14 @@
                 </template>
                 </q-select>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Ingresa una dirección</div>
                 <q-input filled v-model="form.direccion" placeholder="Dirección" outlined dense
                 error-message="Ingrese una dirección"
                 :error="$v.form.direccion.$error" @blur="$v.form.direccion.$touch()"
                 />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Introduce tu correo</div>
                 <q-input
                 filled
@@ -92,7 +92,7 @@
                 @blur="$v.form.email.$touch()"
                 />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Introduce tu contraseña</div>
                 <q-input
                 filled
@@ -109,7 +109,7 @@
                 </template>
                 </q-input>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12">
                 <div>Repite tu contraseña</div>
                 <q-input
                 filled

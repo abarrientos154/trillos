@@ -185,6 +185,9 @@
       <q-btn rounded no-caps :label="!ver3 ? 'Ver más' : 'Ver menos'" color="primary" style="width:200px"
       @click="verMas(3)" />
     </div>
+    <q-page-sticky position="bottom-right" :offset="[7, 22]">
+      <q-btn class="q-pa-xs q-mb-lg" color="primary" icon="touch_app" label="Nueva solicitud" style="border-radius: 10px;" no-caps @click="$router.push('registronecesidades')"/>
+    </q-page-sticky>
 
     <q-dialog v-model="verSolicitud" v-if="verSolicitud">
       <q-card class="q-pt-md q-pb-lg" style="width:100%">

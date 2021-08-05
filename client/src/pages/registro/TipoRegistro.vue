@@ -6,10 +6,10 @@
       </div>
       <div class="text-center text-h6 text-grey-8 q-pa-md">¿Qué quieres ser?</div>
       <div class="row justify-center q-py-md">
-        <q-btn style="width: 200px" color="primary" no-caps label="Necesito un Taller" @click="$router.push('/registro/cliente')" />
+        <q-btn style="width: 200px" color="primary" no-caps label="Cliente" @click="$router.push('/registro/cliente')" />
       </div>
       <div class="row justify-center q-pb-md">
-        <q-btn style="width: 200px" color="primary" no-caps label="Quiero ser Taller" @click="$router.push('/registro/taller')" />
+        <q-btn style="width: 200px" color="primary" no-caps label="Proveedor" @click="$router.push('/registro/taller')" />
       </div>
       <div class="row justify-center">
         <q-btn style="width: 200px" color="primary" no-caps flat label="Volver" @click="$router.push('/login')" />

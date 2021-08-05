@@ -23,7 +23,7 @@
       </div>
 
       <div class="q-pb-lg">
-        <div class="text-bold text-h6 q-mb-md q-px-sm">Nuestros talleres disponibles</div>
+        <div class="text-bold text-h6 q-mb-md q-px-sm">Talleres disponibles</div>
         <div v-if="tiendas.length" class="row q-mb-md">
           <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in tiendas" :key="index">
             <q-card @click="$router.push('/tienda/' + tienda._id)">
@@ -347,7 +347,6 @@ export default {
     },
     async getQuotations () {
       await this.$api.get('isNewMessages/' + this.user._id).then(res => {
-        console.log('res >> ', res)
         if (res && res.newMessages === true) {
           this.show = true
         }

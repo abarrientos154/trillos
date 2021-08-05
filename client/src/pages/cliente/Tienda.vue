@@ -72,7 +72,7 @@
         </q-card>
       </q-dialog>
 
-      <botones-header class="q-mx-md q-my-xs"/>
+      <botones-header v-if="category !== ''" class="q-mx-md q-my-xs" :id="category"/>
 
       <q-card class="bordes q-pa-xs q-mt-md shadow-up-4" style="border-radius:25px">
         <div class="q-mx-md text-h6">Mis Productos</div>
@@ -103,7 +103,8 @@ export default {
       estado: false,
       dialogStado: false,
       fav: false,
-      ratingTienda: 0
+      ratingTienda: 0,
+      category: ''
     }
   },
   mounted () {
@@ -122,6 +123,7 @@ export default {
     getInfo () {
       this.$api.get('user_by_id/' + this.id).then(v => {
         this.data = v
+        this.category = v.categorias[0]
         this.perfile = this.id
         this.baseu = env.apiUrl + '/perfil_img/perfil'
         this.baseuTienda = env.apiUrl + '/tienda_img/'
