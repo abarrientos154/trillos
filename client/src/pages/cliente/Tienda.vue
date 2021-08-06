@@ -44,7 +44,7 @@
             <q-icon class="col-1" name="phone" color="blak" style="font-size: 1.5rem;"/>
             <div class="q-pl-xs q-pt-xs text-subtitle2">{{data.phone}}</div>
           </div>
-          <div class="q-mx-md text-subtitle2">{{data.country === 'Colombia' ? 'DNI: ' : 'RUN: '}}{{data.run_dni}}</div>
+          <div class="q-mx-md text-subtitle2">{{data.country === 'Colombia' ? 'DNI: ' : 'RUT: '}}{{data.run_dni}}</div>
         </q-card>
 
       <q-dialog v-model="dialogStado">

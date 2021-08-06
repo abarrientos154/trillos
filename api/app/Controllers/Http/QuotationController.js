@@ -7,6 +7,7 @@ const City = use("App/Models/City")
 const Categoria = use("App/Models/Categoria")
 const User = use("App/Models/User")
 const moment = require('moment')
+var ObjectId = require('mongodb').ObjectId;
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -52,7 +53,7 @@ class QuotationController {
   async store ({ request, response, auth }) {
     const user = ((await auth.getUser()).toJSON())._id
     let body = request.all()
-    body.supplier_id = user
+    body.supplier_id = new ObjectId(user)
     body.status = 0
     body.isActive = false
     const quotation = (await Quotation.create(body)).toJSON()
@@ -98,7 +99,6 @@ class QuotationController {
       let quotations = (await Quotation.query().where('client_id', params.id).with('data_request').with('data_supplier').fetch()).toJSON()
       for (let i in quotations) {
         let request = (await Necesidad.query().find(quotations[i].request_id)).toJSON()
-        console.log('request :>> ', request);
         if (request.status === 1 && request.isExtend === false) {
           send.quotationExtend = true
           send.idQuotationExtend = quotations[i]._id

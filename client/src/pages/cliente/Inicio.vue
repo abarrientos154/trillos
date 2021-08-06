@@ -7,7 +7,7 @@
     </div>
 
     <div>
-      <div class="q-py-lg q-px-sm">
+      <!-- <div class="q-py-lg q-px-sm">
         <div class="text-bold text-h6">¿Donde necesitas ayuda?</div>
         <div class="text-caption text-grey-9 q-mb-xs">Selecciona la ciudad donde quieres ver los talleres</div>
         <q-select class="q-mb-md" v-model="city" label="Nombre de la ciudad" option-label="name" option-value="_id" emit-value map-options outlined dense :options="cities"/>
@@ -20,15 +20,15 @@
           <q-btn rounded :disable="!city || seleCat === '' ? true : false" class="q-pa-xs" color="primary" label="Buscar" style="width: 60%;" no-caps
           @click="buscar()"/>
         </div>
-      </div>
+      </div> -->
 
-      <div class="q-pb-lg">
+      <div class="q-pb-lg q-mt-sm">
         <div class="text-bold text-h6 q-mb-md q-px-sm">Talleres disponibles</div>
         <div v-if="tiendas.length" class="row q-mb-md">
           <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in tiendas" :key="index">
             <q-card @click="$router.push('/tienda/' + tienda._id)">
               <div>
-                <q-rating class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
+                <q-rating v-if="tienda.isverified === true" class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
                 <div class="bg-primary text-white text-subtitle1 text-bold q-px-sm">{{tienda.full_name}}</div>
               </div>
               <div class="q-py-sm column items-center">
@@ -367,7 +367,7 @@ export default {
       this.$api.post('user_by_rol', { rol: [3] }).then(res => {
         if (res) {
           this.alltiendas = res
-          this.tiendas = this.alltiendas.slice(0, 4)
+          this.tiendas = [...this.alltiendas]
           this.ultimas = this.alltiendas.reverse().slice(0, 4)
           this.baseuTienda = env.apiUrl + '/perfil_img/perfil'
         }

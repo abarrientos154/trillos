@@ -54,6 +54,9 @@ class User extends Model {
   pais () {
     return this.hasOne('App/Models/Country', 'country', '_id')
   }
+  quotations () {
+    return this.hasMany('App/Models/Quotation', '_id', 'supplier_id')
+  }
 
   /**
    * A relationship on tokens is required for auth to

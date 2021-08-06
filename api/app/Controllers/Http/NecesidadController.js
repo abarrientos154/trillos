@@ -102,7 +102,6 @@ class NecesidadController {
           needsByCity.push(formatearFecha[n])
         }
       }
-      console.log('needsByCity :>> ', needsByCity);
       response.send(needsByCity)
     } catch (error) {
       console.error('necesidades: ' + error.message)

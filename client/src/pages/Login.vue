@@ -42,9 +42,9 @@
           </div>
 
           <div class="q-mt-xl row justify-center items-center">
-            <div class="col-12 text-center">Soy nuevo en Triyus</div>
-            <div>Quiero</div>
-            <q-btn flat no-caps dense color="black" label="Registrarme" @click="$router.push('/registro')"/>
+            <div class="col-12 text-center text-h6 text-weight-regular">Soy nuevo en Triyus</div>
+            <div class="text-h6 text-weight-regular">Quiero</div>
+            <q-btn flat no-caps dense color="black" class="text-h6 text-weight-bold" @click="$router.push('/registro')">Registrarme</q-btn>
           </div>
       </div>
     </div>

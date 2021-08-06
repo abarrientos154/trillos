@@ -24,7 +24,6 @@ class CityController {
   async cityByCountry ({ params, response }) {
     try {
       const country = new ObjectId(params.id)
-      console.log('country :>> ', typeof country);
       const cities = (await City.where({ country_id: country }).fetch()).toJSON()
       response.send(cities)
     } catch (error) {
