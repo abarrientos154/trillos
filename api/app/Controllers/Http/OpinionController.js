@@ -81,19 +81,26 @@ class OpinionController {
   }
 
   async masPopulares ({ params, request, response }) {
-    const user = (await User.query().where({roles: [3]}).fetch()).toJSON()
-
+    let user = (await User.query().where({ roles: [3] }).with('quotations').fetch()).toJSON()
     for (let i = 0; i < user.length; i++) {
-      let opiniones = (await Opinion.query().where({calificado: user[i]._id}).fetch()).toJSON()
+      let opiniones = (await Opinion.query().where({supplier_id: user[i]._id}).fetch()).toJSON()
       var calificacion = 0
       var contador = 0
       for (let j in opiniones) {
-        calificacion = (calificacion + opiniones[j].rating_tienda)
+        calificacion = (calificacion + opiniones[j].rating)
         contador = contador + 1
       }
       let promedio = (calificacion / contador)
       user[i].rating_tienda = promedio
+      const quotationsCompleted = user[i].quotations.filter(val => val.status === 2)
+      if (quotationsCompleted.length >= 5) {
+        user[i].isVerified = true
+      } else {
+        user[i].isVerified = false
+      }
+      delete user[i].quotations
     }
+    user = user.filter(val => val.isVerified === true)
 
     let populares = user.filter(v => v.rating_tienda >= 4)
     if (!populares.length) {
@@ -105,6 +112,7 @@ class OpinionController {
         }
       }
     }
+
     response.send(populares)
   }
 
