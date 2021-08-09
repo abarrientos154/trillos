@@ -21,10 +21,6 @@
                   <div class="text-grey-9 ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
                 </div>
                 <div class="row q-mt-sm items-center no-wrap">
-                  <q-icon size="sm" name="phone" color="grey-7" />
-                  <div class="text-grey-9 ellipsis">{{item.creador.phone}}</div>
-                </div>
-                <div class="row q-mt-sm items-center no-wrap">
                   <q-icon size="sm" name="clean_hands" color="grey-7" />
                   <div class="text-grey-9 ellipsis">{{item.categorianame.name}}</div>
                 </div>

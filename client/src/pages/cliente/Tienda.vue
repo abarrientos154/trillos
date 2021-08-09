@@ -40,11 +40,7 @@
             <q-icon class="col-1" name="email" color="blak" style="font-size: 1.5rem;"/>
             <div class="q-pl-xs q-pt-xs text-subtitle2">{{data.email}}</div>
           </div>
-          <div class="row" style="width:100%">
-            <q-icon class="col-1" name="phone" color="blak" style="font-size: 1.5rem;"/>
-            <div class="q-pl-xs q-pt-xs text-subtitle2">{{data.phone}}</div>
-          </div>
-          <div class="q-mx-md text-subtitle2">{{data.country === 'Colombia' ? 'DNI: ' : 'RUT: '}}{{data.run_dni}}</div>
+          <div class="q-mx-md text-subtitle2">{{data.country === 'Colombia' ? 'DNI: ' : 'RUT: '}}{{data.Dni}}</div>
         </q-card>
 
       <q-dialog v-model="dialogStado">
@@ -74,21 +70,21 @@
 
       <botones-header v-if="category !== ''" class="q-mx-md q-my-xs" :id="category"/>
 
-      <q-card class="bordes q-pa-xs q-mt-md shadow-up-4" style="border-radius:25px">
+      <!-- <q-card class="bordes q-pa-xs q-mt-md shadow-up-4" style="border-radius:25px">
         <div class="q-mx-md text-h6">Mis Productos</div>
         <listado-de-sugerencia :data="productos" :direccion="false" ruta="tienda" class="q-mt-xs"/>
-      </q-card>
+      </q-card> -->
     </div>
   </div>
 </template>
 
 <script>
 import BotonesHeader from '../../components/BotonesHeader.vue'
-import ListadoDeSugerencia from '../../components/ListadoDeSugerencia.vue'
+// import ListadoDeSugerencia from '../../components/ListadoDeSugerencia.vue'
 import moment from 'moment'
 import env from '../../env'
 export default {
-  components: { BotonesHeader, ListadoDeSugerencia },
+  components: { BotonesHeader },
   data () {
     return {
       id: this.$route.params.id,

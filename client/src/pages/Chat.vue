@@ -34,10 +34,6 @@
                 <div class="col-10 text-grey-8 text-caption ellipsis">{{item.fullName}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="xs" name="phone" color="grey-8" />
-                <div class="col-10 text-grey-8 text-caption ellipsis">{{client.phone}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="xs" name="place" color="grey-8" />
                 <div class="col-10 text-grey-8 text-caption ellipsis">{{item.direccion}}</div>
               </div>
@@ -355,7 +351,6 @@ export default {
                 status: v.status
               }
               this.data = v
-              console.log('this.data >> ', this.data)
               /* this.extensionDate = v.date
               this.extensionDate = moment(this.extensionDate).add(1, 'dd') */
               /* this.extensionDate = this.extensionDate.split('/')

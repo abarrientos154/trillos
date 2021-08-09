@@ -129,10 +129,6 @@
                   <div class="col-10 text-grey-8 ellipsis text-caption">{{item.data_client.full_name}} {{item.data_client.last_name}}</div>
                 </div>
                 <div class="row q-mt-sm items-center">
-                  <q-icon size="xs" name="phone" color="grey" />
-                  <div class="col-10 text-grey-8 ellipsis text-caption">{{item.data_client.phone}}</div>
-                </div>
-                <div class="row q-mt-sm items-center">
                   <q-icon size="xs" name="place" color="grey" />
                   <div class="col-10 text-grey-8 ellipsis text-caption">{{item.data_client.direccion}}</div>
                 </div>

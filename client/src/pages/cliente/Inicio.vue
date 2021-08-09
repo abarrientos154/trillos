@@ -104,7 +104,7 @@
                 <div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.pais + ', ' + tienda.ciudad}}</div>
+                    <div class="text-caption text-grey-7 ellipsis">{{tienda.country + ', ' + tienda.city}}</div>
                   </div>
                   <div class="row items-center no-wrap">
                     <q-icon class="q-mr-xs" color="grey-7" name="place"/>
@@ -368,7 +368,6 @@ export default {
         if (res) {
           this.alltiendas = res
           this.tiendas = [...this.alltiendas]
-          console.log('this.tiendas >> ', this.tiendas)
           this.ultimas = this.alltiendas.reverse().slice(0, 4)
           this.baseuTienda = env.apiUrl + '/perfil_img/perfil'
         }
@@ -417,7 +416,6 @@ export default {
         })
         await this.$api.post('newOpinion/' + id + '/' + idSupp, this.form).then(res => {
           if (res) {
-            console.log('que pasa')
             this.slide = 3
             this.$q.loading.hide()
           }
@@ -427,7 +425,6 @@ export default {
     async isQuotationFinish (id) {
       await this.$api.put('quotationFinished/' + id).then(res => {
         if (res) {
-          console.log('sirve?')
           this.show3 = false
         }
       })

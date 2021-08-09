@@ -13,7 +13,10 @@ const Quotation = use("App/Models/Quotation")
 const Necesidad = use("App/Models/Necesidad")
 const Chatmessage = use ("App/Models/ChatMessage")
 const User = use("App/Models/User")
+const Country = use("App/Models/Country")
+const City = use("App/Models/City")
 const moment = require('moment')
+var ObjectId = require('mongodb').ObjectId
 
 
 class OpinionController {
@@ -83,6 +86,10 @@ class OpinionController {
   async masPopulares ({ params, request, response }) {
     let user = (await User.query().where({ roles: [3] }).with('quotations').fetch()).toJSON()
     for (let i = 0; i < user.length; i++) {
+      const country = await Country.find(user[i].country)
+      const city = await City.find(user[i].city)
+      user[i].country = country.name
+      user[i].city = city.name
       let opiniones = (await Opinion.query().where({supplier_id: user[i]._id}).fetch()).toJSON()
       var calificacion = 0
       var contador = 0

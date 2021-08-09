@@ -6,8 +6,8 @@ const fs = require('fs')
 var randomize = require('randomatic');
 const User = use("App/Models/User")
 const Role = use("App/Models/Role")
-const Ciudades = use("App/Models/City")
-const Paises = use("App/Models/Country")
+const City = use("App/Models/City")
+const Country = use("App/Models/Country")
 const Categorias = use("App/Models/Categoria")
 const { validate } = use("Validator")
 const moment = require('moment')
@@ -158,15 +158,18 @@ class UserController {
 
   async userInfo({ request, response, auth }) {
     const user = (await auth.getUser()).toJSON()
-    let ciudad = (await Ciudades.query().where('_id', user.city).first()).toJSON()
-    let pais = (await Paises.query().where('_id', user.country).first()).toJSON()
+    let ciudad = (await City.query().where('_id', user.city).first()).toJSON()
+    let pais = (await Country.query().where('_id', user.country).first()).toJSON()
     user.ciudad = ciudad.name
     user.pais = pais.name
     response.send(user)
   }
 
   async userById({ params, response }) {
-    const user = await User.find(params.id)
+    let user = await User.find(params.id)
+    const country = await Country.find(user.country)
+    user.country = country.name
+    console.log('user :>> ', user);
     response.send(user)
   }
 
@@ -189,8 +192,8 @@ class UserController {
       user = (await User.query().where({roles: rol.rol}).fetch()).toJSON()
     }
     for (let i = 0; i < user.length; i++) {
-      let ciudad = (await Ciudades.query().where('_id', user[i].city).first()).toJSON()
-      let pais = (await Paises.query().where('_id', user[i].country).first()).toJSON()
+      let ciudad = (await City.query().where('_id', user[i].city).first()).toJSON()
+      let pais = (await Country.query().where('_id', user[i].country).first()).toJSON()
       user[i].pais = pais.name
       user[i].ciudad = ciudad.name
       if (user[i].roles[0] === 3) {
@@ -236,8 +239,8 @@ class UserController {
     }
 
     for (let i = 0; i < filtrados.length; i++) {
-      let ciudad = (await Ciudades.query().where('_id', filtrados[i].city).first()).toJSON()
-      let pais = (await Paises.query().where('_id', filtrados[i].country).first()).toJSON()
+      let ciudad = (await City.query().where('_id', filtrados[i].city).first()).toJSON()
+      let pais = (await Country.query().where('_id', filtrados[i].country).first()).toJSON()
       filtrados[i].pais = pais.name
       filtrados[i].ciudad = ciudad.name
       var categoriasInfo = []

@@ -6,7 +6,7 @@
         class="bg-grey-1 rounded-borders"
       >
         <div class="row no-wrap">
-          <q-btn v-for="(item, index) in categorias" flat push color="white" text-color="black" class="q-mt-sm q-mr-sm q-ml-sm" :to="'/filtrar_categorias/' + item._id" :key="index">
+          <q-btn v-for="(item, index) in categorias" flat push color="white" text-color="black" class="q-mt-sm q-mr-sm q-ml-sm" :key="index">
         <div class="column items-center justify-center">
           <q-avatar square size="40px">
             <img :src="item.icons">

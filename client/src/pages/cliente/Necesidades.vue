@@ -31,10 +31,6 @@
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
                   </div>
                   <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="phone" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.phone}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center">
                     <q-icon size="xs" name="place" color="grey-8" />
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
                   </div>
@@ -91,10 +87,6 @@
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
                   </div>
                   <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="phone" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.phone}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center">
                     <q-icon size="xs" name="place" color="grey-8" />
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
                   </div>
@@ -127,8 +119,8 @@
     </div>
 
     <div class="q-pa-md">
-      <div class="text-h6">Todas tus solicitudes</div>
-      <div class="text-caption text-grey-9 q-pb-md">Todas tus solicitudes enviadas.</div>
+      <div class="text-h6">Solicitudes Enviadas</div>
+      <div class="text-caption text-grey-9 q-pb-md">Solicitudes enviadas.</div>
       <div class="column items-center" v-if="solicitudes.length">
         <q-card class="q-mb-sm" v-for="(item, index) in solicitudes" :key="index" style="width:100%;height:270px;" @click="selecData(item)">
             <div class="row justify-end items-center q-pa-xs">
@@ -149,10 +141,6 @@
                   <div class="row items-center">
                     <q-icon size="xs" name="person" color="grey-8" />
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="phone" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.phone}}</div>
                   </div>
                   <div class="row q-mt-sm items-center">
                     <q-icon size="xs" name="place" color="grey-8" />
@@ -181,7 +169,7 @@
         <div class="text-center text-subtitle1">Actualmente sin solicitudes...</div>
       </q-card>
     </div>
-    <div v-if="allSolicitudes.length > 3" class="row justify-center q-py-md">
+    <div v-if="allSend.length > 3" class="row justify-center q-py-md">
       <q-btn rounded no-caps :label="!ver3 ? 'Ver más' : 'Ver menos'" color="primary" style="width:200px"
       @click="verMas(3)" />
     </div>
@@ -203,10 +191,6 @@
               <div class="row items-center no-wrap">
                 <q-icon size="sm" name="person" color="grey-7" />
                 <div class="text-grey-9 ellipsis">{{selec.creador.full_name}} {{selec.creador.last_name}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="phone" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{selec.creador.phone}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="sm" name="place" color="grey-7" />
@@ -277,7 +261,7 @@ export default {
       baseuPerfil: '',
       imgSelec: '',
       selec: {},
-      allSolicitudes: [],
+      allSend: [],
       solicitudes: [],
       allActivas: [],
       activas: [],
@@ -300,10 +284,10 @@ export default {
           var id = res._id
           this.$api.get('necesidad_by_user_id/' + id).then(v => {
             if (v) {
-              this.allSolicitudes = v
               this.allActivas = v.filter(v => v.status === 1)
               this.allCompletas = v.filter(v => v.status === 2)
-              this.solicitudes = this.allSolicitudes.slice(0, 3)
+              this.allSend = v.filter(v => v.status === 0)
+              this.solicitudes = this.allSend.slice(0, 3)
               this.activas = this.allActivas.slice(0, 3)
               this.completas = this.allCompletas.slice(0, 3)
               this.$q.loading.hide()
@@ -357,9 +341,9 @@ export default {
       } else {
         this.ver3 = !this.ver3
         if (this.ver3) {
-          this.solicitudes = this.allSolicitudes
+          this.solicitudes = this.allSend
         } else {
-          this.solicitudes = this.allSolicitudes.slice(0, 3)
+          this.solicitudes = this.allSend.slice(0, 3)
         }
       }
     }
