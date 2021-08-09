@@ -28,7 +28,7 @@
           <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in tiendas" :key="index">
             <q-card @click="$router.push('/tienda/' + tienda._id)">
               <div>
-                <q-rating v-if="tienda.isverified === true" class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
+                <q-rating v-if="tienda.isVerified === true" class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
                 <div class="bg-primary text-white text-subtitle1 text-bold q-px-sm">{{tienda.full_name}}</div>
               </div>
               <div class="q-py-sm column items-center">
@@ -368,6 +368,7 @@ export default {
         if (res) {
           this.alltiendas = res
           this.tiendas = [...this.alltiendas]
+          console.log('this.tiendas >> ', this.tiendas)
           this.ultimas = this.alltiendas.reverse().slice(0, 4)
           this.baseuTienda = env.apiUrl + '/perfil_img/perfil'
         }

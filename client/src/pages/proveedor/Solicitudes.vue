@@ -298,7 +298,6 @@ export default {
               this.allCompletas = v.filter(v => v.status === 2)
               this.activas = this.allActivas.slice(0, 3)
               this.completas = this.allCompletas.slice(0, 3)
-              console.log('v >> ', v)
             }
           })
         }

@@ -119,7 +119,8 @@ class QuotationController {
     }
     if (user.roles[0] === 3) {
       let send = {}
-      let quotations = (await Quotation.query().where('supplier_id', params.id).fetch()).toJSON()
+      const id = new ObjectId(params.id)
+      let quotations = (await Quotation.query().where('supplier_id', id).fetch()).toJSON()
       for (let i in quotations) {
         if (quotations[i].status === 1 && quotations[i].isActive === false) {
           send.quotationActive = true
@@ -142,7 +143,8 @@ class QuotationController {
     if (rol === 2) {
       quotations = (await Quotation.query().where({ client_id: user._id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_supplier').with('data_request').with('lastMessage').fetch()).toJSON()
     } else if (rol === 3) {
-      quotations = (await Quotation.query().where({ supplier_id: user._id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
+      const id = new ObjectId(user._id)
+      quotations = (await Quotation.query().where({ supplier_id: id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
     }
     for (let i = 0; i < quotations.length; i++) {
       let creationDate = moment(quotations[i].data_request.created_at).format('DD/MM/YYYY')
@@ -236,7 +238,8 @@ class QuotationController {
     if (user.roles[0] === 2) {
       cotizaciones = (await Quotation.query().where({ client_id: user._id, status: 1 }).with('data_supplier').with('data_request.categorianame').fetch()).toJSON()
     } else {
-      cotizaciones = (await Quotation.query().where({ supplier_id: user._id, status: 1 }).with('data_client').with('data_request.categorianame').fetch()).toJSON()
+      const id = new ObjectId(user._id)
+      cotizaciones = (await Quotation.query().where({ supplier_id: id, status: 1 }).with('data_client').with('data_request.categorianame').fetch()).toJSON()
     }
     for (let i = 0; i < cotizaciones.length; i++) {
       let dat = (await Necesidad.query().where({ _id: cotizaciones[i].necesidad_id }).fetch()).toJSON()

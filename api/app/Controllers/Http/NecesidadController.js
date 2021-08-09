@@ -11,6 +11,7 @@ const mkdirp = use('mkdirp')
 const fs = require('fs')
 var randomize = require('randomatic');
 const moment = require('moment')
+var ObjectId = require('mongodb').ObjectId
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -49,7 +50,8 @@ class NecesidadController {
   }
 
   async necesidadByProveedorId ({ response, params }) {
-    let datos = (await Quotation.query().where({supplier_id: params.prov_id}).fetch()).toJSON()
+    const id = new ObjectId(params.prov_id)
+    let datos = (await Quotation.query().where({supplier_id: id}).fetch()).toJSON()
     for (let i = 0; i < datos.length; i++) {
       datos[i].creador = (await User.query().where('_id', datos[i].client_id).first()).toJSON()
       datos[i].necesidad = (await Necesidad.query().where('_id', datos[i].request_id).first()).toJSON()
