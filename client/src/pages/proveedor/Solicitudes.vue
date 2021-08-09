@@ -232,6 +232,9 @@
                 <div class="text-caption q-mb-xs">Puedes seguir contactando desde el chat</div>
                 <q-btn rounded  color="primary" label="Ir al Chat" no-caps style="width:200px" @click="$router.push('chat/' + selec.chat)"/>
               </div>
+              <div v-else-if="selec.status == 1" class="row justify-center q-pa-sm q-mt-md">
+                <q-btn rounded  color="primary" label="Ir al Chat" no-caps style="width:200px" @click="$router.push('chat/' + selec._id)"/>
+              </div>
               <div v-if="selec.opinion">
                 <div class="q-ml-md text-h6 text-bold q-mt-md">Comentarios del servicio</div>
                 <div class="row" style="height:60px">
