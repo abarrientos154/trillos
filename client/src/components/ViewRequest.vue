@@ -56,6 +56,8 @@
           </div>
           <div v-else class="row justify-center q-pa-sm q-mt-md">
             <div class="text-subtitle1">¡Tu cotización ya fue enviada!</div>
+            <div class="text-caption q-mb-xs">Puedes seguir contactando desde el chat</div>
+            <q-btn rounded  color="primary" label="Ir al Chat" no-caps style="width:200px" @click="$router.push('chat/' + data.chat)"/>
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="2" class="q-pa-none">

@@ -83,6 +83,7 @@ export default {
     showRequest (itemRequest) {
       this.baseu3 = env.apiUrl + '/perfil_img/'
       this.request = { ...itemRequest }
+      console.log('this.request >> ', this.request)
       this.show = true
     },
     close (emit) {
