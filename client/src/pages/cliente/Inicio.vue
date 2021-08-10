@@ -185,6 +185,7 @@
     </div>
     <q-dialog v-model="show">
       <q-card style="width: 100%; height: 80%" class="q-pa-none column items-center">
+        <q-btn round dense flat class="q-mt-xs q-ml-xs absolute-top-left" icon="close" color="primary" @click="show = false"/>
         <div class="q-mt-xl" style="height: 200px; width: 70%;">
           <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
             <div class="absolute-full column items-center column justify-end">
@@ -202,6 +203,7 @@
     </q-dialog>
     <q-dialog v-model="show2">
       <q-card style="width: 100%; height: 80%" class="q-pa-none column items-center">
+        <q-btn round dense flat class="q-mt-xs q-ml-xs absolute-top-left" icon="close" color="primary" @click="show2 = false"/>
         <div class="q-mt-xl" style="height: 200px; width: 70%;">
           <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
             <div class="absolute-full column items-center column justify-end">

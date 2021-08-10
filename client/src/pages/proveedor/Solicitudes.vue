@@ -10,13 +10,26 @@
       <div class="text-h6">Solicitudes en tu zona</div>
       <div class="column items-center" v-if="solicitudes.length">
         <q-card class="q-mb-md" v-for="(item, index) in solicitudes" :key="index" style="width:100%;height:270px;" @click="selecData(item)">
-            <div class="row justify-end items-center q-pa-xs">
+            <div v-if="!item.isQuoted" class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
                 <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
+            </div>
+            <div v-if="item.isQuoted === true" class="row justify-between items-center">
+              <q-chip color="transparent" text-color="green" class="text-weight-bold">
+                Ya cotizada
+              </q-chip>
+              <div class="row justify-end items-center q-pa-xs">
+              <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
+              <div class="row q-gutter-xs">
+                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+              </div>
+            </div>
             </div>
             <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.name}}</div>
             <div class="row q-py-sm">
@@ -176,8 +189,11 @@
     <q-dialog v-model="verSolicitud" v-if="verSolicitud">
       <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
-          <q-card class="q-pt-md q-pb-lg" style="width:100%">
-            <div class="text-right q-pb-xs q-mr-xs">Fecha de Solicitud {{selec.fechaCreacion}}</div>
+          <q-card class="q-pt-xs q-pb-lg" style="width:100%">
+            <div class="row justify-between items-center">
+              <q-btn round dense flat class="q-ml-xs" icon="close" color="primary" @click="verSolicitud = false"/>
+              <div class="q-pb-xs q-mr-xs">Fecha de Solicitud {{selec.fechaCreacion}}</div>
+            </div>
               <div class="text-center text-white text-h5" :class="'bg-' + selec.colorRadio" style="width:100%">{{selec.necesidad ? selec.necesidad.name : selec.name}}</div>
               <div class="row items-center q-pt-lg">
                 <div class="col-5 row justify-center">

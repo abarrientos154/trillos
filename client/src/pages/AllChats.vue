@@ -100,8 +100,11 @@
 
     <q-dialog v-model="show" transition-show="slide-up" transition-hide="slide-down" >
       <q-carousel style="height:auto; width:100%" animated v-model="slide" infinite ref="carousel">
-        <q-carousel-slide :name="1" class="q-px-none q-pt-md q-pb-xl" v-for="(item, index) in mapeando" :key="index">
-          <div class="text-right text-grey-9 q-pb-xs q-pr-sm">Fecha de Solicitud {{item.creationDate}}</div>
+        <q-carousel-slide :name="1" class="q-px-none q-pt-xs q-pb-xl" v-for="(item, index) in mapeando" :key="index">
+          <div class="row justify-between items-center">
+            <q-btn round dense flat class="q-ml-xs" icon="close" color="primary" @click="show = false"/>
+            <div class="q-pr-sm text-grey-9 q-pb-xs">Fecha de Solicitud {{item.creationDate}}</div>
+          </div>
           <div class="text-center text-white text-h5 q-py-sm" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}}</div>
           <div class="text-center text-h6 text-bold q-mt-md">Descripcion del servicio</div>
           <div class="row q-mb-lg" style="height:60px">
@@ -126,8 +129,11 @@
     </q-dialog>
     <q-dialog v-model="show2" transition-show="slide-up" transition-hide="slide-down">
       <q-carousel style="height:auto; width:100%" animated v-model="slide2" infinite ref="carousel">
-        <q-carousel-slide :name="1" class="q-px-none q-pt-md q-pb-xl">
-          <div class="text-right q-pr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
+        <q-carousel-slide :name="1" class="q-px-none q-pt-xs q-pb-xl">
+          <div class="row justify-between items-center">
+            <q-btn round dense flat class="q-ml-xs" icon="close" color="primary" @click="show2 = false"/>
+            <div class="q-pr-sm">Fecha de Solicitud {{request2.creationDate}}</div>
+          </div>
           <div class="text-center text-white text-h5" :class="`bg-${request2.colorRadio}`" style="width:100%">{{request2.name}}</div>
           <div class="row items-center q-pt-lg">
             <div class="col-5 row justify-center">

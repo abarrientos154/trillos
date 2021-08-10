@@ -3,9 +3,18 @@
     <div class="row justify-around">
       <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
         <q-card @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : showRequest(item)">
-            <div class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
-            <div class="column items-center justify-center">
+            <div v-if="!item.isQuoted" class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}}</div>
+            <div v-if="item.isQuoted === true" class="row justify-between items-center">
+              <q-chip color="transparent" text-color="green" class="text-weight-bold">
+                Ya cotizada
+              </q-chip>
+              <div class="q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
+            </div>
+            <div v-if="!item.isQuoted" class="column items-center justify-center">
               <div class="text-center text-white q-mt-lg text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
+            </div>
+            <div v-if="item.isQuoted === true" class="column items-center justify-center">
+              <div class="text-center text-white q-mt-xs text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
             </div>
 
             <div class="row items-center q-py-sm">
@@ -72,6 +81,7 @@ export default {
     }
   },
   mounted () {
+    console.log('this.data >> ', this.data)
     if (this.ruta === 'cliente' || this.ruta === 'tienda') {
       this.baseu = env.apiUrl + '/productos_img'
     } else {

@@ -102,6 +102,7 @@ class QuotationController {
         if (request.status === 1 && request.isExtend === false) {
           send.quotationExtend = true
           send.idQuotationExtend = quotations[i]._id
+          console.log('que estas haciendo');
         }
         if (request.status === 2 && request.isFinished === false) {
           send.quotationFinished = true
@@ -112,12 +113,8 @@ class QuotationController {
         let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
         if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
           send.newMessages = true
-          console.log('send :>> ', send);
           send.chat = quotations[i]._id
-          console.log('send :>> ', send);
-          break
         }
-        console.log('quotations[i]._id :>> ', quotations[i]._id);
       }
       response.send(send)
     }

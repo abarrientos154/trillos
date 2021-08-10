@@ -2,7 +2,10 @@
   <div style="heigth:100%">
       <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
-          <div class="text-right q-mt-xs q-mr-xs">Fecha de Solicitud {{data.fechaCreacion}}</div>
+          <div class="row justify-between items-center">
+            <q-btn round dense flat class="q-mt-xs q-ml-xs" icon="close" color="primary" @click="finish()"/>
+            <div class="q-mt-xs q-mr-xs">Fecha de Solicitud {{data.fechaCreacion}}</div>
+          </div>
           <div class="column items-center justify-center">
             <div class="text-center text-white q-mt-sm text-h5" :class="`bg-${data.colorRadio}`" style="width:100%">{{data.name}}</div>
           </div>
@@ -61,7 +64,10 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="2" class="q-pa-none">
-          <div class="text-right q-pr-sm q-mt-xs q-mr-xs">Fecha de Solicitud {{data.fechaCreacion}}</div>
+          <div class="row justify-between items-center">
+            <q-btn round dense flat class="q-mt-xs q-ml-xs" icon="close" color="primary" @click="finish()"/>
+            <div class="q-mt-xs q-mr-xs">Fecha de Solicitud {{data.fechaCreacion}}</div>
+          </div>
           <div class="column items-center justify-center">
             <div class="text-center text-white q-mt-sm text-h5" :class="`bg-${data.colorRadio}`" style="width:100%">{{data.name}}</div>
           </div>
