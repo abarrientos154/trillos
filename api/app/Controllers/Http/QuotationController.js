@@ -147,11 +147,13 @@ class QuotationController {
     let rol = user.roles[0]
     let quotations = []
     if (rol === 2) {
-      quotations = (await Quotation.query().where({ client_id: user._id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_supplier').with('data_request').with('lastMessage').fetch()).toJSON()
+      quotations = (await Quotation.query().where({ client_id: user._id, $or: [{ status: 1 }, { status: 2 }] }).with('data_supplier').with('data_request').with('lastMessage').fetch()).toJSON()
     } else if (rol === 3) {
       const id = new ObjectId(user._id)
-      quotations = (await Quotation.query().where({ supplier_id: id/* , $or: [{ status: 0 }, { status: 1 }]  */}).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
+      quotations = (await Quotation.query().where({ supplier_id: id, $or: [{ status: 1 }, { status: 2 }] }).with('data_client').with('data_request.categorianame').with('lastMessage').fetch()).toJSON()
     }
+    quotations.sort((a, b) => new Date(a.created_at_message).getTime() > new Date(b.created_at_message).getTime())
+    quotations.reverse()
     for (let i = 0; i < quotations.length; i++) {
       let creationDate = moment(quotations[i].data_request.created_at).format('DD/MM/YYYY')
       quotations[i].data_request.creationDate = creationDate

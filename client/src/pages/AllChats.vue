@@ -14,7 +14,7 @@
     <div v-if="data.length > 0 && data[0].data_supplier" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : chat.status === 3 ? 'red' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
               <div>
                 <div class="text-bold">Servicios del Taller</div>
                 <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
@@ -25,7 +25,7 @@
             <div @click="chat.status === 3 ? show3 = true : $router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
-                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-green' : chat.status === 3 ? 'bg-red' : 'bg-primary'" style="width:100%">
+                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-green' : 'bg-primary'" style="width:100%">
                   <div v-if="chat.viewed === false && chat.isMyMessage === false" class="row">
                     <div class="text-white">Tienes mensajes</div>
                     <div class="text-white text-bold q-ml-xs">sin leer</div>
@@ -60,12 +60,12 @@
     <div v-if="data.length > 0 && data[0].data_client" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : chat.status === 3 ? 'red' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
             </div>
             <div @click="chat.status === 3 ? show3 = true : $router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
-                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-green' : chat.status === 3 ? 'bg-red' : 'bg-primary'" style="width:100%">
+                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-green' : 'bg-primary'" style="width:100%">
                   <div v-if="chat.viewed === false && chat.isMyMessage === false" class="row">
                     <div class="text-white">Tienes mensajes</div>
                     <div class="text-white text-bold q-ml-xs">sin leer</div>
@@ -183,23 +183,6 @@
         </q-carousel-slide>
       </q-carousel>
     </q-dialog>
-    <q-dialog v-model="show3" v-if="show3">
-      <q-card class="q-pa-sm column items-center">
-        <div class="q-mt-xl" style="height: 200px; width: 70%;">
-          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
-          <div class="absolute-full column items-center column justify-end">
-            <q-icon name="collections" class="text-grey" size="80px"></q-icon>
-            <div class="text-bold text-center text-grey">Solicitud Cancelada</div>
-          </div>
-          </q-img>
-        </div>
-        <div class="text-h6 text-center text-bold q-mt-xl">¡Esta solicitud fue cancelada!</div>
-        <div class="text-h6 text-center text-grey-9 text-subtitle1">Ya no se puede acceder a este chat.</div>
-        <div class="q-pa-sm q-mt-md">
-          <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="show3 = false"/>
-        </div>
-      </q-card>
-    </q-dialog>
     <q-dialog v-model="showImg">
       <q-card>
         <img :src="imgSelec" spinner-color="white" style="height: 100%; width: 100%" />
@@ -223,7 +206,6 @@ export default {
       ver: true,
       show: false,
       show2: false,
-      show3: false,
       data: [],
       data2: {},
       request: [],
