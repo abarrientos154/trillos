@@ -7,6 +7,70 @@
     </div>
 
     <div class="q-pa-md">
+      <div class="text-h6">Solicitudes Enviadas</div>
+      <div class="text-caption text-grey-9 q-pb-md">Solicitudes enviadas.</div>
+      <div class="column items-center" v-if="solicitudes.length">
+        <q-card class="q-mb-sm" v-for="(item, index) in solicitudes" :key="index" style="width:100%;height:270px;" @click="selecData(item)">
+            <div v-if="!item.isQuoted" class="row justify-end items-center q-pa-xs">
+              <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
+              <div class="row q-gutter-xs">
+                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+              </div>
+            </div>
+            <div v-if="item.isQuoted === true" class="row justify-between items-center">
+              <q-chip color="transparent" text-color="green" class="text-weight-bold">
+                Ya cotizada
+              </q-chip>
+              <div class="row justify-end items-center q-pa-xs">
+                <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
+                <div class="row q-gutter-xs">
+                  <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                  <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                  <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+              </div>
+            </div>
+            </div>
+            <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.name}}</div>
+            <div class="row q-py-sm">
+              <div class="column items-center justify-center" style="width:40%">
+                <q-avatar size="90px">
+                  <img :src="item.images ? baseu + '/' + item.images[0] : 'noimgpro.png'" spinner-color="white">
+                </q-avatar>
+                <div class="q-pl-sm q-mt-xs" style="width:100%">
+                  <div class="row items-center">
+                    <q-icon size="xs" name="person" color="grey-8" />
+                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
+                  </div>
+                  <div class="row q-mt-sm items-center">
+                    <q-icon size="xs" name="place" color="grey-8" />
+                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
+                  </div>
+                </div>
+              </div>
+              <div style="width:60%">
+                <div class="text-h6 q-mb-xs">Descripción</div>
+                <div class="row q-mb-md" style="height:50px; width:100%">
+                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.descripcion}}</div>
+                </div>
+                <div class="row items-center">
+                  <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.status === 0 ? 'Disponible' : item.status === 1 ? 'En progreso' : 'Finalizado'}}</div>
+                </div>
+                <div class="row items-center no-wrap q-mt-xs" style="width:100%">
+                  <img :src="item.categoriaInfo.icons" style="width:18px" />
+                  <div class="text-grey-8 q-pl-xs ellipsis">{{item.categoriaInfo.name}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud: {{item.fechaCreacion}} </div>
+          </q-card>
+      </div>
+      <q-card v-else class="shadow-2 q-ma-md q-pa-md">
+        <div class="text-center text-subtitle1">Actualmente sin solicitudes...</div>
+      </q-card>
+    </div>
+    <div class="q-pa-md">
       <div class="text-h6">Solicitudes activas</div>
       <div class="text-caption text-grey-9 q-pb-md">A continuación podrás ver todas las solicitudes activas que has creado.</div>
       <div class="column items-center" v-if="activas.length">
@@ -118,70 +182,6 @@
       @click="verMas(2)" />
     </div>
 
-    <div class="q-pa-md">
-      <div class="text-h6">Solicitudes Enviadas</div>
-      <div class="text-caption text-grey-9 q-pb-md">Solicitudes enviadas.</div>
-      <div class="column items-center" v-if="solicitudes.length">
-        <q-card class="q-mb-sm" v-for="(item, index) in solicitudes" :key="index" style="width:100%;height:270px;" @click="selecData(item)">
-            <div v-if="!item.isQuoted" class="row justify-end items-center q-pa-xs">
-              <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
-              <div class="row q-gutter-xs">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
-              </div>
-            </div>
-            <div v-if="item.isQuoted === true" class="row justify-between items-center">
-              <q-chip color="transparent" text-color="green" class="text-weight-bold">
-                Ya cotizada
-              </q-chip>
-              <div class="row justify-end items-center q-pa-xs">
-                <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
-                <div class="row q-gutter-xs">
-                  <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                  <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-                  <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
-              </div>
-            </div>
-            </div>
-            <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.name}}</div>
-            <div class="row q-py-sm">
-              <div class="column items-center justify-center" style="width:40%">
-                <q-avatar size="90px">
-                  <img :src="item.images ? baseu + '/' + item.images[0] : 'noimgpro.png'" spinner-color="white">
-                </q-avatar>
-                <div class="q-pl-sm q-mt-xs" style="width:100%">
-                  <div class="row items-center">
-                    <q-icon size="xs" name="person" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="place" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
-                  </div>
-                </div>
-              </div>
-              <div style="width:60%">
-                <div class="text-h6 q-mb-xs">Descripción</div>
-                <div class="row q-mb-md" style="height:50px; width:100%">
-                  <div class="col-12 q-pr-xs text-grey-9 text-caption ellipsis-3-lines">{{item.descripcion}}</div>
-                </div>
-                <div class="row items-center">
-                  <div class="text-caption text-grey-9 ellipsis"><b>Estado de solicitud:</b> {{item.status === 0 ? 'Disponible' : item.status === 1 ? 'En progreso' : 'Finalizado'}}</div>
-                </div>
-                <div class="row items-center no-wrap q-mt-xs" style="width:100%">
-                  <img :src="item.categoriaInfo.icons" style="width:18px" />
-                  <div class="text-grey-8 q-pl-xs ellipsis">{{item.categoriaInfo.name}}</div>
-                </div>
-              </div>
-            </div>
-            <div class="absolute-bottom-right text-grey-8 q-pa-sm text-caption">Fecha de Solicitud: {{item.fechaCreacion}} </div>
-          </q-card>
-      </div>
-      <q-card v-else class="shadow-2 q-ma-md q-pa-md">
-        <div class="text-center text-subtitle1">Actualmente sin solicitudes...</div>
-      </q-card>
-    </div>
     <div v-if="allSend.length > 3" class="row justify-center q-py-md">
       <q-btn rounded no-caps :label="!ver3 ? 'Ver más' : 'Ver menos'" color="primary" style="width:200px"
       @click="verMas(3)" />
@@ -242,6 +242,9 @@
               </q-card>
             </div>
           </q-scroll-area>
+          <div class="row justify-center q-pa-sm q-mt-sm" v-if="selec.status === 0 || selec.status === 1">
+            <q-btn  rounded  color="primary" label="Cancelar" no-caps style="width:200px" @click="changeStatus(selec._id)"/>
+          </div>
           <div v-if="selec.opinion">
             <div class="q-ml-md text-h6 text-bold q-mt-md">Comentarios del servicio</div>
             <div class="row" style="height:60px">
@@ -252,6 +255,23 @@
               </div>
             </div>
           </div>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="show" v-if="show">
+      <q-card class="q-pa-sm column items-center">
+        <div class="q-mt-xl" style="height: 200px; width: 70%;">
+          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+          <div class="absolute-full column items-center column justify-end">
+            <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+            <div class="text-bold text-center text-grey">Solicitud Cancelada</div>
+          </div>
+          </q-img>
+        </div>
+        <div class="text-h6 text-center text-bold q-mt-xl">¡Cancelaste con exito tu solicitud!</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1">Ya esta solicitud no aparecera más.</div>
+        <div class="q-pa-sm q-mt-md">
+          <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="reload()"/>
+        </div>
       </q-card>
     </q-dialog>
 
@@ -282,7 +302,8 @@ export default {
       allActivas: [],
       activas: [],
       allCompletas: [],
-      completas: []
+      completas: [],
+      show: false
     }
   },
   mounted () {
@@ -319,26 +340,6 @@ export default {
     editSolicitud (id) {
       this.$router.push('/editar_solicitud/' + id)
     },
-    deleteSolicitud (id) {
-      this.$q.dialog({
-        title: 'Confirma',
-        message: '¿Seguro deseas eliminar esta solicitud?',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        this.$api.delete('necesidad/' + id).then(res => {
-          if (res) {
-            this.$q.notify({
-              color: 'positive',
-              message: 'Eliminado Correctamente'
-            })
-            this.getSolicitudes()
-          }
-        })
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      })
-    },
     verMas (val) {
       if (val === 1) {
         this.ver1 = !this.ver1
@@ -362,6 +363,31 @@ export default {
           this.solicitudes = this.allSend.slice(0, 3)
         }
       }
+    },
+    changeStatus (id) {
+      this.$q.dialog({
+        title: 'Confirma',
+        message: '¿Seguro deseas cancelar esta solicitud?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Cancelando solicitud...'
+        })
+        this.$api.put('updateQuotation/' + id, { status: 3 }).then(res => {
+          if (res) {
+            this.$q.loading.hide()
+            this.show = true
+            this.verSolicitud = false
+          }
+        })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      })
+    },
+    reload () {
+      this.getSolicitudes()
+      this.show = false
     }
   }
 }

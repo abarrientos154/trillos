@@ -88,6 +88,10 @@ class QuotationController {
       let quotation = (await Quotation.query().find(params.id)).toJSON()
       let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ status: 2, endDate: today, isFinished: false })
       response.send(updateQuotation)
+    } else if (body.status === 3) {
+      const updateRequest = await Necesidad.query().where('_id', params.id).update({ status: 3 })
+      const updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3 })
+      response.send(updateQuotation)
     }
 
   }
