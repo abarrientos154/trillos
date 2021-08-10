@@ -184,7 +184,7 @@
         <div class="text-h6 text-center text-bold q-mt-xl">¡Te están comunicando!</div>
         <div class="text-h6 text-center text-grey-9 text-subtitle1">Están intentando comunicarte revisa tu bandeja de mensajes.</div>
         <div class="q-pa-sm q-mt-md">
-          <q-btn rounded  color="primary" label="Ir a bandeja" no-caps style="width:200px" @click="$router.push('/mis_chats')"/>
+          <q-btn rounded  color="primary" label="Ir al chat" no-caps style="width:200px" @click="$router.push('/chat/' + chat)"/>
         </div>
       </q-card>
     </q-dialog>
@@ -236,7 +236,8 @@ export default {
       data5: [],
       diasF: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
       user: {},
-      idQuotation: ''
+      idQuotation: '',
+      chat: ''
     }
   },
   async mounted () {
@@ -289,7 +290,6 @@ export default {
       this.$api.get('opiniones2/' + this.form2._id).then(res => {
         if (res) {
           this.data5 = res
-          console.log('this.data5 >> ', this.data5)
         }
       })
     },
@@ -316,7 +316,9 @@ export default {
     async getQuotations () {
       await this.$api.get('isNewMessages/' + this.user._id).then(res => {
         if (res && res.newMessages === true) {
+          console.log('res >> ', res)
           this.show = true
+          this.chat = res.chat
         }
         if (res && res.quotationActive === true) {
           this.idQuotation = res.idQuotation

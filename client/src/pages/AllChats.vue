@@ -14,7 +14,7 @@
     <div v-if="data.length > 0 && data[0].data_supplier" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
               <div>
                 <div class="text-bold">Servicios del Taller</div>
                 <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
@@ -25,7 +25,7 @@
             <div @click="$router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
-                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
+                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-green' : 'bg-primary'" style="width:100%">
                   <div v-if="chat.viewed === false && chat.isMyMessage === false" class="row">
                     <div class="text-white">Tienes mensajes</div>
                     <div class="text-white text-bold q-ml-xs">sin leer</div>
@@ -60,12 +60,12 @@
     <div v-if="data.length > 0 && data[0].data_client" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
             <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'orange' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
+              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
             </div>
             <div @click="$router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
-                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-orange' : 'bg-primary'" style="width:100%">
+                <div class="q-mt-lg row justify-around items-center" :class="chat.viewed === false && chat.isMyMessage === false ? 'bg-green' : 'bg-primary'" style="width:100%">
                   <div v-if="chat.viewed === false && chat.isMyMessage === false" class="row">
                     <div class="text-white">Tienes mensajes</div>
                     <div class="text-white text-bold q-ml-xs">sin leer</div>
@@ -154,7 +154,7 @@
             <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
             <div class="row">
               <q-radio v-model="request2.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio v-model="request2.colorRadio" keep-color size="xs" val="orange" color="orange" />
+              <q-radio v-model="request2.colorRadio" keep-color size="xs" val="green" color="green" />
               <q-radio v-model="request2.colorRadio" keep-color size="xs" val="blue" color="blue" />
             </div>
           </div>
