@@ -1,8 +1,8 @@
 {
-  "name": "trillos",
+  "name": "triyus",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "A Eiche Project",
+  "productName": "Triyus",
   "author": "example <example@example.com>",
   "private": true,
   "scripts": {
