@@ -18,14 +18,14 @@
             </div>
             <div class="row q-pa-sm">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div>Tu nombre(s)</div>
+                <div>Nombre Completo</div>
                 <q-input filled v-model="form.full_name" placeholder="Nombre" outlined dense
                 error-message="Ingrese su nombre"
                 :error="$v.form.full_name.$error" @blur="$v.form.full_name.$touch()"
                 />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div>Apellido paterno y materno</div>
+                <div>Apellidos</div>
                 <q-input filled v-model="form.last_name" placeholder="Apellido" outlined dense
                 error-message="Ingrese su apellido"
                 :error="$v.form.last_name.$error" @blur="$v.form.last_name.$touch()"

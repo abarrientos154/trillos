@@ -4,11 +4,11 @@
       <div class="col-12 q-pa-md" v-for="(item, index) in mapeando" :key="index">
         <q-card @click="(ruta === 'cliente') || (ruta === 'tienda') ? $router.push('/descripcionproducto/' + item._id) : showRequest(item)">
             <div v-if="!item.isQuoted" class="absolute-top-right q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}}</div>
-            <div v-if="item.isQuoted === true" class="row justify-between items-center">
-              <q-chip color="transparent" text-color="green" class="text-weight-bold">
+            <div v-if="item.isQuoted === true" class="bg-green row justify-between items-center">
+              <q-chip color="transparent" text-color="white" class="text-weight-bold">
                 Ya cotizada
               </q-chip>
-              <div class="q-pr-sm">Fecha de Solicitud {{item.fechaCreacion}} </div>
+              <div class="q-pr-sm text-white">Fecha de Solicitud {{item.fechaCreacion}} </div>
             </div>
             <div v-if="!item.isQuoted" class="column items-center justify-center">
               <div class="text-center text-white q-mt-lg text-h6" :class="`bg-${item.colorRadio}`" style="width:100%">{{item.name}} </div>
@@ -44,9 +44,9 @@
             <div class="row justify-around items-center q-pt-md">
               <div class="text-h7 text-grey-9">Urgencia requerimiento</div>
               <div class="row">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>
 

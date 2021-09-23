@@ -4,7 +4,62 @@
       <div class="absolute-full">
       <div class="column absolute-top-right q-mt-md q-pr-md">
         <q-btn color="primary" label="Editar perfil" rounded no-caps class="q-pa-xs"
-        @click="rol !== 1 ? $router.push('/perfil/taller') : ''" />
+        @click="rol !== 1 ? $router.push('/perfil/taller') : ''">
+        </q-btn>
+      </div>
+      <div class="column absolute-top-left q-mt-md q-ml-sm">
+        <q-btn color="primary" auto-close flat icon="notifications" round>
+          <q-badge color="red" floating outline v-if="amountNotifications > 0">{{amountNotifications > 15 ? '15+' : amountNotifications}}</q-badge>
+          <q-menu
+          transition-show="jump-down"
+          transition-hide="jump-up"
+          fit
+          :offset="[0, 10]"
+          v-close-popup
+          auto-close
+          >
+            <q-item>
+              <q-item-section>
+                <q-item-label>Notificaciones</q-item-label>
+              </q-item-section>
+
+              <q-item-section
+                side
+                bottom
+              >
+                <q-item-label caption>
+                  <a
+                    class="cursor-pointer text-primary"
+                    @click="disableAllNotify()"
+                    primary
+                  >Marcar como Leidas</a>
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-list>
+              <q-scroll-area style="height: 200px; max-width: 300px;">
+                <q-item
+                  v-for="n in notifications"
+                  :key="n.id"
+                  clickable
+                  v-close-popup
+                  :class="[n.status?'white':colorActive]"
+                >
+                  <q-item-section
+                    push
+                    @click="disableNotify(n.id)"
+                  >
+                    <q-item-label ovequasrline>{{n.title}}</q-item-label>
+                    <q-item-label lines="
+                      1">{{n.message}}</q-item-label>
+                    <q-item-label caption>{{n.createdAt}}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-scroll-area>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </div>
         <div class="column absolute-bottom-right q-pb-md q-pr-md">
           <q-rating v-model="ratingTienda" size="1.5em" color="yellow" readonly/>
@@ -112,9 +167,9 @@
             <div class="row items-center">
               <div class="text-caption text-grey-8">Nivel de requerimiento</div>
               <div class="row q-gutter-xs q-pl-xs">
-                <q-radio v-model="item.colorRadio" dense keep-color size="xs" val="red" color="red" />
-                <q-radio v-model="item.colorRadio" dense keep-color size="xs" val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" dense keep-color size="xs" val="blue" color="blue" />
+                <q-radio v-model="item.colorRadio" disable dense keep-color size="xs" val="red" color="red" />
+                <q-radio v-model="item.colorRadio" disable dense keep-color size="xs" val="orange" color="orange" />
+                <q-radio v-model="item.colorRadio" disable dense keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>
           </div>
@@ -239,7 +294,10 @@ export default {
       diasF: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
       user: {},
       idQuotation: '',
-      chat: ''
+      chat: '',
+      notifications: [],
+      colorActive: 'bg-blue-1',
+      amountNotifications: 0
     }
   },
   async mounted () {
@@ -249,8 +307,24 @@ export default {
     await this.getUser()
     this.getSolicitudes()
     this.getActiveRequest()
+    this.getNotifications()
   },
   methods: {
+    async getNotifications () {
+      await this.$api.get('getNotifications').then(res => {
+        if (res) {
+          this.notifications = res
+          console.log('this.notifications :>> ', this.notifications)
+          if (this.notifications.length > 0) {
+            this.notifications.forEach(element => {
+              if (element.status === true) {
+                this.amountNotifications++
+              }
+            })
+          }
+        }
+      })
+    },
     async getSolicitudes () {
       await this.$api.get('user_info').then(res => {
         this.info = res

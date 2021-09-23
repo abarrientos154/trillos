@@ -33,9 +33,9 @@
           <div class="row justify-around items-center q-pt-md q-mb-md">
             <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
             <div class="row">
-              <q-radio v-model="data.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio v-model="data.colorRadio" keep-color size="xs" val="orange" color="orange" />
-              <q-radio v-model="data.colorRadio" keep-color size="xs" val="blue" color="blue" />
+              <q-radio disable v-model="data.colorRadio" keep-color size="xs" val="red" color="red" />
+              <q-radio disable v-model="data.colorRadio" keep-color size="xs" val="orange" color="orange" />
+              <q-radio disable v-model="data.colorRadio" keep-color size="xs" val="blue" color="blue" />
             </div>
           </div>
           <div class="q-ml-md text-h6 text-bold q-mt-md">Descripcion del servicio</div>
@@ -55,7 +55,7 @@
             </div>
           </q-scroll-area>
           <div v-if="data.isQuoted != true" class="row justify-center q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Contactar" no-caps style="width:200px" @click="next()"/>
+            <q-btn rounded  color="primary" label="Cotizar" no-caps style="width:200px" @click="next()"/>
           </div>
           <div v-else class="row justify-center q-pa-sm q-mt-md">
             <div class="text-subtitle1">¡Tu cotización ya fue enviada!</div>
@@ -102,7 +102,7 @@
             </q-input>
           </div>
           <div class="row justify-center q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Hablar" no-caps style="width:200px" @click="makeAQuote()"/>
+            <q-btn rounded  color="primary" label="Enviar" no-caps style="width:200px" @click="makeAQuote()"/>
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="q-pa-none column items-center">

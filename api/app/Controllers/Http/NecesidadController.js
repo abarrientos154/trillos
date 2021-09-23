@@ -5,6 +5,7 @@ const Quotation = use("App/Models/Quotation")
 const Opinion = use("App/Models/Opinion")
 const Categorias = use("App/Models/Categoria")
 const User = use("App/Models/User")
+const Notification = use("App/Models/Notification")
 const { validate } = use("Validator")
 const Helpers = use('Helpers')
 const mkdirp = use('mkdirp')
@@ -138,7 +139,6 @@ class NecesidadController {
    * @param {Response} ctx.response
    */
   async store ({ request, response, auth }) {
-    let recibir = request.all()
     var dat = request.only(['dat'])
     dat = JSON.parse(dat.dat)
     const validation = await validate(dat, Necesidad.fieldValidationRules())
@@ -169,9 +169,25 @@ class NecesidadController {
       let body = dat
       body.status = 0
       delete body.cantidadArchivos
-      body.ownerId = ((await auth.getUser()).toJSON())._id
-      let guardar = await Necesidad.create(body)
-      response.send(guardar)
+      const user = (await auth.getUser()).toJSON()
+      body.ownerId = user._id
+      let need = await Necesidad.create(body)
+      const users = (await User.query().where({ roles: [3] }).fetch()).toJSON()
+      for (const i in users) {
+        if (user.city === users[i].city) {
+          for (const j in users[i].categorias) {
+            if (body.categoria_id = users[i].categorias[j]) {
+              const notificationBody = {
+                name: body.name,
+                user_id: new ObjectId(users[i]._id),
+                status: true
+              }
+              const notification = await Notification.create(notificationBody)
+            }
+          }
+        }
+      }
+      response.send(need)
     }
   }
 

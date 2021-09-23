@@ -159,9 +159,9 @@
           <div class="row justify-around items-center q-pt-md q-mb-md">
             <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
             <div class="row">
-              <q-radio v-model="request2.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio v-model="request2.colorRadio" keep-color size="xs" val="green" color="green" />
-              <q-radio v-model="request2.colorRadio" keep-color size="xs" val="blue" color="blue" />
+              <q-radio disable v-model="request2.colorRadio" keep-color size="xs" val="red" color="red" />
+              <q-radio disable v-model="request2.colorRadio" keep-color size="xs" val="green" color="green" />
+              <q-radio disable v-model="request2.colorRadio" keep-color size="xs" val="blue" color="blue" />
             </div>
           </div>
           <div class="q-ml-md text-h6 text-bold q-mt-md">Descripcion del servicio</div>

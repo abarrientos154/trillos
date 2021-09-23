@@ -13,21 +13,21 @@
             <div v-if="!item.isQuoted" class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
-            <div v-if="item.isQuoted === true" class="row justify-between items-center">
-              <q-chip color="transparent" text-color="green" class="text-weight-bold">
+            <div v-if="item.isQuoted === true" class="bg-green row justify-between items-center">
+              <q-chip color="transparent" text-color="white" class="text-weight-bold">
                 Ya cotizada
               </q-chip>
               <div class="row justify-end items-center q-pa-xs">
-              <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
+              <div class="text-caption text-white q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
             </div>
@@ -82,9 +82,9 @@
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
             <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.necesidad ? item.necesidad.name : ''}}</div>
@@ -138,9 +138,9 @@
             <div class="row justify-end items-center q-pa-xs">
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
-                <q-radio v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
+                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
             <div :class="'text-white q-py-xs q-px-md text-right text-bold bg-'+item.colorRadio" style="widyh:100%">{{item.necesidad ? item.necesidad.name : ''}}</div>
@@ -219,9 +219,9 @@
               <div class="row justify-around items-center q-pt-md q-mb-md">
                 <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
                 <div class="row">
-                  <q-radio v-model="selec.colorRadio" keep-color size="xs" val="red" color="red" />
-                  <q-radio v-model="selec.colorRadio" keep-color size="xs" val="orange" color="orange" />
-                  <q-radio v-model="selec.colorRadio" keep-color size="xs" val="blue" color="blue" />
+                  <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="red" color="red" />
+                  <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="orange" color="orange" />
+                  <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="blue" color="blue" />
                 </div>
               </div>
               <div class="q-ml-md text-h6 text-bold q-mt-md">Descripcion del servicio</div>
