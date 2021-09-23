@@ -50,7 +50,7 @@
                     push
                     @click="disableNotify(n.id)"
                   >
-                    <q-item-label ovequasrline>{{n.title}}</q-item-label>
+                    <q-item-label ovequasrline>{{n.name}}</q-item-label>
                     <q-item-label lines="
                       1">{{n.message}}</q-item-label>
                     <q-item-label caption>{{n.createdAt}}</q-item-label>
