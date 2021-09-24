@@ -30,7 +30,6 @@
                 <q-item-label caption>
                   <a
                     class="cursor-pointer text-primary"
-                    @click="disableAllNotify()"
                     primary
                   >Marcar como Leidas</a>
                 </q-item-label>
@@ -48,7 +47,6 @@
                 >
                   <q-item-section
                     push
-                    @click="disableNotify(n.id)"
                   >
                     <q-item-label ovequasrline>{{n.name}}</q-item-label>
                     <q-item-label lines="
