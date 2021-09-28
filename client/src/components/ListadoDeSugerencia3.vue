@@ -48,11 +48,6 @@
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>
-
-            <div class="row item-center q-px-lg q-py-md">
-                <q-icon size="sm" name="location_on" color="grey-7" />
-                <div class="text-h7 text-grey-9">{{item.direccion}}</div>
-            </div>
         </q-card>
       </div>
     </div>

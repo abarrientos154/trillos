@@ -48,7 +48,6 @@
         <div class="text-h5 q-ml-md q-pt-xs">{{form.name}}</div>
         <div class="q-pa-md">{{form.descripcion}}</div>
         </div>
-        <div class="q-pa-md">{{form.direccion}}</div>
         <div v-if="rol === 3" class="row justify-center q-pa-sm q-mt-md">
           <q-btn rounded  color="primary" label="Iniciar cotización" style="width:200px" @click="iraChat(form._id)"/>
         </div>

@@ -21,10 +21,6 @@
                 <div class="text-grey-9 ellipsis">{{data.creador.full_name}} {{data.creador.last_name}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="place" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{data.direccion}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="sm" name="clean_hands" color="grey-7" />
                 <div class="text-grey-9 ellipsis">{{data.categorianame.name}}</div>
               </div>

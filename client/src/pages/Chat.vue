@@ -32,10 +32,6 @@
                 <q-icon size="xs" name="person" color="grey-8" />
                 <div class="col-10 text-grey-8 text-caption ellipsis">{{item.fullName}}</div>
               </div>
-              <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="xs" name="place" color="grey-8" />
-                <div class="col-10 text-grey-8 text-caption ellipsis">{{item.direccion}}</div>
-              </div>
             </div>
           </div>
           <div style="width:60%">
@@ -143,10 +139,6 @@
                 <div class="row items-center no-wrap">
                   <q-icon size="sm" name="person" color="grey-7" />
                   <div class="text-grey-9 ellipsis">{{request2.fullName}}</div>
-                </div>
-                <div class="row q-mt-sm items-center no-wrap">
-                  <q-icon size="sm" name="place" color="grey-7" />
-                  <div class="text-grey-9 ellipsis">{{request2.direccion}}</div>
                 </div>
                 <div class="row q-mt-sm items-center no-wrap">
                   <q-icon size="sm" name="clean_hands" color="grey-7" />

@@ -43,10 +43,6 @@
                     <q-icon size="xs" name="person" color="grey-8" />
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
                   </div>
-                  <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="place" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
-                  </div>
                 </div>
               </div>
               <div style="width:60%">
@@ -92,10 +88,6 @@
                   <div class="row items-center">
                     <q-icon size="xs" name="person" color="grey-8" />
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="place" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
                   </div>
                 </div>
               </div>
@@ -147,10 +139,6 @@
                   <div class="row items-center">
                     <q-icon size="xs" name="person" color="grey-8" />
                     <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.full_name}} {{item.creador.last_name}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center">
-                    <q-icon size="xs" name="place" color="grey-8" />
-                    <div class="col-10 text-grey-8 text-caption ellipsis">{{item.creador.direccion}}</div>
                   </div>
                 </div>
               </div>
@@ -205,10 +193,6 @@
               <div class="row items-center no-wrap">
                 <q-icon size="sm" name="person" color="grey-7" />
                 <div class="text-grey-9 ellipsis">{{selec.creador.full_name}} {{selec.creador.last_name}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="place" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{selec.direccion}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="sm" name="clean_hands" color="grey-7" />

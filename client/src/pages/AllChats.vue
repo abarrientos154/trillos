@@ -48,10 +48,6 @@
                     <q-icon size="sm" name="place" color="grey-7" />
                     <div class="text-grey-9 ellipsis">{{chat.country}} / {{chat.city}}</div>
                   </div>
-                  <div class="row q-mt-sm items-center no-wrap">
-                    <q-icon size="sm" name="store_mall_directory" color="grey-7" />
-                    <div class="text-grey-9 ellipsis">{{chat.data_supplier.direccion}}</div>
-                  </div>
               </div>
             </div>
             </div>
@@ -87,10 +83,6 @@
                   <div class="row q-mt-sm items-center no-wrap">
                     <q-icon size="sm" name="place" color="grey-7" />
                     <div class="text-grey-9 ellipsis">{{chat.country}} / {{chat.city}}</div>
-                  </div>
-                  <div class="row q-mt-sm items-center no-wrap">
-                    <q-icon size="sm" name="store_mall_directory" color="grey-7" />
-                    <div class="text-grey-9 ellipsis">{{chat.data_request.direccion}}</div>
                   </div>
               </div>
               </div>
@@ -145,10 +137,6 @@
               <div class="row items-center no-wrap">
                 <q-icon size="sm" name="person" color="grey-7" />
                 <div class="text-grey-9 ellipsis">{{clientData.full_name}} {{clientData.last_name}}</div>
-              </div>
-              <div class="row q-mt-sm items-center no-wrap">
-                <q-icon size="sm" name="place" color="grey-7" />
-                <div class="text-grey-9 ellipsis">{{request2.direccion}}</div>
               </div>
               <div class="row q-mt-sm items-center no-wrap">
                 <q-icon size="sm" name="clean_hands" color="grey-7" />
