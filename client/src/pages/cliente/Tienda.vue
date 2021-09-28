@@ -25,11 +25,28 @@
           class="q-ma-sm"
         >
           <div class="row no-wrap" style="width: 100%">
-            <q-card @click="verImg(img)" v-for="(img, index) in data.tiendaFiles" class="bg-secondary q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index">
+            <q-card @click="verImg(index)" v-for="(img, index) in data.tiendaFiles" class="bg-secondary q-mt-xs q-mr-sm" style="border-radius:12px;width: 100px" :key="index">
               <q-img :src="baseuTienda + img" spinner-color="white" style="height: 100px; width: 100px" />
             </q-card>
           </div>
         </q-scroll-area>
+
+        <q-dialog v-model="verImgTienda">
+          <q-carousel
+            v-model="slide"
+            style="width: 100%; height:auto;"
+            transition-prev="slide-right"
+            transition-next="slide-left"
+            arrows
+            animated
+            swipeable
+            infinite
+          >
+            <q-carousel-slide :name="index" v-for="(img, index) in data.tiendaFiles" :key="index" class="q-pa-none">
+              <q-img :src="baseuTienda + img" style="width:100%;" />
+            </q-carousel-slide>
+          </q-carousel>
+        </q-dialog>
 
         <q-card class="q-pa-xs q-mt-sm shadow-up-4 bg-secondary" style="border-radius:25px">
           <div class="row" style="width:100%">
@@ -87,20 +104,22 @@ export default {
   components: { BotonesHeader },
   data () {
     return {
+      estado: false,
+      dialogStado: false,
+      fav: false,
+      verImgTienda: false,
       id: this.$route.params.id,
       baseu: '',
       baseuTienda: '',
       perfile: '',
+      img: '',
+      category: '',
+      ratingTienda: 0,
+      slide: 0,
       today: null,
       now: null,
       data: {},
-      productos: [],
-      img: '',
-      estado: false,
-      dialogStado: false,
-      fav: false,
-      ratingTienda: 0,
-      category: ''
+      productos: []
     }
   },
   mounted () {
@@ -113,8 +132,8 @@ export default {
       this.$api.post('new_favorito/' + this.id, { favorito: this.fav })
     },
     verImg (img) {
-      this.baseu = env.apiUrl + '/tienda_img/'
-      this.perfile = img
+      this.slide = img
+      this.verImgTienda = true
     },
     getInfo () {
       this.$api.get('user_by_id/' + this.id).then(v => {

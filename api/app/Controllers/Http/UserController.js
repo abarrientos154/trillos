@@ -177,7 +177,7 @@ class UserController {
     const logueado = (await auth.getUser()).toJSON()
     let user
     if (logueado.roles[0] === 2) {
-      user = (await User.query().where({ roles: rol.rol, city: logueado.city }).with('quotations').fetch()).toJSON()
+      user = (await User.query().where({ roles: rol.rol, country: logueado.country }).with('quotations').fetch()).toJSON()
       for (const i in user) {
         const quotationsCompleted = user[i].quotations.filter(val => val.status === 2)
         if (quotationsCompleted.length >= 5) {
