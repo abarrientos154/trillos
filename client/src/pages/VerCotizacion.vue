@@ -253,7 +253,6 @@ export default {
           this.infoCot = v
           this.cotization = v.cotizacion
           this.today = moment().format('YYYY/MM/DD')
-          console.log(this.infoCot, 'datos de la cotizacion')
           if (v.status === 'Cotizado') {
             this.btnClient = true
           }
@@ -350,7 +349,6 @@ export default {
         }
       }).onOk(data => {
         this.$api.put('new_status/' + this.id, { status: 'Rechazado', motivo: data }).then((res) => {
-          console.log(data, 'el motivo')
           this.$router.push('/mis_cotizaciones')
         })
       }).onCancel(() => {

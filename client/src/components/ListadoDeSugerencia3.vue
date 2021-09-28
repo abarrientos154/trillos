@@ -80,7 +80,6 @@ export default {
     }
   },
   mounted () {
-    console.log('this.data >> ', this.data)
     if (this.ruta === 'cliente' || this.ruta === 'tienda') {
       this.baseu = env.apiUrl + '/productos_img'
     } else {
@@ -92,7 +91,6 @@ export default {
     showRequest (itemRequest) {
       this.baseu3 = env.apiUrl + '/perfil_img/'
       this.request = { ...itemRequest }
-      console.log('this.request >> ', this.request)
       this.show = true
     },
     close (emit) {

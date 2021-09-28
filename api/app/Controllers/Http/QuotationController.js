@@ -114,7 +114,6 @@ class QuotationController {
         if (request.status === 1 && request.isExtend === false) {
           send.quotationExtend = true
           send.idQuotationExtend = quotations[i]._id
-          console.log('que estas haciendo');
         }
         if (request.status === 2 && request.isFinished === false) {
           send.quotationFinished = true

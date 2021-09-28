@@ -404,8 +404,6 @@ export default {
     this.obtenerDatos()
     this.baseu = env.apiUrl + '/perfil_img/'
     this.baseu2 = env.apiUrl + '/tienda_img/'
-    console.log(this.cambioSoloClave, 'cambio solo clave')
-    console.log(this.cambioClave, 'cambio clave')
   },
   validations () {
     return {
@@ -448,7 +446,6 @@ export default {
         if (this.rol === 3) {
           this.datosproveedor = true
           this.form2 = v
-          console.log(this.form2, 'Datos del usuario')
           this.espejo = v
         }
         if (this.rol === 2) {
@@ -459,7 +456,6 @@ export default {
     },
     modificar_datos () {
       this.$v.form.$touch()
-      console.log(this.form, 'pendiente')
       if (this.password) {
         if (!this.$v.form.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error) {
           this.loading = true
@@ -511,7 +507,6 @@ export default {
       this.form2.cambioSoloClave = this.cambioSoloClave
       this.form2.cambioClave = this.cambioClave
       this.$v.form2.$touch()
-      console.log(this.form2, 'Datos que guardasaaaa')
       if (this.password) {
         if (!this.$v.form2.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error) {
           this.form2.password = this.password
@@ -552,7 +547,6 @@ export default {
     },
 
     async addImg () {
-      console.log('add img', this.tiendaFiles)
       if (this.form2.tiendaFiles.length >= 5) {
         this.$q.notify({
           message: 'no se pueden agregar mas imagenes',
@@ -569,7 +563,6 @@ export default {
               'Content-Type': undefined
             }
           }).then((res) => {
-            console.log(res, 'respuesta')
             this.form2.tiendaFiles = res.tiendaFiles
           })
         }
@@ -577,13 +570,11 @@ export default {
     },
 
     async deleteimg () {
-      console.log(this.nameImgBorrar, 'name eliminar')
       this.$api.get('eliminar_imagen_tienda/' + this.nameImgBorrar).then(res => {
         this.form2.tiendaFiles = res.tiendaFiles
       })
     },
     async perfil_img () {
-      console.log('add perfil img', this.perfilFile)
       if (this.perfilFile) {
         var formData = new FormData()
         var files = []
@@ -594,7 +585,6 @@ export default {
             'Content-Type': undefined
           }
         }).then((res) => {
-          console.log(res, 'respuesta')
           this.form2 = res
         })
         location.reload()
@@ -604,7 +594,6 @@ export default {
       this.$api.get('categoria').then(res => {
         if (res) {
           this.ejemplo = res
-          console.log(this.ejemplo, 'categorias')
         }
       })
     }

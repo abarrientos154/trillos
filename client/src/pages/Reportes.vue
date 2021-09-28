@@ -98,7 +98,6 @@ export default {
             this.allData = res.filter(v => v.status === 'Cotizado')
           }
           this.data = this.allData
-          console.log(this.data, 'datasss3333')
         }
       })
     },
@@ -107,7 +106,6 @@ export default {
         if (res) {
           this.allData = res.filter(v => v.cotizacion.total === parseInt(this.monto))
           this.data = this.allData
-          console.log(this.monto, 'monto ingresado')
         }
       })
     },
@@ -116,7 +114,6 @@ export default {
         if (res) {
           this.allData = res.filter(v => v.datos_necesidad.name === this.nombre)
           this.data = this.allData
-          console.log(this.monto, 'monto ingresado')
         }
       })
     },
@@ -125,8 +122,6 @@ export default {
         if (res) {
           this.allData = res.filter(v => v.fechaCreacion === moment(this.date).format('DD/MM/YYYY'))
           this.data = this.allData
-          console.log(this.data, 'el beta')
-          console.log(this.date, 'fecha ingresada')
         }
       })
     },

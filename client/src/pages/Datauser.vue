@@ -180,7 +180,6 @@ export default {
         if (this.rol === 2) {
           this.datosusuario = true
         }
-        console.log(this.form, 'formulario2')
       })
     }
   }

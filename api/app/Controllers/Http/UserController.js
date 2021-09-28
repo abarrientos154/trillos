@@ -169,7 +169,6 @@ class UserController {
     let user = await User.find(params.id)
     const country = await Country.find(user.country)
     user.country = country.name
-    console.log('user :>> ', user);
     response.send(user)
   }
 

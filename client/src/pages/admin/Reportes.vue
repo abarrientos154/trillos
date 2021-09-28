@@ -71,7 +71,6 @@ export default {
         if (res) {
           this.allData = res
           this.data = this.allData
-          console.log(this.data, 'los datossss')
         }
       })
     },

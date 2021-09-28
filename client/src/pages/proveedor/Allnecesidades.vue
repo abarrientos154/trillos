@@ -62,7 +62,6 @@ export default {
     necesidades () {
       this.$api.get('necesidad').then(res => {
         this.data = res
-        console.log(this.data, 'chicha es pajuoo')
       })
     },
     cambioestatus () {

@@ -313,7 +313,6 @@ export default {
     },
     modificar_datos () {
       this.$v.form.$touch()
-      console.log(this.form, 'pendiente')
       if (!this.$v.form.$error) {
         this.$api.put('datosnew/' + this.id, this.form).then(res => {
           if (res) {
@@ -351,7 +350,6 @@ export default {
     },
 
     async addImg () {
-      console.log('add img', this.tiendaFiles)
       if (this.form2.tiendaFiles.length >= 5) {
         this.$q.notify({
           message: 'no se pueden agregar mas imagenes',
@@ -368,7 +366,6 @@ export default {
               'Content-Type': undefined
             }
           }).then((res) => {
-            console.log(res, 'respuesta')
             this.form2.tiendaFiles = res.tiendaFiles
           })
         }
@@ -376,13 +373,11 @@ export default {
     },
 
     async deleteimg () {
-      console.log(this.nameImgBorrar, 'name eliminar')
       this.$api.get('eliminar_imagen_tienda/' + this.nameImgBorrar + '/' + this.id2).then(res => {
         this.form2.tiendaFiles = res.tiendaFiles
       })
     },
     async perfil_img () {
-      console.log('add perfil img', this.perfilFile)
       if (this.perfilFile) {
         var formData = new FormData()
         var files = []
@@ -393,7 +388,6 @@ export default {
             'Content-Type': undefined
           }
         }).then((res) => {
-          console.log(res, 'respuesta')
           this.form2 = res
         })
         location.reload()

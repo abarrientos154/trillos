@@ -43,7 +43,6 @@ class NotificationController {
     let user = (await auth.getUser()).toJSON()
     let id = new ObjectId(user._id)
     let notifications = (await Notification.query().where({ user_id: id }).fetch()).toJSON()
-    console.log(notifications);
     for (const i in notifications) {
       let updateNotification = Notification.query().where({ _id: notifications[i]._id }).update({ status: false })
     }

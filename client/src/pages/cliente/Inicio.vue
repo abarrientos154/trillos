@@ -395,7 +395,6 @@ export default {
       await this.$api.get('getNotifications').then(res => {
         if (res) {
           this.notifications = res
-          console.log('this.notifications :>> ', this.notifications)
           if (this.notifications.length > 0) {
             this.notifications.forEach(element => {
               if (element.status === true) {

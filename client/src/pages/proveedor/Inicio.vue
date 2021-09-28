@@ -328,7 +328,6 @@ export default {
       await this.$api.get('getNotifications').then(res => {
         if (res) {
           this.notifications = res
-          console.log('this.notifications :>> ', this.notifications)
           if (this.notifications.length > 0) {
             this.notifications.forEach(element => {
               if (element.status === true) {
@@ -406,7 +405,6 @@ export default {
     async getQuotations () {
       await this.$api.get('isNewMessages/' + this.user._id).then(res => {
         if (res && res.newMessages === true) {
-          console.log('res >> ', res)
           this.show = true
           this.chat = res.chat
         }

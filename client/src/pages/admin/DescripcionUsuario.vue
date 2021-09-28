@@ -121,7 +121,6 @@ export default {
     getInfo () {
       this.$api.get('user_by_id/' + this.id).then(v => {
         this.data = v
-        console.log(this.data, 'dataaaaaaaaaaaaaaa')
         this.rol = v.roles[0]
         this.perfile = this.id
         this.baseu = env.apiUrl + '/perfil_img/perfil'
@@ -149,7 +148,6 @@ export default {
       this.$api.get('necesidad_by_user_id/' + this.id).then(v => {
         if (v) {
           this.misDatos = v
-          console.log(this.misDatos, 'revisarrrrrrrrr')
         }
       })
     },

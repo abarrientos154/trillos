@@ -57,7 +57,6 @@ export default {
             this.$api.get('show_all_cotizations').then(res => {
               if (res) {
                 this.data = res
-                console.log(this.data, 'data')
               }
             })
           }

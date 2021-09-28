@@ -81,7 +81,6 @@ export default {
         if (res) {
           this.rol = res.roles[0]
           this.$api.get(`${this.ruta}/${this.id}`).then(res2 => {
-            console.log(res2, 'RES2222222222')
             if (res2) {
               this.form = res2
               this.perfile = this.form.images[0]
@@ -89,8 +88,6 @@ export default {
               if (this.form) {
                 this.$api.get('user_by_id/' + this.form.ownerId).then(v => {
                   this.infoClient = v
-                  console.log(this.form, 'datoss')
-                  console.log(this.infoClient, 'datoss2222')
                 })
               }
             }
