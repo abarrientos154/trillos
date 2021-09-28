@@ -34,7 +34,6 @@
             <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
             <div class="row">
               <q-radio disable v-model="data.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio disable v-model="data.colorRadio" keep-color size="xs" val="orange" color="orange" />
               <q-radio disable v-model="data.colorRadio" keep-color size="xs" val="blue" color="blue" />
             </div>
           </div>

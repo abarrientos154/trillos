@@ -24,7 +24,6 @@
                   <div class="text-caption">nivel de requerimiento</div>
                   <div class="row">
                     <q-radio v-model="form.colorRadio" disable keep-color size="xs" val="red" color="red" />
-                    <q-radio v-model="form.colorRadio" disable keep-color size="xs" val="orange" color="orange" />
                     <q-radio v-model="form.colorRadio" disable keep-color size="xs" val="blue" color="blue" />
                   </div>
                 </div>

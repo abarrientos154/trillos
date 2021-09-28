@@ -49,7 +49,7 @@ class NecesidadController {
         }
       }
       data[i].chat_info = await ChatMessage.findBy('necesidad_id', data[i]._id.toString())
-      data[i].colorRadio = data[i].necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : data[i].necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+      data[i].colorRadio = data[i].necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue',
       data[i].fechaCreacion = moment(data[i].created_at).format('DD/MM/YYYY')
       data[i].categoriaInfo = (await Categorias.query().where('_id', data[i].categoria_id).first()).toJSON()
     }
@@ -65,7 +65,7 @@ class NecesidadController {
       if (data[i].necesidad.isQualified && data[i].necesidad.isQualified === true) {
         data[i].opinion = (await Opinion.query().where('request_id', data[i].necesidad._id).first()).toJSON()
       }
-      data[i].colorRadio = data[i].necesidad.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : data[i].necesidad.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+      data[i].colorRadio = data[i].necesidad.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue',
       data[i].fechaCreacion = moment(data[i].necesidad.created_at).format('DD/MM/YYYY')
       data[i].categoriaInfo = (await Categorias.query().where('_id', data[i].necesidad.categoria_id).first()).toJSON()
     }
@@ -206,7 +206,7 @@ class NecesidadController {
     let hora = moment(data.created_at).format('h:mm:ss a');
     data.hora = hora
     data.newFecha = newFecha
-    let color = data.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : data.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
+    let color = data.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue'
     data.colorRadio = color
     response.send(data)
   }

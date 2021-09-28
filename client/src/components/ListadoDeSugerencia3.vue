@@ -45,7 +45,6 @@
               <div class="text-h7 text-grey-9">Urgencia requerimiento</div>
               <div class="row">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>
@@ -108,7 +107,7 @@ export default {
       return this.data.map(v => {
         return {
           ...v,
-          colorRadio: v.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
+          colorRadio: v.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue'
         }
       })
     }

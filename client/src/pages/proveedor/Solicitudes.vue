@@ -14,7 +14,6 @@
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -26,7 +25,6 @@
               <div class="text-caption text-white q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -83,7 +81,6 @@
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -139,7 +136,6 @@
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -187,7 +183,7 @@
     </div>
 
     <q-dialog v-model="verSolicitud" v-if="verSolicitud">
-      <q-carousel class="full-height" animated v-model="slide" infinite ref="carousel">
+      <q-carousel style="width: 100%; height: auto" animated v-model="slide" infinite ref="carousel">
         <q-carousel-slide :name="1" class="q-pa-none">
           <q-card class="q-pt-xs q-pb-lg" style="width:100%">
             <div class="row justify-between items-center">
@@ -220,7 +216,6 @@
                 <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
                 <div class="row">
                   <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="red" color="red" />
-                  <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="orange" color="orange" />
                   <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="blue" color="blue" />
                 </div>
               </div>
@@ -389,7 +384,7 @@ export default {
           this.allSolicitudes = v.map(v => {
             return {
               ...v,
-              colorRadio: v.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+              colorRadio: v.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue',
               necesidad: null
             }
           })

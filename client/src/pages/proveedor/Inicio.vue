@@ -168,7 +168,6 @@
               <div class="text-caption text-grey-8">Nivel de requerimiento</div>
               <div class="row q-gutter-xs q-pl-xs">
                 <q-radio v-model="item.colorRadio" disable dense keep-color size="xs" val="red" color="red" />
-                <q-radio v-model="item.colorRadio" disable dense keep-color size="xs" val="orange" color="orange" />
                 <q-radio v-model="item.colorRadio" disable dense keep-color size="xs" val="blue" color="blue" />
               </div>
             </div>

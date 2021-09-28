@@ -166,7 +166,7 @@ class ChatController {
     let formatearFecha = cotizaciones.map(v => {
       return {
         ...v,
-        colorRadio: v.necesidad_info.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad_info.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+        colorRadio: v.necesidad_info.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue',
         fechaCreacion: moment(v.created_at).format('DD/MM/YYYY')
       }
     })
@@ -193,7 +193,7 @@ class ChatController {
       return {
         ...v,
         ...v.necesidad_info,
-        colorRadio: v.necesidad_info.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad_info.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+        colorRadio: v.necesidad_info.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue',
         fechaCreacion: moment(v.created_at).format('DD/MM/YYYY')
       }
     })

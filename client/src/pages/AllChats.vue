@@ -160,7 +160,6 @@
             <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
             <div class="row">
               <q-radio disable v-model="request2.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio disable v-model="request2.colorRadio" keep-color size="xs" val="green" color="green" />
               <q-radio disable v-model="request2.colorRadio" keep-color size="xs" val="blue" color="blue" />
             </div>
           </div>
@@ -262,7 +261,7 @@ export default {
     showRequest (data) {
       this.idQuotation = data._id
       this.request2 = data.data_request
-      this.request2.colorRadio = this.request2.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : this.request2.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
+      this.request2.colorRadio = this.request2.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue'
       this.categoryName = this.request2.categorianame.name
       this.clientData = data.data_client
       this.show2 = true
@@ -273,7 +272,7 @@ export default {
       return this.request.map(v => {
         return {
           ...v,
-          colorRadio: v.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue'
+          colorRadio: v.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue'
         }
       })
     }

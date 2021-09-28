@@ -71,8 +71,8 @@
         <q-input class="q-mx-md" outlined autogrow filled v-model="form.direccion" label="Ingrese Dirección" dense :error="$v.form.direccion.$error" error-message="Este campo es requerido" @blur="$v.form.direccion.$touch()" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-bold q-ml-md">Tiempo de la urgencia</div>
-        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" option-value="name" v-model="form.necesidad" :options="options" label="Tiempo del servicio" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
+        <div class="text-bold q-ml-md">Tiempo de recepción de cotizaciones</div>
+        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" option-value="name" v-model="form.necesidad" :options="options" label="Establece tiempo de recepción de cotizaciones" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
           <template v-slot:option="scope">
             <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
               <q-item-section avatar>
@@ -134,18 +134,13 @@ export default {
       categoria_id: '',
       options: [
         {
-          name: 'Urgente (1 a 3 Horas)',
+          name: 'Express (Permite recibir cotizaciones hasta 3 horas)',
           color: 'red',
           icon: 'circle'
         },
         {
-          name: 'Medio (5 a 24 Horas)',
-          color: 'yellow',
-          icon: 'circle'
-        },
-        {
-          name: 'Programado (2 días en adelante)',
-          color: 'green',
+          name: 'Normal (Permite recibir cotizaciones durante 24 horas)',
+          color: 'blue',
           icon: 'circle'
         }
       ],

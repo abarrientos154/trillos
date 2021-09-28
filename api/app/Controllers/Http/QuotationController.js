@@ -267,7 +267,7 @@ class QuotationController {
     let formatearFecha = cotizaciones.map(v => {
       return {
         ...v,
-        colorRadio: v.data_request.necesidad === 'Urgente (1 a 3 Horas)' ? 'red' : v.data_request.necesidad === 'Medio (5 a 24 Horas)' ? 'orange' : 'blue',
+        colorRadio: v.data_request.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue',
         fechaCreacion: moment(v.created_at).format('DD/MM/YYYY')
       }
     })

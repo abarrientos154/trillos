@@ -15,7 +15,6 @@
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -29,7 +28,6 @@
                 <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
                 <div class="row q-gutter-xs">
                   <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                  <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                   <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -81,7 +79,6 @@
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -137,7 +134,6 @@
               <div class="text-caption text-grey-8 q-pr-xs">Nivel de requerimiento</div>
               <div class="row q-gutter-xs">
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="red" color="red" />
-                <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="orange" color="orange" />
                 <q-radio disable v-model="item.colorRadio" keep-color size="xs" dense val="blue" color="blue" />
               </div>
             </div>
@@ -224,7 +220,6 @@
             <div class="text-subtitle1 text-grey-9">Urgencia requerimiento</div>
             <div class="row">
               <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="red" color="red" />
-              <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="orange" color="orange" />
               <q-radio disable v-model="selec.colorRadio" keep-color size="xs" val="blue" color="blue" />
             </div>
           </div>
