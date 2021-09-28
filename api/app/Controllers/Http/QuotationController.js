@@ -5,6 +5,7 @@ const Chat = use("App/Models/Chat")
 const Country = use("App/Models/Country")
 const City = use("App/Models/City")
 const Categoria = use("App/Models/Categoria")
+const Notification = use("App/Models/Notification")
 const User = use("App/Models/User")
 const moment = require('moment')
 var ObjectId = require('mongodb').ObjectId;
@@ -65,6 +66,13 @@ class QuotationController {
     chat.viewed = false
     let message = (await Chat.create(chat)).toJSON()
     let updateQuotation = await Quotation.query().where('_id', quotation._id).update({ last_message_id: message._id, created_at_message: message.created_at })
+    const notificationBody = {
+      name: body.name,
+      message: body.message,
+      user_id: new ObjectId(body.client_id),
+      status: true
+    }
+    const notification = await Notification.create(notificationBody)
     response.send(quotation)
 
   }

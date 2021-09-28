@@ -1,6 +1,7 @@
 'use strict'
 const Notification = use('App/Models/Notification')
 const ObjectId = require('mongodb').ObjectId
+const moment = require('moment')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -22,8 +23,31 @@ class NotificationController {
   async index ({ response, auth }) {
     let user = (await auth.getUser()).toJSON()
     const id = new ObjectId(user._id)
-    const data = (await Notification.query().where({ user_id: id }).fetch()).toJSON()
+    let data = (await Notification.query().where({ user_id: id }).fetch()).toJSON()
+    data = data.map(v => {
+      return {
+        ...v,
+        created_at: moment(v.created_at).format('DD/MM/YYYY')
+      }
+    })
     response.send(data)
+  }
+
+  async disableNotifyById ({ response, params }) {
+    let id = new ObjectId(params.id)
+    let updateNotification = Notification.query().where({ _id: id }).update({ status: false })
+    response.send(updateNotification)
+  }
+
+  async disableAllNotifyByUser ({ response, auth }) {
+    let user = (await auth.getUser()).toJSON()
+    let id = new ObjectId(user._id)
+    let notifications = (await Notification.query().where({ user_id: id }).fetch()).toJSON()
+    console.log(notifications);
+    for (const i in notifications) {
+      let updateNotification = Notification.query().where({ _id: notifications[i]._id }).update({ status: false })
+    }
+    response.send(true)
   }
 
   /**

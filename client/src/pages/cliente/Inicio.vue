@@ -1,27 +1,66 @@
 <template>
   <div>
     <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px"/>
+    <div class="column absolute-top-left q-mt-md q-ml-sm">
+      <q-btn color="primary" auto-close flat icon="notifications" round>
+        <q-badge color="red" floating outline v-if="amountNotifications > 0">{{amountNotifications > 15 ? '15+' : amountNotifications}}</q-badge>
+        <q-menu
+        transition-show="jump-down"
+        transition-hide="jump-up"
+        fit
+        :offset="[0, 10]"
+        v-close-popup
+        auto-close
+        >
+          <q-item>
+            <q-item-section>
+              <q-item-label>Notificaciones</q-item-label>
+            </q-item-section>
+
+            <q-item-section
+              side
+              bottom
+            >
+              <q-item-label caption>
+                <a
+                  class="cursor-pointer text-primary"
+                  @click="disableAllNotify()"
+                  primary
+                >Marcar como Leidas</a>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-list>
+            <q-scroll-area style="height: 200px; max-width: 300px;">
+              <q-item
+                v-for="n in notifications"
+                :key="n.id"
+                clickable
+                v-close-popup
+                :class="[!n.status?'white': 'bg-primary']"
+              >
+                <q-item-section
+                  push
+                  @click="disableNotify(n._id)"
+                >
+                  <!-- <q-item-label ovequasrline>{{n.name}}</q-item-label> -->
+                  <q-item-label lines="
+                    1">{{n.name}}</q-item-label>
+                  <q-item-label caption>{{n.created_at}}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-scroll-area>
+          </q-list>
+        </q-menu>
+      </q-btn>
+    </div>
     <div class="column absolute-top-right q-pa-md">
       <q-btn color="primary" label="Editar perfil" rounded no-caps class="q-pa-xs"
         @click="rol === 2 ? $router.push('/perfil/cliente') : ''" />
     </div>
 
     <div>
-      <!-- <div class="q-py-lg q-px-sm">
-        <div class="text-bold text-h6">¿Donde necesitas ayuda?</div>
-        <div class="text-caption text-grey-9 q-mb-xs">Selecciona la ciudad donde quieres ver los talleres</div>
-        <q-select class="q-mb-md" v-model="city" label="Nombre de la ciudad" option-label="name" option-value="_id" emit-value map-options outlined dense :options="cities"/>
-        <q-scroll-area horizontal style="height: 55px;" class="q-mb-xs">
-          <div class="row no-wrap">
-            <q-btn v-for="(categoria, index) in categorias" :key="index" :color="seleCat === categoria._id ? 'primary' : 'secondary'" @click="seleCat = categoria._id" class="text-no-wrap text-subtitle1 text-bold q-mr-md" :label="categoria.name" style="border-radius: 10px;" no-caps/>
-          </div>
-        </q-scroll-area>
-        <div class="column items-center">
-          <q-btn rounded :disable="!city || seleCat === '' ? true : false" class="q-pa-xs" color="primary" label="Buscar" style="width: 60%;" no-caps
-          @click="buscar()"/>
-        </div>
-      </div> -->
-
       <div class="q-pb-lg q-mt-sm">
         <div class="text-bold text-h6 q-mb-md q-px-sm">Talleres disponibles</div>
         <div v-if="tiendas.length" class="row q-mb-md">
@@ -316,7 +355,10 @@ export default {
       quotationFinished: {},
       data_request: {},
       supplier: {},
-      baseu: ''
+      baseu: '',
+      notifications: [],
+      colorActive: 'bg-blue-1',
+      amountNotifications: 0
     }
   },
   validations: {
@@ -326,6 +368,7 @@ export default {
     }
   },
   mounted () {
+    this.getNotifications()
     this.baseu = env.apiUrl + '/perfil_img/'
     this.getUser()
     this.getCategorias()
@@ -333,6 +376,36 @@ export default {
     this.getPopulares()
   },
   methods: {
+    async disableNotify (id) {
+      await this.$api.put('disableNotifyById/' + id).then(res => {
+        if (res) {
+          this.getNotifications()
+        }
+      })
+    },
+    async disableAllNotify () {
+      await this.$api.put('disableAllNotifyByUser').then(res => {
+        if (res === true) {
+          this.getNotifications()
+        }
+      })
+    },
+    async getNotifications () {
+      this.amountNotifications = 0
+      await this.$api.get('getNotifications').then(res => {
+        if (res) {
+          this.notifications = res
+          console.log('this.notifications :>> ', this.notifications)
+          if (this.notifications.length > 0) {
+            this.notifications.forEach(element => {
+              if (element.status === true) {
+                this.amountNotifications++
+              }
+            })
+          }
+        }
+      })
+    },
     async getUser () {
       await this.$api.get('user_info').then(v => {
         if (v) {

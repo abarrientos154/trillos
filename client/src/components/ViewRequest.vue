@@ -168,6 +168,7 @@ export default {
         })
         this.form.request_id = this.data._id
         this.form.client_id = this.data.creador._id
+        this.form.name = this.data.name
         await this.$api.post('quotation', this.form).then(res => {
           if (res) {
             this.$q.loading.hide()

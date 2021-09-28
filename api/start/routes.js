@@ -130,6 +130,8 @@ addPrefixToGroup(
     Route.post('newOpinion/:id/:idSupplier', 'OpinionController.store')
 
     Route.get('getNotifications', 'NotificationController.index')
+    Route.put('disableNotifyById/:id', 'NotificationController.disableNotifyById')
+    Route.put('disableAllNotifyByUser', 'NotificationController.disableAllNotifyByUser')
     
     
     

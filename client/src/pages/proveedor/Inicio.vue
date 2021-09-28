@@ -30,6 +30,7 @@
                 <q-item-label caption>
                   <a
                     class="cursor-pointer text-primary"
+                    @click="disableAllNotify()"
                     primary
                   >Marcar como Leidas</a>
                 </q-item-label>
@@ -43,15 +44,16 @@
                   :key="n.id"
                   clickable
                   v-close-popup
-                  :class="[n.status?'white':colorActive]"
+                  :class="[!n.status?'white': 'bg-primary']"
                 >
                   <q-item-section
                     push
+                    @click="disableNotify(n._id)"
                   >
-                    <q-item-label ovequasrline>{{n.name}}</q-item-label>
+                    <!-- <q-item-label ovequasrline>{{n.name}}</q-item-label> -->
                     <q-item-label lines="
-                      1">{{n.message}}</q-item-label>
-                    <q-item-label caption>{{n.createdAt}}</q-item-label>
+                      1">{{n.name}}</q-item-label>
+                    <q-item-label caption>{{n.created_at}}</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-scroll-area>
@@ -308,7 +310,22 @@ export default {
     this.getNotifications()
   },
   methods: {
+    async disableNotify (id) {
+      await this.$api.put('disableNotifyById/' + id).then(res => {
+        if (res) {
+          this.getNotifications()
+        }
+      })
+    },
+    async disableAllNotify () {
+      await this.$api.put('disableAllNotifyByUser').then(res => {
+        if (res === true) {
+          this.getNotifications()
+        }
+      })
+    },
     async getNotifications () {
+      this.amountNotifications = 0
       await this.$api.get('getNotifications').then(res => {
         if (res) {
           this.notifications = res
