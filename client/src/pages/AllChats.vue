@@ -7,21 +7,31 @@
         <div class="text-bold text-center text-grey">Conversaciones iniciadas</div>
       </div>
     </q-img>
-    <div class="q-ma-md text-h6">Conversaciones iniciadas</div>
+    <q-btn-dropdown
+      split
+      flat
+      no-caps
+      color="black"
+      class="q-mt-md"
+      size="lg"
+      label="Listado de solicitudes"
+      @click="data = allData"
+    >
+      <q-list>
+        <q-item clickable v-close-popup v-for="(item, index) in solicitudes" :key="index"
+        @click="filtrar(item.id)" class="row items-center">
+          <div>
+            <q-icon name="folder" color="primary" size="sm" />
+          </div>
+          <div class="q-pl-sm">{{item.name}}</div>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
     <!-- <q-separator inset /> -->
     <!-- <div v-if="data.length > 0" class="q-pr-md q-pt-sm text-subtitle2 text-right text-grey-8"><u>Tienes {{ data.length }} Mensajes</u></div> -->
 
     <div v-if="data.length > 0 && data[0].data_supplier" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
-            <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showQuotation(chat)"/>
-              <div>
-                <div class="text-bold">Servicios del Taller</div>
-                <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
-                  <img :src="item.icons">
-                </q-avatar>
-              </div>
-            </div>
             <div @click="chat.status === 3 ? show3 = true : $router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
@@ -37,7 +47,7 @@
                   <div class="text-white text-h6">{{rol === 2 ? chat.data_supplier.full_name : chat.data_client.full_name + ' ' + chat.data_client.last_name}}</div>
                 </div>
               </div>
-              <div class="row items-center q-pt-sm q-pb-xl">
+              <div class="row q-pt-sm">
                 <div class="col-5 row justify-center">
                   <q-avatar size="100px">
                     <img :src="chat.data_supplier._id.length > 0 ? baseu + chat.data_supplier._id : 'noimgpro.png'">
@@ -48,16 +58,24 @@
                     <q-icon size="sm" name="place" color="grey-7" />
                     <div class="text-grey-9 ellipsis">{{chat.country}} / {{chat.city}}</div>
                   </div>
+                </div>
               </div>
             </div>
+            <div class="row items-center q-pb-sm">
+              <div class="col-5 row justify-center">
+                <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver cotización" no-caps dense size="13px" style="width:122px" class="q-mt-sm" @click="showQuotation(chat)"/>
+              </div>
+              <div class="col-7">
+                  <div class="text-bold">Servicios del Taller</div>
+                  <q-avatar square size="30px" v-for="(item, index) in chat.services" :key="index">
+                    <img :src="item.icons">
+                  </q-avatar>
+              </div>
             </div>
         </q-card>
     </div>
     <div v-if="data.length > 0 && data[0].data_client" class="col-12 q-pa-md">
         <q-card class="q-mb-md" v-for="(chat, index) in data" :key="index">
-            <div class="row items-center absolute-bottom-right q-ma-sm">
-              <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
-            </div>
             <div @click="chat.status === 3 ? show3 = true : $router.push('/chat/' + chat._id)">
               <div class="absolute-top-left q-pr-sm q-ml-sm">Ultima vez escrito {{chat.created_at_message}} </div>
               <div class="column items-center justify-center">
@@ -73,7 +91,7 @@
                   <div class="text-white text-h6">{{rol === 3 ? chat.data_client.full_name : chat.data_client.full_name + ' ' + chat.data_client.last_name}}</div>
                 </div>
               </div>
-              <div class="row items-center q-pt-sm q-pb-xl">
+              <div class="row q-pt-sm">
                 <div class="col-5 row justify-center">
                   <q-avatar size="100px">
                     <img :src="chat.data_client._id.length > 0 ? baseu + chat.data_client._id : 'noimgpro.png'">
@@ -84,7 +102,12 @@
                     <q-icon size="sm" name="place" color="grey-7" />
                     <div class="text-grey-9 ellipsis">{{chat.country}} / {{chat.city}}</div>
                   </div>
+                </div>
               </div>
+            </div>
+            <div class="row q-py-sm">
+              <div class="col-5 row justify-center">
+                <q-btn :color="chat.viewed === false && chat.isMyMessage === false ? 'green' : 'primary'" label="Ver Solicitud" no-caps dense size="13px" style="width:122px" class="q-mr-sm" @click="showRequest(chat)"/>
               </div>
             </div>
         </q-card>
@@ -193,7 +216,9 @@ export default {
       ver: true,
       show: false,
       show2: false,
+      allData: [],
       data: [],
+      solicitudes: [],
       data2: {},
       request: [],
       request2: {},
@@ -220,13 +245,22 @@ export default {
           if (this.ver) {
             this.$api.get('show_all_chats').then(res => {
               if (res) {
+                this.allData = res
                 this.data = res
+                this.solicitudes = []
                 for (const i in this.data) {
                   this.lastMessage = JSON.parse(JSON.stringify(this.data[i].lastMessage))
                   if (this.userId === this.lastMessage.user_id) {
                     this.data[i].isMyMessage = true
                   } else {
                     this.data[i].isMyMessage = false
+                  }
+                  if (!this.solicitudes.find(v => v.id === this.data[i].request_id)) {
+                    var arr = {
+                      id: this.data[i].request_id,
+                      name: this.data[i].data_request.name
+                    }
+                    this.solicitudes.push(arr)
                   }
                 }
               }
@@ -253,6 +287,9 @@ export default {
       this.categoryName = this.request2.categorianame.name
       this.clientData = data.data_client
       this.show2 = true
+    },
+    filtrar (id) {
+      this.data = this.allData.filter(v => v.request_id === id)
     }
   },
   computed: {

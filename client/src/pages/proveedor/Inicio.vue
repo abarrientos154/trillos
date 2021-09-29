@@ -75,9 +75,13 @@
             <q-icon size="sm" name="apartment" />
             <div class="ellipsis">{{form2.pais}}, {{form2.ciudad}}</div>
           </div>
-          <div class="row no-wrap items-center">
+          <div class="row q-mb-sm no-wrap items-center">
             <q-icon size="sm" name="location_on" />
             <div class="ellipsis">{{form2.direccion}}</div>
+          </div>
+          <div class="row no-wrap items-center">
+            <q-icon size="sm" name="phone" />
+            <div class="ellipsis">{{form2.phone}}</div>
           </div>
         </div>
         <div class="col-6">
