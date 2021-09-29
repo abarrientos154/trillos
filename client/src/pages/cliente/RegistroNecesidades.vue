@@ -48,28 +48,6 @@
           </template>
         </q-select>
       </div>
-      <!-- <div class="row justify-around">
-      <q-scroll-area
-          horizontal
-          style="height: 130px; width: 100%;"
-          class="rounded-borders"
-        >
-          <div class="row no-wrap">
-            <q-btn flat v-for="(item, index) in categorias" push :color="item.select === false ? 'white' : 'primary'" :text-color="item.select === false ? 'black' : 'primary'" class="q-mt-sm q-mr-sm q-ml-sm" :key="index" @click="seleccionarcategoria(item)">
-            <div class="column items-center justify-center">
-              <q-avatar square size="40px">
-                <img :src="item.icons">
-              </q-avatar>
-              <div class="text-caption">{{item.name}}</div>
-              </div>
-            </q-btn>
-          </div>
-        </q-scroll-area>
-      </div> -->
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="text-bold q-ml-md">Ingrese su dirección</div>
-        <q-input class="q-mx-md" outlined autogrow filled v-model="form.direccion" label="Ingrese Dirección" dense :error="$v.form.direccion.$error" error-message="Este campo es requerido" @blur="$v.form.direccion.$touch()" />
-      </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Tiempo de recepción de cotizaciones</div>
         <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" option-value="name" v-model="form.necesidad" :options="options" label="Establece tiempo de recepción de cotizaciones" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
@@ -118,6 +96,23 @@
     <div class="row justify-center q-py-sm">
       <q-btn no-caps rounded class="q-px-lg" color="primary" size="18px" :label="edit ? 'Actualizar Solicitud' : 'Enviar Solicitud'" @click="!edit ? agregar() : actualizarSolicitud()"/>
     </div>
+    <q-dialog persistent v-model="show">
+      <div class="absolute-center bg-white column items-center q-px-md" style="width:90%">
+        <div class="q-mt-xl" style="height: 200px; width: 70%;">
+          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+          <div class="absolute-full column items-center column justify-end">
+            <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+            <div class="text-bold text-center text-grey">{{edit === true ? 'Solicitud actualizada con éxito' : 'Solicitud enviada con éxito'}}</div>
+          </div>
+          </q-img>
+        </div>
+        <div class="text-h6 text-center text-bold q-mt-xl">{{edit === true ? '¡Tu solicitud fue actualizada con éxito!' : '¡Tu solicitud fue enviada con éxito!'}}</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
+        <div class="q-pa-sm q-mt-md q-mb-md">
+          <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="edit === true ? $router.push('/solicitudes') : $router.push('/inicio_cliente')"/>
+        </div>
+      </div>
+    </q-dialog>
  </div>
 </template>
 
@@ -150,13 +145,13 @@ export default {
       categorias: [
       ],
       num: 5,
-      oldImg: []
+      oldImg: [],
+      show: false
     }
   },
   validations: {
     form: {
       name: { required },
-      direccion: { required },
       necesidad: { required },
       descripcion: { required },
       categoria_id: { required }
@@ -254,11 +249,13 @@ export default {
           }
         }).then(res => {
           this.$q.loading.hide()
-          this.$router.push('/inicio_cliente')
+          this.show = true
         })
       }
     },
     async actualizarSolicitud () {
+      this.form.categoria_id = this.form.categoria_id._id
+      this.form.necesidad = this.form.necesidad.name
       this.$v.form.$touch()
       if (!this.$v.form.$error) {
         this.$q.loading.show({
@@ -280,7 +277,7 @@ export default {
           }
         }).then((res) => {
           this.$q.loading.hide()
-          this.$router.push('/solicitudes')
+          this.show = true
         })
       }
     },
@@ -299,7 +296,7 @@ export default {
         }
       })
     },
-    async addImg () {
+    /* async addImg () {
       if (this.solicitudFiles) {
         var formData = new FormData()
         var files = []
@@ -316,8 +313,8 @@ export default {
           this.imgsTraidas()
         })
       }
-    }
-    /* seleccionarcategoria (item) {
+    } */
+    seleccionarcategoria (item) {
       this.categoria_id = item._id
       for (let i = 0; i < this.categorias.length; i++) {
         if (this.categorias[i]._id === this.categoria_id) {
@@ -326,7 +323,7 @@ export default {
           this.categorias[i].select = false
         }
       }
-    } */
+    }
   },
   watch: {
     solicitudFiles: function (val, oldVal) {

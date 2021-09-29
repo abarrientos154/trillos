@@ -77,7 +77,8 @@ class QuotationController {
 
   }
 
-  async updateQuotation ({ response, params, request }) {
+  async updateQuotation ({ response, params, request, auth }) {
+    const user = (await auth.getUser()).toJSON()
     let body = request.all()
     if (body.status === undefined) {
       let updateQuotation = await Quotation.query().where('_id', params.id).update({ status: 1 })
@@ -97,9 +98,18 @@ class QuotationController {
       let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ status: 2, endDate: today, isFinished: false })
       response.send(updateQuotation)
     } else if (body.status === 3) {
-      const updateRequest = await Necesidad.query().where('_id', params.id).update({ status: 3 })
-      const updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3 })
-      response.send(updateQuotation)
+      if (user.roles = [3]) {
+        let id = new ObjectId(params.id)
+        var updateRequest = await Necesidad.query().where({ request_id: id }).update({ status: 0 })
+        var cancelQuotation = await Quotation.query().where({ _id: id }).update({ status: 3 })
+        console.log('cancelQuotation :>> ', cancelQuotation);
+      } else {
+        let id = new ObjectId(params.id)
+        console.log('id1 :>> ', id);
+        var updateRequest = await Necesidad.query().where('_id', params.id).update({ status: 3 })
+        var updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3 })
+      }
+      response.send(true)
     }
 
   }

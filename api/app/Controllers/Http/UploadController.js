@@ -56,10 +56,9 @@ class UploadController {
   }) {
     const fileName = params.filename
     return fileName
-    response.download(Helpers.appRoot('storage/uploads') + `/${fileName}`)
   }
 
-  async subirimgnecesidad ({ request, response, params }) {
+  /* async subirimgnecesidad ({ request, response, params }) {
     let codeFile = randomize('Aa0', 30)
     let necesidad = await Necesidad.find(params.id)
     var profilePic = request.file('files', {
@@ -84,7 +83,7 @@ class UploadController {
         response.send(necesidad)
       }
     }
-  }
+  } */
 
    async subirimgtienda ({ request, response, auth }) {
     let codeFile = randomize('Aa0', 30)

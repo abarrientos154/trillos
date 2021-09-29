@@ -87,7 +87,7 @@ class NecesidadController {
 
       for (let x in quotations) {
         for (let k in data) {
-          if (data[k]._id === quotations[x].request_id && quotations[x].supplier_id === user._id) {
+          if (data[k]._id === quotations[x].request_id && quotations[x].supplier_id === user._id && quotations[x].status !== 3) {
             data[k].isQuoted = true
             data[k].chat = quotations[x]._id
           }

@@ -53,6 +53,8 @@
             <q-btn rounded  color="primary" label="Cotizar" no-caps style="width:200px" @click="next()"/>
           </div>
           <div v-else class="row justify-center q-pa-sm q-mt-md">
+            <q-btn rounded  color="primary" label="Editar" no-caps style="width:90px" @click="$router.push('chat/' + data.chat)" class="q-mr-sm"/>
+            <q-btn rounded  color="primary" label="Cancelar" no-caps style="width:90px" @click="changeStatus(data.chat)"/>
             <div class="text-subtitle1">¡Tu cotización ya fue enviada!</div>
             <div class="text-caption q-mb-xs">Puedes seguir contactando desde el chat</div>
             <q-btn rounded  color="primary" label="Ir al Chat" no-caps style="width:200px" @click="$router.push('chat/' + data.chat)"/>
@@ -75,7 +77,10 @@
             <q-input class="q-mx-md" filled v-model="form.message" type="textarea" :error="$v.form.message.$error" error-message="Este campo es requerido" @blur="$v.form.message.$touch()"/>
           </div>
           <div class="row justify-around items-center">
-            <div class="text-bold">Fecha de termino</div>
+            <div>
+              <div class="text-bold">Fecha estimada</div>
+              <div class="text-bold">de atención</div>
+            </div>
             <q-input class="col-5" ss filled readonly dense v-model="form.date" placeholder="dd/mm/aaaa" @click="$refs.qDateProxy.show()"
             error-message="Este campo es requerido" :error="$v.form.date.$error" @blur="$v.form.date.$touch()">
               <template v-slot:append>
@@ -100,7 +105,7 @@
             <q-btn rounded  color="primary" label="Enviar" no-caps style="width:200px" @click="makeAQuote()"/>
           </div>
         </q-carousel-slide>
-        <q-carousel-slide :name="3" class="q-pa-none column items-center">
+        <q-carousel-slide :name="3" class="q-px-none column items-center">
           <div class="absolute-center column items-center q-px-md" style="width:100%">
             <div class="q-mt-xl" style="height: 200px; width: 70%;">
               <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
@@ -112,7 +117,24 @@
             </div>
             <div class="text-h6 text-center text-bold q-mt-xl">¡Tu mensaje fue enviado con éxito!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
-            <div class="q-pa-sm q-mt-md">
+            <div class="q-pa-sm q-mt-md q-mb-xl">
+              <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
+            </div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="4" class="q-px-none column items-center">
+          <div class="absolute-center column items-center q-px-md" style="width:100%">
+            <div class="q-mt-xl" style="height: 200px; width: 70%;">
+              <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+              <div class="absolute-full column items-center column justify-end">
+                <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+                <div class="text-bold text-center text-grey">Tu cotización fue cancelada con éxito</div>
+              </div>
+              </q-img>
+            </div>
+            <div class="text-h6 text-center text-bold q-mt-xl">¡Tu cotización se ha cancelado con éxito!</div>
+            <div class="text-h6 text-center text-grey-9 text-subtitle1">El cliente ya no vera tu cotización.</div>
+            <div class="q-pa-sm q-mt-md q-mb-xl">
               <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
             </div>
           </div>
@@ -179,6 +201,27 @@ export default {
       var dd = moment().format('YYYY/MM/DD')
       const formattedString = moment(datee).format('YYYY/MM/DD')
       return formattedString >= dd
+    },
+    changeStatus (id) {
+      this.$q.dialog({
+        title: 'Confirma',
+        message: '¿Seguro deseas cancelar tu cotización a esta solicitud?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Cancelando cotización...'
+        })
+        this.$api.put('updateQuotation/' + id, { status: 3 }).then(res => {
+          if (res) {
+            this.$q.loading.hide()
+            this.slide = 4
+            this.verSolicitud = false
+          }
+        })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      })
     }
   }
 }

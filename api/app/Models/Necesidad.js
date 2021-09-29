@@ -12,7 +12,6 @@ class Necesidad extends Model {
       categoria_id: "string",
       necesidad: "required|string",
       descripcion: "required|string",
-      direccion: "string"
     }
     return rules
   }
