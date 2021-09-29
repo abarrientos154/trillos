@@ -38,7 +38,6 @@
             transition-prev="slide-right"
             transition-next="slide-left"
             arrows
-            animated
             swipeable
             infinite
           >
@@ -56,6 +55,10 @@
           <div class="row" style="width:100%">
             <q-icon class="col-1" name="email" color="blak" style="font-size: 1.5rem;"/>
             <div class="q-pl-xs q-pt-xs text-subtitle2">{{data.email}}</div>
+          </div>
+          <div class="row" style="width:100%">
+            <q-icon class="col-1" name="phone" color="blak" style="font-size: 1.5rem;"/>
+            <div class="q-pl-xs q-pt-xs text-subtitle2">{{data.phone}}</div>
           </div>
           <div class="q-mx-md text-subtitle2">{{data.country === 'Colombia' ? 'DNI: ' : 'RUT: '}}{{data.Dni}}</div>
         </q-card>

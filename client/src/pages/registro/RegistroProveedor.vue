@@ -51,6 +51,19 @@
                     </q-input>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="text-caption">Teléfono de contacto</div>
+                    <q-input
+                        v-model="form.phone"
+                        placeholder="Teléfono"
+                        outlined
+                        filled
+                        dense
+                        error-message="Ingrese un número de contacto"
+                        :error="$v.form.phone.$error"
+                        @blur="$v.form.phone.$touch()"
+                    />
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="text-caption">Introduce tu correo</div>
                     <q-input
                         v-model="form.email"
@@ -512,6 +525,7 @@ export default {
       name: { required },
       last_name: { required },
       fecha: { required },
+      phone: { required },
       email: { required, email },
       Dni: { required },
       country: { required },
@@ -541,6 +555,7 @@ export default {
       this.$v.form.name.$touch()
       this.$v.form.last_name.$touch()
       this.$v.form.fecha.$touch()
+      this.$v.form.phone.$touch()
       this.$v.form.Dni.$touch()
       this.$v.ident1.$touch()
       this.$v.ident2.$touch()
@@ -549,7 +564,7 @@ export default {
       if (!this.Terminos) {
         this.textColorBanco = 'text-red'
       }
-      if (!this.$v.ident1.$error && !this.$v.ident2.$error && !this.$v.form.email.$error && !this.$v.form.name.$error && !this.$v.form.last_name.$error && !this.$v.form.fecha.$error && !this.$v.form.Dni.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && this.Terminos) {
+      if (!this.$v.ident1.$error && !this.$v.ident2.$error && !this.$v.form.email.$error && !this.$v.form.name.$error && !this.$v.form.last_name.$error && !this.$v.form.fecha.$error && !this.$v.form.phone.$error && !this.$v.form.Dni.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && this.Terminos) {
         this.identFiles[0] = this.ident1
         this.identFiles[1] = this.ident2
         await this.$api.get('validate_email/' + this.form.email).then(res => {

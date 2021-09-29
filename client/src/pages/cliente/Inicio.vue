@@ -61,7 +61,7 @@
     </div>
 
     <div>
-      <div class="q-pb-lg q-mt-sm">
+      <div class="q-mt-sm">
         <div class="text-bold text-h6 q-mb-md q-px-sm">Talleres disponibles</div>
         <div v-if="tiendas.length" class="row q-mb-md">
           <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 q-pa-sm" v-for="(tienda, index) in tiendas" :key="index">
@@ -111,56 +111,7 @@
       </div>
 
       <div class="row items-center justify-center q-px-lg" style="height: 200px;">
-        <q-img style="height: 175px; width: 100%; border-radius: 25px; transform: rotate(-10deg);" :src="'nopublicidad.jpg'"/>
-      </div>
-
-      <div>
-        <div class="q-pa-md">
-          <div class="text-bold text-h6">Talleres mejor calificados</div>
-          <div class="text-caption text-grey-9 q-mb-xs">Conoce los 10 talleres que prestan mejor servicio.</div>
-        </div>
-        <q-scroll-area v-if="populares.length" horizontal style="height: 300px;" class="q-mb-xs">
-          <div class="row no-wrap q-pl-md">
-            <q-card class="q-mr-md" @click="$router.push('/tienda/' + tienda._id)" v-for="(tienda, index) in populares" :key="index" style="width: 200px;">
-              <div>
-                <q-rating class="q-my-xs q-mx-sm" v-model="ratingTienda" size="1.5em" color="primary" readonly/>
-                <div class="bg-primary text-white text-subtitle1 text-bold q-px-sm">{{tienda.full_name}}</div>
-              </div>
-              <div class="q-py-sm column items-center">
-                <q-avatar size="80px">
-                  <q-img :src="baseuTienda + tienda._id" class="full-height"/>
-                </q-avatar>
-              </div>
-              <div class="q-pa-sm">
-                <div class="text-grey text-subtitle1 text-bold">Nuestros servicios</div>
-                <q-scroll-area horizontal style="height: 55px; width:100%" class="q-mb-xs">
-                  <div v-if="tienda.categoriasInfo" class="row no-wrap q-gutter-sm">
-                    <q-avatar rounded v-for="(cat, index) in tienda.categoriasInfo" :key="index">
-                      <q-img :src="cat.icons" style="width:50px; height:50px"/>
-                    </q-avatar>
-                  </div>
-                </q-scroll-area>
-                <div>
-                  <div class="row items-center no-wrap">
-                    <q-icon class="q-mr-xs" color="grey-7" name="location_city"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.country + ', ' + tienda.city}}</div>
-                  </div>
-                  <div class="row items-center no-wrap">
-                    <q-icon class="q-mr-xs" color="grey-7" name="place"/>
-                    <div class="text-caption text-grey-7 ellipsis">{{tienda.direccion}}</div>
-                  </div>
-                </div>
-              </div>
-            </q-card>
-          </div>
-        </q-scroll-area>
-        <div v-else class="q-px-md q-pb-lg">
-          <q-card class="full-width">
-            <q-card-section>
-              <div class="text-center text-grey-9">En este momento no hay talleres calificados</div>
-            </q-card-section>
-          </q-card>
-        </div>
+        <q-img style="height: 175px; width: 100%; border-radius: 25px;" :src="'nopublicidad.jpg'"/>
       </div>
 
       <div class="row items-center justify-center q-px-lg">
@@ -346,7 +297,6 @@ export default {
       alltiendas: [],
       tiendas: [],
       ultimas: [],
-      populares: [],
       idQuotationExtend: '',
       slide: 1,
       form: {
@@ -373,7 +323,6 @@ export default {
     this.getUser()
     this.getCategorias()
     this.getTiendas()
-    this.getPopulares()
   },
   methods: {
     async disableNotify (id) {
@@ -445,13 +394,6 @@ export default {
           this.tiendas = [...this.alltiendas]
           this.ultimas = this.alltiendas.reverse().slice(0, 4)
           this.baseuTienda = env.apiUrl + '/perfil_img/perfil'
-        }
-      })
-    },
-    getPopulares () {
-      this.$api.get('mas_populares').then(res => {
-        if (res) {
-          this.populares = res.slice(0, 10)
         }
       })
     },
