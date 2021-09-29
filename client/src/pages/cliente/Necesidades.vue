@@ -224,6 +224,7 @@
             </div>
           </q-scroll-area>
           <div class="row justify-center q-pa-sm q-mt-sm" v-if="selec.status === 0 || selec.status === 1">
+            <q-btn  rounded  color="primary" label="Editar" no-caps style="width:200px" @click="$router.push('editar_solicitud/' + selec._id)" class="q-mb-xs"/>
             <q-btn  rounded  color="primary" label="Cancelar" no-caps style="width:200px" @click="changeStatus(selec._id)"/>
           </div>
           <div v-if="selec.opinion">
@@ -317,9 +318,6 @@ export default {
     selecData (data) {
       this.selec = data
       this.verSolicitud = true
-    },
-    editSolicitud (id) {
-      this.$router.push('/editar_solicitud/' + id)
     },
     verMas (val) {
       if (val === 1) {

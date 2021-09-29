@@ -255,13 +255,15 @@ class NecesidadController {
           }
           images.push(profilePic.fileName)
         }
-        for (let j of dat.images) {
+        let necesidad = await Necesidad.find(params.id)
+
+        /* for (let j of dat.images) {
           fs.unlink(`storage/uploads/necesidades/${j}`, (err) => {
             if (err) throw err;
             console.log(`${j} Eliminado por el Cliente`);
           });
-        }
-        dat.images = images
+        } */
+        dat.images = [...necesidad.images, ...images]
       }
       delete dat.cantidadArchivos
       let modificar = await Necesidad.query().where('_id', params.id).update(dat)

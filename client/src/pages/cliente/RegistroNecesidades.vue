@@ -96,9 +96,9 @@
       <div class="text-caption q-mt-xs q-mx-md">Saca buenas fotos de los daños, desperfectos o de las piezas que solicites para obtener un presupuesto acertado</div>
       <div class="row q-ml-md q-my-sm items-center">
         <q-card style="border-radius: 15px; width: 25%" class="bg-grey row justify-center q-pr-sm q-mb-sm">
-          <q-file :readonly="solicitudFiles.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud() : addImg()" v-model="solicitudFiles" filesNumber="1" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
+          <q-file :readonly="solicitudFiles.length === num ? true : false" borderless @input="filesSolicitud()" v-model="solicitudFiles" :max-files="num" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
             <q-icon name="file_upload" class="absolute-center" size="45px" color="white" />
-            <template v-slot:append v-if="solicitudFiles.length > 0">
+            <template v-slot:append v-if="solicitudFiles.length > 0 && edit === false">
               <q-icon name="delete" @click.stop="solicitudFiles = []" color="white" class="cursor-pointer" />
             </template>
           </q-file>
@@ -148,7 +148,9 @@ export default {
         }
       ],
       categorias: [
-      ]
+      ],
+      num: 5,
+      oldImg: []
     }
   },
   validations: {
@@ -172,6 +174,7 @@ export default {
         if (res) {
           this.form = res
           this.categoria_id = this.form.categoria_id
+          this.num = this.num - this.form.images.length
           this.imgsTraidas()
           for (let i = 0; i < this.categorias.length; i++) {
             if (this.categorias[i]._id === this.form.categoria_id) {
@@ -193,24 +196,34 @@ export default {
         var cc = ''
         cc = this.baseu + '/' + this.form.images[i]
         this.imgSolicitud.push(cc)
+        this.oldImg = [...this.imgSolicitud]
       }
-      this.editImg = true
+      // this.editImg = true
     },
     filesSolicitud () {
       var img = ''
       var cc = {}
-      if (this.editImg && this.solicitudFiles.length > 0) {
+      /* if (this.editImg && this.solicitudFiles.length > 0) {
         this.imgSolicitud = []
         this.editImg = false
-      }
+      } */
       if (this.solicitudFiles.length > 0) {
         const arr = []
-        for (const i in this.solicitudFiles) {
-          cc = this.solicitudFiles[i]
-          img = URL.createObjectURL(cc)
-          arr.push(img)
+        if (this.edit === true) {
+          for (const i in this.solicitudFiles) {
+            cc = this.solicitudFiles[i]
+            img = URL.createObjectURL(cc)
+            arr.push(img)
+          }
+          this.imgSolicitud = [...this.oldImg, ...arr]
+        } else {
+          for (const i in this.solicitudFiles) {
+            cc = this.solicitudFiles[i]
+            img = URL.createObjectURL(cc)
+            arr.push(img)
+          }
+          this.imgSolicitud = [...arr]
         }
-        this.imgSolicitud = [...arr]
       }
     },
     agregar () {
@@ -317,8 +330,6 @@ export default {
   },
   watch: {
     solicitudFiles: function (val, oldVal) {
-      console.log('val :>> ', val)
-      console.log('oldval :>> ', oldVal)
       if (val.length === 0) {
         this.imgSolicitud = []
       }
