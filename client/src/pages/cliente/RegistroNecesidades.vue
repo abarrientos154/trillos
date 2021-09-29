@@ -94,25 +94,28 @@
       </div>
       <div class="text-bold q-mt-lg q-ml-md">Sube hasta 5 fotos de tu solicitud</div>
       <div class="text-caption q-mt-xs q-mx-md">Saca buenas fotos de los daños, desperfectos o de las piezas que solicites para obtener un presupuesto acertado</div>
-      <div class="row q-ml-md q-my-sm">
-      <q-avatar square size="45px" style="border-radius: 15px" class="bg-grey row justify-center">
-        <q-file :disable="imgSolicitud.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud() : addImg()" v-model="solicitudFiles" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
-          <q-icon name="file_upload" class="absolute-center" size="45px" color="white" />
-        </q-file>
-      </q-avatar>
-      <div v-if="imgSolicitud.length" class="row q-mr-sm">
-        <q-avatar v-ripple v-for="(item, index) in imgSolicitud" :key="index" square size="50px" style="border-radius: 15px" class=" q-ml-sm bg-grey row justify-center">
-          <div>
-            <q-img
-              :src="imgSolicitud.length > 0 ? item : 'favicon.ico'"
-              style="width:120px"
-            />
-          </div>
-        </q-avatar>
+      <div class="row q-ml-md q-my-sm items-center">
+        <q-card style="border-radius: 15px; width: 25%" class="bg-grey row justify-center q-pr-sm q-mb-sm">
+          <q-file :readonly="solicitudFiles.length > 4 ? true : false" borderless @input="!edit ? filesSolicitud() : addImg()" v-model="solicitudFiles" filesNumber="1" max-files="5" multiple accept=".jpg, image/*" append style="width: 100%; height: 100%; font-size: 0px">
+            <q-icon name="file_upload" class="absolute-center" size="45px" color="white" />
+            <template v-slot:append v-if="solicitudFiles.length > 0">
+              <q-icon name="delete" @click.stop="solicitudFiles = []" color="white" class="cursor-pointer" />
+            </template>
+          </q-file>
+        </q-card>
+        <div v-if="imgSolicitud.length" class="row q-mr-sm q-mb-sm">
+          <q-avatar v-ripple v-for="(item, index) in imgSolicitud" :key="index" square size="50px" style="border-radius: 15px" class=" q-ml-sm bg-grey row justify-center">
+            <div>
+              <q-img
+                :src="imgSolicitud.length > 0 ? item : 'favicon.ico'"
+                style="width:120px"
+              />
+            </div>
+          </q-avatar>
+        </div>
       </div>
     </div>
-    </div>
-    <div class="row justify-center q-py-md">
+    <div class="row justify-center q-py-sm">
       <q-btn no-caps rounded class="q-px-lg" color="primary" size="18px" :label="edit ? 'Actualizar Solicitud' : 'Enviar Solicitud'" @click="!edit ? agregar() : actualizarSolicitud()"/>
     </div>
  </div>
@@ -201,9 +204,13 @@ export default {
         this.editImg = false
       }
       if (this.solicitudFiles.length > 0) {
-        cc = this.solicitudFiles[this.solicitudFiles.length - 1]
-        img = URL.createObjectURL(cc)
-        this.imgSolicitud.push(img)
+        const arr = []
+        for (const i in this.solicitudFiles) {
+          cc = this.solicitudFiles[i]
+          img = URL.createObjectURL(cc)
+          arr.push(img)
+        }
+        this.imgSolicitud = [...arr]
       }
     },
     agregar () {
@@ -307,6 +314,15 @@ export default {
         }
       }
     } */
+  },
+  watch: {
+    solicitudFiles: function (val, oldVal) {
+      console.log('val :>> ', val)
+      console.log('oldval :>> ', oldVal)
+      if (val.length === 0) {
+        this.imgSolicitud = []
+      }
+    }
   }
 }
 </script>
