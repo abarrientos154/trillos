@@ -261,6 +261,24 @@
         </div>
       </q-card>
     </q-dialog>
+    <q-dialog persistent v-model="show3">
+      <q-card style="width: 100%; height: 100%" class="q-pa-none column items-center">
+        <q-btn round dense flat class="q-mt-xs q-ml-xs absolute-top-left" icon="close" color="primary" @click="checkCancellation()"/>
+        <div class="q-mt-xl" style="height: 200px; width: 70%;">
+          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Cotización cancelada</div>
+            </div>
+          </q-img>
+        </div>
+        <div class="text-h6 text-center text-bold q-mt-md">¡Cotización cancelada!</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1 q-mx-sm">El cliente <b>{{client.full_name}}</b> ha cancelado su solicitud: <b>{{request.name}}</b>, por lo tanto tu cotización ya no es válida.</div>
+        <div class="q-pa-sm q-mt-md">
+          <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="checkCancellation()"/>
+        </div>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -277,6 +295,7 @@ export default {
       verImg: false,
       show: false,
       show2: false,
+      show3: false,
       id: '',
       imgSelec: '',
       baseu: '',
@@ -296,7 +315,9 @@ export default {
       chat: '',
       notifications: [],
       colorActive: 'bg-blue-1',
-      amountNotifications: 0
+      amountNotifications: 0,
+      client: {},
+      request: {}
     }
   },
   async mounted () {
@@ -411,6 +432,20 @@ export default {
         if (res && res.quotationActive === true) {
           this.idQuotation = res.idQuotation
           this.show2 = true
+        }
+        if (res && res.cancel === true) {
+          this.client = { ...res.client }
+          this.request = { ...res.request }
+          this.show3 = true
+          console.log('this.client >> ', this.client)
+          console.log('this.request >> ', this.request)
+        }
+      })
+    },
+    async checkCancellation () {
+      await this.$api.put('quotationCancelled/' + this.request._id).then(res => {
+        if (res) {
+          this.show3 = false
         }
       })
     }

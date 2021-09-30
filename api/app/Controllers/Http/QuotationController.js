@@ -177,7 +177,6 @@ class QuotationController {
           send.cancel = true
           send.client = quotations[i].data_client
           send.request = quotations[i].data_request
-          send.quotationCancelId = quotations[i]._id
         }
       }
       response.send(send)
@@ -328,7 +327,7 @@ class QuotationController {
     response.send(true)
   }
   async quotationCancelled ({ params, response}) {
-    let updateQuotation = await Quotation.query().where('_id', params.id).update({ checkCancellation: true })
+    let updateQuotation = await Quotation.query().where('request_id', params.id).update({ checkCancellation: true })
     response.send(true)
   }
 
