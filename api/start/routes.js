@@ -116,6 +116,8 @@ addPrefixToGroup(
     Route.post('perfil_imagen/:user_id', 'UploadController.newimagenById')
     
     Route.post('quotation', 'QuotationController.store')
+    Route.get('getQuotationById/:id', 'QuotationController.getQuotationById')
+    Route.put('editQuotation/:id', 'QuotationController.editQuotation')
     Route.get('isNewMessages/:id', 'QuotationController.isNewMessages')
     Route.get("show_all_chats", "QuotationController.showAllChats")
     Route.get("show_all_messages/:id", "QuotationController.showAllMessages")

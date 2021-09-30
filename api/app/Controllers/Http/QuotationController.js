@@ -100,12 +100,12 @@ class QuotationController {
     } else if (body.status === 3) {
       if (user.roles = [3]) {
         let id = new ObjectId(params.id)
-        var updateRequest = await Necesidad.query().where({ request_id: id }).update({ status: 0 })
         var cancelQuotation = await Quotation.query().where({ _id: id }).update({ status: 3 })
+        let quotation = (await Quotation.query().find(params.id)).toJSON()
+        let request = (await Necesidad.query().find(quotation.request_id)).toJSON()
+        var updateRequest = await Necesidad.query().where({ _id: request._id }).update({ status: 0 })
         console.log('cancelQuotation :>> ', cancelQuotation);
       } else {
-        let id = new ObjectId(params.id)
-        console.log('id1 :>> ', id);
         var updateRequest = await Necesidad.query().where('_id', params.id).update({ status: 3 })
         var updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3 })
       }
@@ -308,7 +308,9 @@ class QuotationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async getQuotationById ({ params, response }) {
+    const data = (await Quotation.query().find(params.id)).toJSON()
+    response.send(data)
   }
 
   /**
@@ -320,7 +322,11 @@ class QuotationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async editQuotation ({ params, request, response }) {
+    let body = request.body
+    body.supplier_id = new ObjectId(body.supplier_id)
+    const editData = await Quotation.query().where('_id', params.id).update(body)
+    response.send(editData)
   }
 
   /**

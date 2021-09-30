@@ -223,13 +223,14 @@
                 <q-btn rounded  color="primary" label="Cotizar" no-caps style="width:200px" @click="next()"/>
               </div>
               <div v-else-if="selec.isQuoted == true" class="row justify-center q-pa-sm q-mt-md">
-                <q-btn rounded  color="primary" label="Editar" no-caps style="width:90px" @click="$router.push('chat/' + data.chat)" class="q-mr-sm"/>
+                <q-btn rounded  color="primary" label="Editar" no-caps style="width:90px" @click="getQuotationById(selec.chat)" class="q-mr-sm"/>
                 <q-btn rounded  color="primary" label="Cancelar" no-caps style="width:90px" @click="changeStatus(selec.chat)"/>
                 <div class="text-subtitle1">¡Tu cotización ya fue enviada!</div>
                 <div class="text-caption q-mb-xs">Puedes seguir contactando desde el chat</div>
                 <q-btn rounded  color="primary" label="Ir al Chat" no-caps style="width:200px" @click="$router.push('chat/' + selec.chat)"/>
               </div>
               <div v-else-if="selec.status == 1" class="row justify-center q-pa-sm q-mt-md">
+                <q-btn rounded  color="primary" label="Cancelar" no-caps style="width:80px" @click="changeStatus(selec._id)" class="q-mr-sm"/>
                 <q-btn rounded  color="primary" label="Ir al Chat" no-caps style="width:200px" @click="$router.push('chat/' + selec._id)"/>
               </div>
               <div v-if="selec.opinion">
@@ -283,7 +284,7 @@
             </q-input>
           </div>
           <div class="row justify-center q-pa-sm q-mt-md">
-            <q-btn rounded  color="primary" label="Enviar" no-caps style="width:200px" @click="makeAQuote()"/>
+            <q-btn rounded  color="primary" :label="edit === true ?  'Actualizar' : 'Enviar'" no-caps style="width:200px" @click="edit === true ? updateQuotation() : setQuotation()"/>
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="3" class="q-pa-none column items-center">
@@ -291,11 +292,11 @@
             <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
             <div class="absolute-full column items-center column justify-end">
               <q-icon name="collections" class="text-grey" size="80px"></q-icon>
-              <div class="text-bold text-center text-grey">Presupuesto enviado con éxito</div>
+              <div class="text-bold text-center text-grey">{{edit === true ? 'Presupuesto actualizado con éxito' : 'Presupuesto enviado con éxito'}}</div>
             </div>
             </q-img>
           </div>
-          <div class="text-h6 text-center text-bold q-mt-xl">¡Tu mensaje fue enviado con éxito!</div>
+          <div class="text-h6 text-center text-bold q-mt-xl">{{edit === true ? '¡Tu mensaje fue Actualizado con éxito!' : '¡Tu mensaje fue enviado con éxito!'}}</div>
           <div class="text-h6 text-center text-grey-9 text-subtitle1">Podrás ver el estado de tu solicitud en tu panel de administración de solicitudes.</div>
           <div class="q-pa-sm q-mt-md">
             <q-btn rounded  color="primary" label="Salir" no-caps style="width:200px" @click="finish()"/>
@@ -352,7 +353,8 @@ export default {
       activas: [],
       completas: [],
       slide: 1,
-      form: {}
+      form: {},
+      edit: false
     }
   },
   validations: {
@@ -434,7 +436,7 @@ export default {
       const formattedString = moment(datee).format('YYYY/MM/DD')
       return formattedString >= dd
     },
-    async makeAQuote () {
+    async setQuotation () {
       this.$v.$touch()
       if (!this.$v.form.$error) {
         this.$q.loading.show({
@@ -452,10 +454,27 @@ export default {
         })
       }
     },
+    async updateQuotation () {
+      this.$v.$touch()
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Actualizando Cotización, Por Favor Espere...'
+        })
+        await this.$api.put('editQuotation/' + this.form._id, this.form).then(res => {
+          if (res) {
+            this.$q.loading.hide()
+            this.slide = 3
+          }
+        })
+      }
+    },
     finish () {
+      this.edit = false
+      this.form = {}
       this.slide = 1
       this.verSolicitud = false
       this.getSolicitudesZona()
+      this.getSolicitudes()
     },
     changeStatus (id) {
       this.$q.dialog({
@@ -475,6 +494,15 @@ export default {
         })
       }).onCancel(() => {
         // console.log('>>>> Cancel')
+      })
+    },
+    getQuotationById (id) {
+      this.$api.get('getQuotationById/' + id).then(res => {
+        if (res) {
+          this.slide = 2
+          this.form = { ...res }
+          this.edit = true
+        }
       })
     }
   }
