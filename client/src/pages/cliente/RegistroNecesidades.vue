@@ -21,6 +21,7 @@
           class="q-mx-md q-mb-md"
           color="grey"
           filled
+          :readonly="edit === true && form.status != 0 ? true : false"
           v-model="form.categoria_id"
           :options="categorias"
           label="Servicios"
@@ -50,7 +51,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="text-bold q-ml-md">Tiempo de recepción de cotizaciones</div>
-        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" option-value="name" v-model="form.necesidad" :options="options" label="Establece tiempo de recepción de cotizaciones" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()">
+        <q-select class="q-mx-md q-mb-md" color="grey" filled option-label="name" option-value="name" v-model="form.necesidad" :options="options" label="Establece tiempo de recepción de cotizaciones" dense :error="$v.form.necesidad.$error" error-message="Este campo es requerido" @blur="$v.form.necesidad.$touch()" :readonly="edit === true && form.status != 0 ? true : false">
           <template v-slot:option="scope">
             <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
               <q-item-section avatar>
@@ -254,8 +255,12 @@ export default {
       }
     },
     async actualizarSolicitud () {
-      this.form.categoria_id = this.form.categoria_id._id
-      this.form.necesidad = this.form.necesidad.name
+      if (this.form.categoria_id._id !== undefined) {
+        this.form.categoria_id = this.form.categoria_id._id
+      }
+      if (this.form.necesidad.name !== undefined) {
+        this.form.necesidad = this.form.necesidad.name
+      }
       this.$v.form.$touch()
       if (!this.$v.form.$error) {
         this.$q.loading.show({
@@ -295,7 +300,7 @@ export default {
           })
         }
       })
-    },
+    }
     /* async addImg () {
       if (this.solicitudFiles) {
         var formData = new FormData()
@@ -314,7 +319,7 @@ export default {
         })
       }
     } */
-    seleccionarcategoria (item) {
+    /* seleccionarcategoria (item) {
       this.categoria_id = item._id
       for (let i = 0; i < this.categorias.length; i++) {
         if (this.categorias[i]._id === this.categoria_id) {
@@ -323,7 +328,7 @@ export default {
           this.categorias[i].select = false
         }
       }
-    }
+    } */
   },
   watch: {
     solicitudFiles: function (val, oldVal) {
