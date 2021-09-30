@@ -272,6 +272,24 @@
         </q-carousel-slide>
       </q-carousel>
     </q-dialog>
+    <q-dialog persistent v-model="show4">
+      <q-card style="width: 100%; height: 100%" class="q-pa-none column items-center">
+        <q-btn round dense flat class="q-mt-xs q-ml-xs absolute-top-left" icon="close" color="primary" @click="checkCancellation()"/>
+        <div class="q-mt-xl" style="height: 200px; width: 70%;">
+          <q-img src="nopublicidad.jpg" style="height: 200px; width: 100%; border-radius: 15px">
+            <div class="absolute-full column items-center column justify-end">
+              <q-icon name="collections" class="text-grey" size="80px"></q-icon>
+              <div class="text-bold text-center text-grey">Cotización cancelada</div>
+            </div>
+          </q-img>
+        </div>
+        <div class="text-h6 text-center text-bold q-mt-md">¡Cotización cancelada!</div>
+        <div class="text-h6 text-center text-grey-9 text-subtitle1 q-mx-sm">El proveedor <b>{{workshop.full_name}}</b> ha cancelado su cotización a tu solicitud: <b>{{request.name}}</b>, ahora tu solicitud vuelve a estar disponible para que otros proveedores te contacten.</div>
+        <div class="q-pa-sm q-mt-md">
+          <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="checkCancellation()"/>
+        </div>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -286,6 +304,7 @@ export default {
       show: false,
       show2: false,
       show3: false,
+      show4: false,
       city: null,
       ratingTienda: 4,
       rol: 0,
@@ -308,7 +327,9 @@ export default {
       baseu: '',
       notifications: [],
       colorActive: 'bg-blue-1',
-      amountNotifications: 0
+      amountNotifications: 0,
+      workshop: {},
+      request: {}
     }
   },
   validations: {
@@ -385,6 +406,12 @@ export default {
           this.data_request = res.finished.data_request
           this.supplier = res.supplier
         }
+        if (res.cancel === true) {
+          this.workshop = { ...res.workshop }
+          this.request = { ...res.request }
+          console.log('this.request >> ', this.request)
+          this.show4 = true
+        }
       })
     },
     getTiendas () {
@@ -443,6 +470,13 @@ export default {
       await this.$api.put('quotationFinished/' + id).then(res => {
         if (res) {
           this.show3 = false
+        }
+      })
+    },
+    async checkCancellation () {
+      await this.$api.put('requestCancelled/' + this.request._id).then(res => {
+        if (res) {
+          this.show4 = false
         }
       })
     }

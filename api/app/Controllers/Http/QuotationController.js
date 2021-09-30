@@ -79,6 +79,7 @@ class QuotationController {
 
   async updateQuotation ({ response, params, request, auth }) {
     const user = (await auth.getUser()).toJSON()
+    console.log('user :>> ', user.roles);
     let body = request.all()
     if (body.status === undefined) {
       let updateQuotation = await Quotation.query().where('_id', params.id).update({ status: 1 })
@@ -98,16 +99,25 @@ class QuotationController {
       let updateRequest = await Necesidad.query().where('_id', quotation.request_id).update({ status: 2, endDate: today, isFinished: false })
       response.send(updateQuotation)
     } else if (body.status === 3) {
-      if (user.roles = [3]) {
+      if (user.roles[0] === 3) {
         let id = new ObjectId(params.id)
         var cancelQuotation = await Quotation.query().where({ _id: id }).update({ status: 3 })
         let quotation = (await Quotation.query().find(params.id)).toJSON()
         let request = (await Necesidad.query().find(quotation.request_id)).toJSON()
-        var updateRequest = await Necesidad.query().where({ _id: request._id }).update({ status: 0 })
-        console.log('cancelQuotation :>> ', cancelQuotation);
+        console.log('request :>> ', request);
+        if (request.status === 1) {
+          var updateRequest = await Necesidad.query().where({ _id: request._id }).update({ status: 0, checkCancellation: false })
+        } else {
+          var updateRequest = await Necesidad.query().where({ _id: request._id }).update({ status: 0 })
+        }
       } else {
+        let quotation = (await Quotation.query().where({ request_id: params.id, status: 1}).first()).toJSON()
         var updateRequest = await Necesidad.query().where('_id', params.id).update({ status: 3 })
-        var updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3 })
+        if (quotation.status === 1) {
+          var updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3, checkCancellation: false })
+        } else {
+          var updateQuotation = await Quotation.query().where('request_id', params.id).update({ status: 3 })
+        }
       }
       response.send(true)
     }
@@ -131,10 +141,17 @@ class QuotationController {
           send.finished = quotations[i]
           send.supplier = quotations[i].data_supplier
         }
-        let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
-        if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
-          send.newMessages = true
-          send.chat = quotations[i]._id
+        if (quotations[i].status !== 3) {
+          let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
+          if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
+            send.newMessages = true
+            send.chat = quotations[i]._id
+          }
+        }
+        if (request.checkCancellation === false) {
+          send.cancel = true
+          send.workshop = quotations[i].data_supplier
+          send.request = request
         }
       }
       response.send(send)
@@ -142,17 +159,25 @@ class QuotationController {
     if (user.roles[0] === 3) {
       let send = {}
       const id = new ObjectId(params.id)
-      let quotations = (await Quotation.query().where('supplier_id', id).fetch()).toJSON()
+      let quotations = (await Quotation.query().where('supplier_id', id).with('data_client').with('data_request').fetch()).toJSON()
       for (let i in quotations) {
         if (quotations[i].status === 1 && quotations[i].isActive === false) {
           send.quotationActive = true
           send.idQuotation = quotations[i]._id
         }
-        let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
-        if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
-          send.chat = quotations[i]._id
-          send.newMessages = true
-          break
+        if (quotations[i].status !== 3) {
+          let lastMessage = (await Chat.query().find(quotations[i].last_message_id)).toJSON()
+          if (lastMessage.viewed === false && lastMessage.user_id !== user._id) {
+            send.chat = quotations[i]._id
+            send.newMessages = true
+            break
+          }
+        }
+        if (quotations[i].checkCancellation === false) {
+          send.cancel = true
+          send.client = quotations[i].data_client
+          send.request = quotations[i].data_request
+          send.quotationCancelId = quotations[i]._id
         }
       }
       response.send(send)
@@ -296,6 +321,14 @@ class QuotationController {
   }
   async quotationFinished ({ params, response}) {
     let updateRequest = await Necesidad.query().where('_id', params.id).update({ isFinished: true })
+    response.send(true)
+  }
+  async requestCancelled ({ params, response}) {
+    let updateRequest = await Necesidad.query().where('_id', params.id).update({ checkCancellation: true })
+    response.send(true)
+  }
+  async quotationCancelled ({ params, response}) {
+    let updateQuotation = await Quotation.query().where('_id', params.id).update({ checkCancellation: true })
     response.send(true)
   }
 

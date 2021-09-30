@@ -315,7 +315,7 @@
             <div class="text-h6 text-center text-bold q-mt-xl">¡Tu cotización se ha cancelado con éxito!</div>
             <div class="text-h6 text-center text-grey-9 text-subtitle1">El cliente ya no vera tu cotización.</div>
             <div class="q-pa-sm q-mt-md q-mb-xl">
-              <q-btn rounded  color="primary" label="Inicio" no-caps style="width:200px" @click="finish()"/>
+              <q-btn rounded  color="primary" label="Volver" no-caps style="width:200px" @click="finish()"/>
             </div>
           </div>
         </q-carousel-slide>

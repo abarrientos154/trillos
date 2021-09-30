@@ -21,7 +21,7 @@
           class="q-mx-md q-mb-md"
           color="grey"
           filled
-          :readonly="edit === true && form.status != 0 ? true : false"
+          :readonly="edit === true && form.status != 0 || isQuoted === true ? true : false"
           v-model="form.categoria_id"
           :options="categorias"
           label="Servicios"
@@ -147,7 +147,8 @@ export default {
       ],
       num: 5,
       oldImg: [],
-      show: false
+      show: false,
+      isQuoted: false
     }
   },
   validations: {
@@ -168,7 +169,12 @@ export default {
       this.id = this.$route.params.id
       this.$api.get('necesidad/' + this.id).then(res => {
         if (res) {
-          this.form = res
+          this.form = res.data
+          console.log('res :>> ', res)
+          if (res.isQuoted === true) {
+            this.isQuoted = true
+          }
+          console.log('this.isQuoted :>> ', this.isQuoted)
           this.categoria_id = this.form.categoria_id
           this.num = this.num - this.form.images.length
           this.imgsTraidas()

@@ -44,7 +44,7 @@ class NecesidadController {
       }
       if (data[i].status === 0) {
         const quotation = await Quotation.query().where('request_id', data[i]._id).first()
-        if (quotation !== null) {
+        if (quotation !== null && quotation.status !== 3) {
           data[i].isQuoted = true
         }
       }
@@ -202,13 +202,22 @@ class NecesidadController {
    */
   async show ({ params, request, response, view }) {
     let data = await Necesidad.find(params.id)
+    let quotations = (await Quotation.query().where({}).fetch()).toJSON()
     let newFecha = moment(data.created_at).format('DD/MM/YYYY')
     let hora = moment(data.created_at).format('h:mm:ss a');
     data.hora = hora
     data.newFecha = newFecha
     let color = data.necesidad === 'Express (Permite recibir cotizaciones hasta 3 horas)' ? 'red' : 'blue'
     data.colorRadio = color
-    response.send(data)
+    let res = {
+      data
+    }
+    for (let x in quotations) {
+      if (params.id === quotations[x].request_id && quotations[x].status === 0) {
+        res.isQuoted = true
+      }
+    }
+    response.send(res)
   }
 
   /**
